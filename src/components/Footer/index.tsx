@@ -5,6 +5,7 @@ import MountainIcon from '../icons/MountainIcon'
 import { motion } from 'motion/react'
 import { ScrollReveal } from '../ScrollReveal'
 
+
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 

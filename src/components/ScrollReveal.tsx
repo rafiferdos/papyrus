@@ -3,6 +3,7 @@ import { useRef, ReactNode } from 'react'
 import { motion } from 'motion/react'
 import useInView from '@/hooks/useInView'
 
+
 type AnimationDirection = 'up' | 'down' | 'left' | 'right' | 'fade'
 
 type ScrollRevealProps = {
