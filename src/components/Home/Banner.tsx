@@ -38,7 +38,7 @@ export default function Banner() {
               },
             }}
           >
-            <span>NoteNest</span>
+            <span>Papyrus</span>
             <span>Stationary Shop</span>
             <span>Library</span>
           </TextLoop>
