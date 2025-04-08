@@ -1,60 +1,77 @@
-'use client'
-
-import * as React from 'react'
-import { EyeIcon, EyeOffIcon } from 'lucide-react'
-import { type InputHTMLAttributes } from 'react'
-
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { cn } from '@/lib/utils'
+import bannerImage from '../../assets/book-pencil.png'
+import { TextLoop } from '../ui/text-loop'
+import { Link } from 'react-router-dom'
 
-type InputProps = InputHTMLAttributes<HTMLInputElement>
-
-const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, ...props }, ref) => {
-    const [showPassword, setShowPassword] = React.useState(false)
-    const disabled =
-      props.value === '' || props.value === undefined || props.disabled
-
-    return (
-      <div className='relative'>
-        <Input
-          type={showPassword ? 'text' : 'password'}
-          className={cn('hide-password-toggle pr-10', className)}
-          ref={ref}
-          {...props}
-        />
-        <Button
-          type='button'
-          variant='ghost'
-          size='sm'
-          className='absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent'
-          onClick={() => setShowPassword((prev) => !prev)}
-          disabled={disabled}
-        >
-          {showPassword && !disabled ? (
-            <EyeIcon className='h-4 w-4' aria-hidden='true' />
-          ) : (
-            <EyeOffIcon className='h-4 w-4' aria-hidden='true' />
-          )}
-          <span className='sr-only'>
-            {showPassword ? 'Hide password' : 'Show password'}
+export default function Banner() {
+  return (
+    <div className='flex flex-col md:flex-row items-center justify-between lg:mt-16 mt-8 rounded-lg gap-6 md:gap-12 bg-gray-50 dark:bg-gray-950 p-6 md:p-12'>
+      <div className='flex-1'>
+        <h2 className='text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-50'>
+          Welcome to{' '}
+          <TextLoop
+            className='overflow-y-clip font-charm'
+            transition={{
+              type: 'spring',
+              stiffness: 900,
+              damping: 80,
+              mass: 10,
+            }}
+            variants={{
+              initial: {
+                y: 20,
+                rotateX: 90,
+                opacity: 0,
+                filter: 'blur(20px)',
+              },
+              animate: {
+                y: 0,
+                rotateX: 0,
+                opacity: 1,
+                filter: 'blur(0px)',
+              },
+              exit: {
+                y: -20,
+                rotateX: -90,
+                opacity: 0,
+                filter: 'blur(4px)',
+              },
+            }}
+          >
+            <span>NoteNest</span>
+            <span>Stationary Shop</span>
+            <span>Library</span>
+          </TextLoop>
+        </h2>
+        <p className='mt-2 text-gray-600 dark:text-gray-400'>
+          Your one-stop destination for all your stationary needs. Explore our
+          wide range of products and enjoy exclusive discounts!
+        </p>
+        <div className='mt-4 flex items-center gap-2'>
+          <span className='text-lg md:text-xl font-semibold text-gray-900 dark:text-gray-50'>
+            Scroll down for{' '}
+            <span className='text-sm md:text-base line-through text-gray-500 dark:text-gray-400'>
+              less
+            </span>{' '}
+            more
           </span>
-        </Button>
-
-        {/* hides browsers password toggles */}
-        <style>{`
-					.hide-password-toggle::-ms-reveal,
-					.hide-password-toggle::-ms-clear {
-						visibility: hidden;
-						pointer-events: none;
-						display: none;
-					}
-				`}</style>
+        </div>
+        <div className='mt-6'>
+          <Button asChild className='w-full md:w-auto'>
+            <Link to='/products'>See Products</Link>
+          </Button>
+        </div>
       </div>
-    )
-  }
-)
-PasswordInput.displayName = 'PasswordInput'
-
-export { PasswordInput }
+      <div className='w-full md:w-1/2'>
+        <img
+          src={bannerImage}
+          alt='Product Image'
+          width={500}
+          height={500}
+          className='w-full h-64 md:h-auto object-cover rounded-lg'
+          style={{ aspectRatio: '500/500', objectFit: 'cover' }}
+        />
+      </div>
+    </div>
+  )
+}
