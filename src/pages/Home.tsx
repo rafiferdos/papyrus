@@ -14,7 +14,7 @@ const Home = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Banner />
+        {/* <Banner /> */}
       </motion.section>
 
       {/* Featured Products - appears on scroll */}
