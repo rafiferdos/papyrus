@@ -1,6 +1,7 @@
-import LoginForm from "@/components/forms/LoginForm";
-import RegisterForm from "@/components/forms/RegisterForm";
+
 import MainLayout from "@/layouts/MainLayout";
+import Login from "@/pages/Auth/Login";
+import Register from "@/pages/Auth/Register";
 import Home from "@/pages/Home";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -15,11 +16,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <LoginForm></LoginForm>,
+        element: <Login></Login>,
       },
       {
         path: "register",
-        element: <RegisterForm />,
+        element: <Register />,
       },
     ],
   },
