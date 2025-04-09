@@ -37,12 +37,12 @@ export default function LoginForm() {
 
   const onFinish = async (data: { email: string; password: string }) => {
     try {
-      console.log('Login attempt with:', data)
+      // console.log('Login attempt with:', data)
       // Use unwrap() to get the actual response data or throw an error
       const result = await login(data).unwrap()
-      console.log('Login API successful response:', result)
+      // console.log('Login API successful response:', result)
       // Log the entire response structure to help debugging
-      console.log('Full response structure:', result)
+      // console.log('Full response structure:', result)
       // Try to find the access token in different possible locations
       let accessToken: string | undefined
       // Check for common token locations in API responses
@@ -55,8 +55,8 @@ export default function LoginForm() {
       } else if (typeof result.data === 'string') {
         accessToken = result.data
       }
-      console.log('Access token extracted:', accessToken)
-      console.log('Access token type:', typeof accessToken)
+      // console.log('Access token extracted:', accessToken)
+      // console.log('Access token type:', typeof accessToken)
 
       if (!accessToken || typeof accessToken !== 'string') {
         console.error('Invalid token format received from server')
@@ -66,11 +66,11 @@ export default function LoginForm() {
       try {
         const user = verifyToken(accessToken) as TUser
         // Log user data to console
-        console.log('User data after login:', {
-          user,
-          token: accessToken,
-          fullResponse: result,
-        })
+        // console.log('User data after login:', {
+        //   user,
+        //   token: accessToken,
+        //   fullResponse: result,
+        // })
         toast.success(result.message || 'Login successful')
         dispatch(
           setCredentials({
