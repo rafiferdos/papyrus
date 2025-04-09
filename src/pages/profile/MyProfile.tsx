@@ -14,8 +14,8 @@ const user = {
   photo: "https://i.pravatar.cc",
   location: "Chattogram, Bangladesh",
   bio: "Frontend Engineer passionate about React and UI/UX.",
+  linkedIn: "https://example.com",
   github: "https://example.com",
-  linkedIn: "https://exy.com",
 };
 
 const fields = [
@@ -25,7 +25,7 @@ const fields = [
   { label: "Photo", name: "photo" },      
   { label: "Location", name: "location" },
   { label: "Bio", name: "bio" },
-  { label: "LinkedIn", name: "linkedin" },
+  { label: "LinkedIn", name: "linkedIn" },
   { label: "GitHub", name: "github" }
   ]
 
@@ -78,7 +78,9 @@ export default function MyProfilePage() {
                   {formData[field.name] || "Not set"}
                 </p>
               )}
-              <Button
+              {
+                field.name === "email" ? "" :
+                  <Button
                 size="icon"
                 variant="ghost"
                 className="absolute right-0 top-5 cursor-pointer"
@@ -86,6 +88,7 @@ export default function MyProfilePage() {
               >
                 <Pencil className="h-4 w-4" />
               </Button>
+              }
             </div>
           ))}
           {editField && (
