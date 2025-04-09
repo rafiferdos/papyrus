@@ -1,24 +1,50 @@
-import { Link } from 'react-router-dom'
-import { Button } from '../ui/button'
-import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
+import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet'
+import { Button } from '@/components/ui/button'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import MountainIcon from '../icons/MountainIcon'
 import MenuIcon from '../icons/MenuIcon'
+import { GlowEffect } from '../ui/glow-effect'
 import { ModeToggle } from '../icons/ModeToggle'
 import { AnimatedBackground } from '../ui/animated-background'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
-import { ShoppingCart } from 'lucide-react'
-import { GlowEffect } from '../ui/glow-effect'
+import { LogOut, ShoppingCart } from 'lucide-react'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../ui/tooltip'
+import { useDispatch, useSelector } from 'react-redux'
 
-const Navbar = () => {
+import toast from 'react-hot-toast'
+import { logout, useCurrentToken, useCurrentUser } from '@/redux/features/auth/authSlice'
+
+export default function Navbar() {
+  const location = useLocation()
+  const dispatch = useDispatch()
+  const token = useSelector(useCurrentToken)
+  const navigate = useNavigate()
+
+  const user = useSelector(useCurrentUser)
+
+  const isAdmin = user?.role === 'admin'
+
   const Tabs = [
     { name: 'Home', href: '/' },
     { name: 'Products', href: '/products' },
     { name: 'About', href: '/about' },
   ]
+
+  const handleLogout = () => {
+    dispatch(logout())
+    toast.success('Logged out successfully')
+    navigate('/')
+  }
+
   return (
-    <nav>
+    //todo: fixed to top
+    <nav className=''>
       <header className='flex h-20 w-full shrink-0 items-center px-4 md:px-6'>
-        {/* mobile menu */}
+        {/* Mobile Menu */}
         <Sheet>
           <SheetTrigger asChild>
             <Button variant='outline' size='icon' className='lg:hidden'>
@@ -56,7 +82,7 @@ const Navbar = () => {
           </SheetContent>
         </Sheet>
 
-        {/* Desktop Menu */}
+        {/* Desktop Links */}
         <Link to='/' className='mr-6 hidden lg:flex'>
           <MountainIcon className='h-6 w-6' />
           <span className='sr-only'>NoteNest</span>
@@ -122,7 +148,7 @@ const Navbar = () => {
               </TooltipProvider>
             )} */}
           </div>
-          {/* {token ? (
+          {token ? (
             <Button variant='destructive' size='sm' onClick={handleLogout}>
               <LogOut className='h-4 w-4 mr-2' />
               Logout
@@ -131,7 +157,7 @@ const Navbar = () => {
             <Button variant='default' size='sm' asChild>
               <Link to={'/register'}>Sign Up</Link>
             </Button>
-          )} */}
+          )}
           <div className='relative'>
             <GlowEffect
               colors={['#FF5733', '#33FF57', '#3357FF', '#F1C40F']}
@@ -149,5 +175,3 @@ const Navbar = () => {
     </nav>
   )
 }
-
-export default Navbar

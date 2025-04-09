@@ -16,12 +16,13 @@ import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/ui/password-input'
 import toast from 'react-hot-toast'
 import { Link } from 'react-router-dom'
-import { useLoginMutation } from '@/redux/auth/authApi'
-import { setCredentials } from '@/redux/auth/authSlice'
-import { TUser } from '@/types/auth.type'
+
 import { verifyToken } from '@/utils/verifyToken'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { useLoginMutation } from '@/redux/features/auth/authApi'
+import { TUser } from '@/types/auth.types'
+import { setCredentials } from '@/redux/features/auth/authSlice'
 
 const formSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -33,50 +34,17 @@ export default function LoginForm() {
   const dispatch = useDispatch()
   const [login, { isLoading }] = useLoginMutation()
 
-  // const onFinish = async (data: { email: string; password: string }) => {
-  //   try {
-  //     console.log(data);
-  //     const response = await login(data)
-  //     if (response?.data?.success === true) {
-  //       const user = verifyToken(response?.data?.data?.accessToken) as TUser
-  //       // Log user data to console
-  //       console.log('User data after login:', {
-  //         user,
-  //         token: response?.data?.data?.accessToken,
-  //         fullResponse: response.data,
-  //       })
-  //       toast.success(response?.data?.message)
-  //       dispatch(
-  //         setCredentials({
-  //           user: user,
-  //           token: response?.data?.data?.accessToken,
-  //         })
-  //       )
-  //       navigate('/')
-  //     } else if (response?.error?.data?.success === false) {
-  //       toast.error(response?.error?.data?.message)
-  //     }
-  //     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  //   } catch (error) {
-  //     toast.error('Invalid credentials', error)
-  //   }
-  // }
 
   const onFinish = async (data: { email: string; password: string }) => {
     try {
       console.log('Login attempt with:', data)
-
       // Use unwrap() to get the actual response data or throw an error
       const result = await login(data).unwrap()
-
       console.log('Login API successful response:', result)
-
       // Log the entire response structure to help debugging
       console.log('Full response structure:', result)
-
       // Try to find the access token in different possible locations
       let accessToken: string | undefined
-
       // Check for common token locations in API responses
       if (result.data?.accessToken) {
         accessToken = result.data.accessToken
@@ -87,7 +55,6 @@ export default function LoginForm() {
       } else if (typeof result.data === 'string') {
         accessToken = result.data
       }
-
       console.log('Access token extracted:', accessToken)
       console.log('Access token type:', typeof accessToken)
 
@@ -96,17 +63,14 @@ export default function LoginForm() {
         toast.error('Authentication error: Invalid token format')
         return
       }
-
       try {
         const user = verifyToken(accessToken) as TUser
-
         // Log user data to console
         console.log('User data after login:', {
           user,
           token: accessToken,
           fullResponse: result,
         })
-
         toast.success(result.message || 'Login successful')
         dispatch(
           setCredentials({
@@ -122,7 +86,6 @@ export default function LoginForm() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error('Login error details:', error)
-
       // Handle specific API error responses
       if (error.status === 401) {
         toast.error('Invalid email or password')
@@ -182,7 +145,7 @@ export default function LoginForm() {
 
         <div className='flex justify-center'>
           <Button type='submit' size='lg' disabled={isLoading}>
-            {isLoading ? 'Signing in...' : 'Submit'}
+            {isLoading ? 'Signing in...' : 'Login'}
           </Button>
         </div>
       </form>
