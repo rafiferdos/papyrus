@@ -84,7 +84,9 @@ if (isLoading) {
         <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {fields.map(field   => (
             <div key={field.name} className="space-y-1 relative">
-              <Label htmlFor={field.name}>{field.label}</Label>
+              <Label htmlFor={field.name}
+                className="mb-4"
+              >{field.label}</Label>
               {editField === field.name ? (
                 <Input
                   name={field.name}
@@ -102,7 +104,7 @@ if (isLoading) {
                   <Button
                 size="icon"
                 variant="ghost"
-                className="absolute right-0 top-5 cursor-pointer"
+                className="absolute right-0 top-8 cursor-pointer"
                 onClick={() => setEditField(field.name)}
               >
                 <Pencil className="h-4 w-4" />
