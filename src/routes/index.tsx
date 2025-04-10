@@ -1,8 +1,9 @@
-
 import MainLayout from "@/layouts/MainLayout";
+import AllProductsPage from "@/pages/AllProductsPage";
 import Login from "@/pages/Auth/Login";
 import Register from "@/pages/Auth/Register";
 import Home from "@/pages/Home";
+import SingleProduct from "@/pages/SingleProductPage";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -15,13 +16,18 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/login",
-        element: <Login></Login>,
+        path: "products",
+        element: <AllProductsPage />,
+      },
+      {
+        path: "api/products/:productId",
+        element: <SingleProduct />,
       },
       {
         path: "register",
         element: <Register />,
       },
+      { path: "/login", element: <Login></Login> },
     ],
   },
 ]);
@@ -29,8 +35,10 @@ const router = createBrowserRouter([
 //if protectedRoute need use <ProtectedRoute><ProtectedRoute/>
 //if protectedRoute with admin requre need use <ProtectedRoute={true}><ProtectedRoute/>
 //example:
-{/* <ProtectedRoute requireAdmin={true}>
+{
+  /* <ProtectedRoute requireAdmin={true}>
 <DashboardLayout />
-</ProtectedRoute> */}
+</ProtectedRoute> */
+}
 
 export default router;
