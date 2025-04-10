@@ -1,6 +1,8 @@
-import LoginForm from "@/components/forms/LoginForm";
-import RegisterForm from "@/components/forms/RegisterForm";
+
 import MainLayout from "@/layouts/MainLayout";
+import PrivateRoute from "@/layouts/ProtectedRoute";
+import Login from "@/pages/Auth/Login";
+import Register from "@/pages/Auth/Register";
 import Home from "@/pages/Home";
 import MyProfile from "@/pages/profile/MyProfile";
 import { createBrowserRouter } from "react-router-dom";
@@ -16,15 +18,17 @@ const router = createBrowserRouter([
       },
       {
         path: '/profile',
-        element: <MyProfile></MyProfile>,
+        element: <PrivateRoute>
+          <MyProfile></MyProfile>
+        </PrivateRoute>,
       },
       {
         path: "/login",
-        element: <LoginForm></LoginForm>,
+        element: <Login></Login>,
       },
       {
         path: "register",
-        element: <RegisterForm />,
+        element: <Register />,
       },
     ]
   }

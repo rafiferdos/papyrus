@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -6,63 +6,72 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Pencil } from "lucide-react";
 import { useCurrentUser } from "@/redux/features/auth/authSlice";
-// import { useGetSingleUserQuery } from "@/redux/api/baseApi";
 import { useAppSelector } from "@/redux/hooks";
-
-
-const user = {
-  name: "Humayun Kabir",
-  email: "humayun@example.com",
-  phone: "01700000000",
-  photo: "https://i.pravatar.cc",
-  location: "Chattogram, Bangladesh",
-  bio: "Frontend Engineer passionate about React and UI/UX.",
-  linkedIn: "https://example.com",
-  github: "https://example.com",
-};
+import userAvatar from "../../assets/user.png"
+import { useGetUserQuery, useUpdateUserMutation } from "@/redux/features/userApi";
+import toast from "react-hot-toast";
 
 const fields = [
   { label: "Full Name", name: "name" },
   { label: "Email", name: "email" },
-  { label: "Phone", name: "phone" },
-  { label: "Photo", name: "photo" },      
-  { label: "Location", name: "location" },
-  { label: "Bio", name: "bio" },
-  { label: "LinkedIn", name: "linkedIn" },
-  { label: "GitHub", name: "github" }
+  { label: "Phone", name: "phone" },     
+  { label: "Address", name: "address" },
+  { label: "City", name: "city" },
   ]
 
 export default function MyProfilePage() {
-  // const user = useAppSelector(useCurrentUser)
-  // console.log(user);
-
-  
-  // const { data, isLoading, error } = useGetSingleUserQuery(user?.id)
+  const {userId } = useAppSelector(useCurrentUser)
+  const { data, isLoading } = useGetUserQuery(userId, {
+    skip: !userId,
+  });
+  const user = data?.data;
   const [editField, setEditField] = useState<string | null>(null);
   const [formData, setFormData] = useState<{ [key: string]: string | undefined }>(user);
+  const [updateUser] = useUpdateUserMutation();
 
-  
+  useEffect(() => {
+    if (user) {
+      setFormData(user)
+    }
+  }, [user])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSave = () => {
-    //redux logic
+  const handleSave = async () => {
+    if (!user?._id) return;
+
+    const updatedUser = {
+      name: formData?.name,
+      phone: formData?.phone,
+      address: formData?.address,
+      city: formData?.city,
+    }
+
+    try {
+      const result = await updateUser({ id: user?._id, ...updatedUser }).unwrap();
+      toast.success(result.message || "Profile updated successfully!");
+     
+    } catch (err) {
+      console.error("Update failed", err);
+    }
     setEditField(null);
   };
 
-
-  // if (!user) return <p>loading......</p>
+if (isLoading) {
+    return <p className="text-center">Loading profile...</p>
+  } 
   
   return (
     <div className="max-w-6xl mx-auto p-8 space-y-10">
-      <Card>
+      {
+        formData && <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Avatar className="h-20 w-20">
-                <AvatarImage src={user?.photo} />
+                <AvatarImage src={userAvatar} />
                 <AvatarFallback>{user.name}</AvatarFallback>
               </Avatar>
               <div>
@@ -108,6 +117,7 @@ export default function MyProfilePage() {
           )}
         </CardContent>
       </Card>
+      }
     </div>
   );
 }

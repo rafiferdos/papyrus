@@ -37,7 +37,7 @@ export default function RegisterForm() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      console.log("Registration attempt with:", values);
+      // console.log("Registration attempt with:", values);
 
       const result = await register(values).unwrap();
 

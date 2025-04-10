@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
 
+
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000/api",
+  baseUrl: "https://papyrus-server-lovat.vercel.app/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
@@ -16,13 +17,8 @@ const baseQuery = fetchBaseQuery({
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQuery,
-
-  endpoints: (builder) => ({
-    getSingleUser: builder.query({
-      query: (userId: string) => `/user/${userId}`,
-    }),
-  }),
+  tagTypes: ['User'],
+  endpoints: () => ({})
 });
 
 
-export const { useGetSingleUserQuery} = baseApi;
