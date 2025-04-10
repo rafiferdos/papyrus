@@ -5,6 +5,9 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Pencil } from "lucide-react";
+import { useCurrentUser } from "@/redux/features/auth/authSlice";
+// import { useGetSingleUserQuery } from "@/redux/api/baseApi";
+import { useAppSelector } from "@/redux/hooks";
 
 
 const user = {
@@ -30,7 +33,11 @@ const fields = [
   ]
 
 export default function MyProfilePage() {
+  // const user = useAppSelector(useCurrentUser)
+  // console.log(user);
+
   
+  // const { data, isLoading, error } = useGetSingleUserQuery(user?.id)
   const [editField, setEditField] = useState<string | null>(null);
   const [formData, setFormData] = useState<{ [key: string]: string | undefined }>(user);
 
@@ -45,6 +52,9 @@ export default function MyProfilePage() {
     setEditField(null);
   };
 
+
+  // if (!user) return <p>loading......</p>
+  
   return (
     <div className="max-w-6xl mx-auto p-8 space-y-10">
       <Card>
