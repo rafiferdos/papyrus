@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
@@ -9,18 +10,39 @@ import router from './routes/index.tsx'
 import { Toaster } from 'react-hot-toast'
 import { Provider } from 'react-redux'
 import { store } from './redux/store.ts'
+=======
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import { ThemeProvider } from "./providers/theme-provider.tsx";
+import { ScrollContainer } from "react-nice-scroll";
+import "react-nice-scroll/dist/styles.css";
+import { RouterProvider } from "react-router-dom";
+import router from "./routes/index.tsx";
+import { Toaster } from "react-hot-toast";
+import { Provider } from "react-redux";
+import { persistor, store } from "./redux/store.ts";
+import { PersistGate } from "redux-persist/integration/react";
+>>>>>>> ffea37e32b6d4eb470db94316188bdbc534247ce
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
      <Provider store={store}>
     <ThemeProvider>
-      <ScrollContainer>
-        <RouterProvider router={router} />
+ 
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+          <ScrollContainer>
+          <RouterProvider router={router} />
+          </ScrollContainer>
+          </PersistGate>
+        </Provider>
         <Toaster />
-      </ScrollContainer>
+ 
     </ThemeProvider>
     </Provider>
   </StrictMode>
+<<<<<<< HEAD
 )
 
 // import { StrictMode } from 'react'
@@ -50,3 +72,6 @@ createRoot(document.getElementById('root')!).render(
 //     </Provider>
 //   </StrictMode>
 // )
+=======
+);
+>>>>>>> ffea37e32b6d4eb470db94316188bdbc534247ce
