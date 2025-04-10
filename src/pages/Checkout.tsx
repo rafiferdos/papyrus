@@ -115,7 +115,7 @@ export default function Checkout() {
                             </RadioGroup>
                         </div>
 
-                        <Button className="w-full mt-4 bg-orange-600 text-white hover:bg-orange-700 cursor-pointer">Place Order</Button>
+                        <Button className="w-full mt-4 bg-[#9962FF] text-white hover:bg-[#9962ffe5] cursor-pointer">Place Order</Button>
                     </div>
                 </div>
             </div>

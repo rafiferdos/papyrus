@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-=======
-"use client"
-
->>>>>>> 1884d319b1bb69f34b08fd2c1382fc5433d7e12e
 import * as React from "react"
 import * as LabelPrimitive from "@radix-ui/react-label"
 

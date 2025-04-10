@@ -59,7 +59,7 @@ export default function ShoppingCart() {
                             <span className="font-semibold">00</span>
                         </div>
 
-                        <Button className="w-full rounded-full bg-orange-600 text-white hover:bg-orange-700 cursor-pointer">
+                        <Button className="w-full rounded-full bg-[#9962FF] text-white hover:bg-[#9962ffe5] cursor-pointer">
                             Proceed to Checkout
                         </Button>
 
