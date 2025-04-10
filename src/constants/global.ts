@@ -1,7 +1,6 @@
 export const allProductCategories = [
-  'Writing',
-  'Office Supplies',
-  'Art Supplies',
-  'Educational',
-  'Technology',
-]
+  "Writing Instruments",
+  "Paper Products",
+  "Art Supplies",
+  "Educational",
+];

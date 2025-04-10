@@ -1,5 +1,5 @@
 
-import Banner from '@/components/Home/Banner'
+// import Banner from '@/components/Home/Banner'
 // import FeaturedProducts from '@/components/Home/FeaturedProducts'
 import Testimonials from '@/components/Home/Testimonials'
 import { ScrollReveal } from '@/components/ScrollReveal'
