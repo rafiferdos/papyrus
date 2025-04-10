@@ -13,7 +13,7 @@ import { TextScramble } from '../ui/text-scramble';
 import { TProduct } from './AllProducts';
 import { ScrollReveal } from '@/components/ScrollReveal';
 import toast from 'react-hot-toast';
-import { addToCart } from '@/redux/Features/products/cart.api';
+import { addToCart } from '@/redux/features/products/cart.api';
 import { useDispatch } from 'react-redux';
 import { ProductCategory } from '@/types/global';
 
@@ -48,7 +48,7 @@ const SingleProduct = ({ product }: { product: TProduct }) => {
   return (
     <ScrollReveal direction='fade' delay={0.2}>
       <Card key={product._id} className='flex flex-col h-full'>
-        <Link to={`/api/products/${product._id}`}>
+        <Link to={`/products/${product._id}`}>
           <CardHeader>
             <div className='flex items-center justify-between w-full'>
               <CardTitle>{product.name}</CardTitle>

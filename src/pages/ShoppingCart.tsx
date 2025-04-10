@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import IncrementDecrementBtn from "@/components/ui/incrementDecrementBtn";
+import { Link } from "react-router-dom";
 
 export default function ShoppingCart() {
     return (
-        <div className="pb-10">
-
+        <div className="pb-10 mt-20">
             <div className="w-full lg:w-4/5 mx-auto">
                 <h1 className="text-3xl font-bold text-neutral-900 my-6">My Shopping Cart</h1>
 
@@ -59,9 +59,9 @@ export default function ShoppingCart() {
                             <span className="font-semibold">00</span>
                         </div>
 
-                        <Button className="w-full rounded-full bg-[#9962FF] text-white hover:bg-[#9962ffe5] cursor-pointer">
-                            Proceed to Checkout
-                        </Button>
+                        <Link to="/checkout"><Button className="w-full rounded-full bg-[#9962FF] text-white hover:bg-[#9962ffe5] cursor-pointer">
+                       Proceed to Checkout
+                        </Button></Link>
 
                     </Card>
                 </div>

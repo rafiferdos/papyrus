@@ -1,11 +1,11 @@
-import { useGetOneProductDataQuery } from "@/redux/Features/products/productApi";
+import { useGetOneProductDataQuery } from "@/redux/features/products/productApi";
 import { useParams } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TextScramble } from "@/components/ui/text-scramble";
 import { motion } from "motion/react";
 import { useDispatch } from "react-redux";
-import { addToCart } from "@/redux/Features/products/cart.api";
+import { addToCart } from "@/redux/features/products/cart.api";
 import { Check, ShoppingCart, AlertTriangle } from "lucide-react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { Separator } from "@/components/ui/separator";
@@ -25,7 +25,6 @@ const SingleProduct: React.FC = () => {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
   const [imageLoaded, setImageLoaded] = useState(false);
-
   if (isError) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
@@ -82,7 +81,7 @@ const SingleProduct: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto py-8 md:py-16">
+    <div className="container mx-auto py-8 md:py-16 mt-20">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
         <ScrollReveal direction="left" delay={0.2} distance={50}>
           <motion.div
