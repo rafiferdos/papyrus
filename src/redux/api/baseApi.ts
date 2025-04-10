@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
 
+
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://papyrus-server-lovat.vercel.app/api",
   credentials: "include",
@@ -16,6 +17,8 @@ const baseQuery = fetchBaseQuery({
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQuery,
-
-  endpoints: () => ({}),
+  tagTypes: ['User'],
+  endpoints: () => ({})
 });
+
+

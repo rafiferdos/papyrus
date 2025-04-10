@@ -34,10 +34,11 @@ export default function Navbar() {
   const isAdmin = user?.role === "admin";
 
   const Tabs = [
-    { name: "Home", href: "/" },
-    { name: "Products", href: "/products" },
-    { name: "About", href: "/about" },
-  ];
+    { name: 'Home', href: '/' },
+    { name: 'Products', href: '/products' },
+    { name: 'About', href: '/about' },
+    { name: 'Profile', href: '/profile' },
+  ]
 
   const handleLogout = () => {
     dispatch(logout());
