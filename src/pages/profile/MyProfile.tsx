@@ -64,7 +64,7 @@ if (isLoading) {
   } 
   
   return (
-    <div className="max-w-6xl mx-auto p-8 space-y-10">
+    <div className="max-w-6xl mx-auto p-8 space-y-10 mt-28">
       {
         formData && <Card>
         <CardHeader>

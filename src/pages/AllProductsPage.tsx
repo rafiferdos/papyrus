@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const AllProductsPage = () => {
   return (
-    <div className="space-y-8 my-8 md:my-16">
+    <div className="space-y-8 my-8 md:my-16 pt-20">
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}

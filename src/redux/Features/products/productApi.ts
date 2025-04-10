@@ -1,78 +1,61 @@
-import { baseApi } from '@/redux/api/baseApi'
+import { baseApi } from "@/redux/api/baseApi";
 
 const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     addProduct: builder.mutation({
       query: (productInfo) => ({
-        url: '/api/product',
-        method: 'POST',
+        url: "/product",
+        method: "POST",
         body: productInfo,
       }),
-      invalidatesTags: ['Product'],
+      invalidatesTags: ["Product"],
     }),
-
-    // getAllProductData: builder.query({
-    //   query: (args) => {
-    //     const params = new URLSearchParams()
-    //     if (args)
-    //       args.forEach((item: { name: string; value: string }) =>
-    //         params.append(item.name, item.value)
-    //       )
-    //     return {
-    //       url: `/api/product`,
-    //       params: params,
-    //     }
-    //   },
-    //   providesTags: ['Product'],
-    // }),
-
 
     getAllProductData: builder.query({
       query: (args) => {
-        let queryString = ''
+        let queryString = "";
         if (args && args.length > 0) {
-          const params = new URLSearchParams()
+          const params = new URLSearchParams();
           args.forEach((item: { name: string; value: string }) =>
             params.append(item.name, item.value)
-          )
-          queryString = `?${params.toString()}`
+          );
+          queryString = `?${params.toString()}`;
         }
-    
+
         return {
-          url: `/api/product${queryString}`,
-          method: 'GET',
-        }
+          url: `/product${queryString}`,
+          method: "GET",
+        };
       },
-      providesTags: ['Product'],
+      providesTags: ["Product"],
     }),
-    
 
     getOneProductData: builder.query({
       query: (productId) => {
         return {
-          url: `/api/product/${productId}`,
-        }
+          url: `/product/${productId}`,
+        };
       },
     }),
 
     deleteProduct: builder.mutation({
       query: (productId) => ({
-        url: `/api/product/${productId}`,
-        method: 'DELETE',
+        url: `/product/${productId}`,
+        method: "DELETE",
       }),
-      invalidatesTags: ['Product'],
+      invalidatesTags: ["Product"],
     }),
 
     updateProduct: builder.mutation({
       query: ({ productId, productInfo }) => ({
-        url: `/api/product/${productId}`,
-        method: 'PUT',
+        url: `/product/${productId}`,
+        method: "PUT",
         body: productInfo,
       }),
-      invalidatesTags: ['Product'],
+      invalidatesTags: ["Product"],
     }),
   }),
-})
+});
 
 export const {
   useAddProductMutation,
@@ -80,4 +63,4 @@ export const {
   useGetOneProductDataQuery,
   useDeleteProductMutation,
   useUpdateProductMutation,
-} = productApi
+} = productApi;

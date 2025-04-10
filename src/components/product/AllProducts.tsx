@@ -13,7 +13,7 @@ import {
 } from "../ui/select";
 import { Button } from "../ui/button";
 // import { useNavigate } from 'react-router-dom';
-import { useGetAllProductDataQuery } from "@/redux/Features/products/productApi";
+import { useGetAllProductDataQuery } from "@/redux/features/products/productApi";
 import { TQueryParam } from "@/types/global";
 
 export type TProduct = {
@@ -60,8 +60,7 @@ const AllProducts: React.FC = () => {
     }
   };
 
-  const products =
-    response?.data || response?.result || response?.data?.result || [];
+  const products = response?.data?.result || [];
 
   return (
     <div>
