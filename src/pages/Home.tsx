@@ -5,6 +5,8 @@ import Testimonials from '@/components/Home/Testimonials'
 import { ScrollReveal } from '@/components/ScrollReveal'
 import { motion } from 'motion/react'
 
+
+
 const Home = () => {
   return (
     <div className='lg:space-y-16 space-y-8'>

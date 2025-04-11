@@ -3,7 +3,7 @@ import { Input } from "../ui/input";
 import { Search } from "lucide-react";
 import { allProductCategories } from "@/constants/global";
 import { TextShimmer } from "../ui/text-shimmer";
-import SingleProduct from "./SingleProduct";
+// import SingleProduct from "./SingleProduct";
 import {
   Select,
   SelectItem,
@@ -15,6 +15,7 @@ import { Button } from "../ui/button";
 // import { useNavigate } from 'react-router-dom';
 import { useGetAllProductDataQuery } from "@/redux/features/products/productApi";
 import { TQueryParam } from "@/types/global";
+import ProductCard from "../ProductCard/ProductCard";
 
 export type TProduct = {
   _id: string;
@@ -26,6 +27,8 @@ export type TProduct = {
   brand: string;
   inStock: boolean;
   quantity: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 const AllProducts: React.FC = () => {
@@ -155,7 +158,8 @@ const AllProducts: React.FC = () => {
         ) : (
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
             {products.map((product: TProduct) => (
-              <SingleProduct key={product._id} product={product} />
+              // <SingleProduct key={product._id} product={product} />
+              <ProductCard key={product._id} product={product} />
             ))}
           </div>
         )}
