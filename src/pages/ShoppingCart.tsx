@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 export default function ShoppingCart() {
     return (
         <div className="pb-10 mt-20">
-            <div className="w-full lg:w-4/5 mx-auto">
+            <div className="w-full mx-auto">
                 <h1 className="text-3xl font-bold text-neutral-900 my-6">My Shopping Cart</h1>
 
                 <div className="flex flex-col lg:flex-row gap-6">
@@ -22,19 +22,30 @@ export default function ShoppingCart() {
                                 </tr>
                             </thead>
                             <tbody className="text-gray-800">
-                                {[{ img: "image1", name: "xy" }, { img: "image2", name: "ab" }].map((item, idx) => (
-                                    <tr key={idx} className="border-b">
-                                        <td className="p-3 flex items-center gap-4">
-                                            <img src={item.img} alt="product-img" className="w-16 h-16 object-cover rounded" />
-                                            <span className="font-medium">{item.name}</span>
-                                        </td>
-                                        <td className="p-3">00</td>
-                                        <td className="p-3 w-24">
-                                            <IncrementDecrementBtn />
-                                        </td>
-                                        <td className="p-3">00</td>
-                                    </tr>
-                                ))}
+                                <tr className="border-b">
+                                    <td className="p-3 flex items-center gap-4">
+                                        <img src="" alt="product-img" className="w-16 h-16 object-cover rounded" />
+                                        <span className="font-medium text-white">xy</span>
+                                    </td>
+                                    <td className="p-3 text-white">00</td>
+                                    <td className="p-3 w-24">
+                                        <IncrementDecrementBtn />
+                                    </td>
+                                    <td className="p-3 text-white">00</td>
+                                </tr>
+
+                                <tr className="border-b">
+                                    <td className="p-3 flex items-center gap-4">
+                                        <img src="" alt="product-img" className="w-16 h-16 object-cover rounded" />
+                                        <span className="font-medium text-white">xy</span>
+                                    </td>
+                                    <td className="p-3 text-white">00</td>
+                                    <td className="p-3 w-24">
+                                        <IncrementDecrementBtn />
+                                    </td>
+                                    <td className="p-3 text-white">00</td>
+                                </tr>
+
                             </tbody>
                         </table>
 
@@ -60,7 +71,7 @@ export default function ShoppingCart() {
                         </div>
 
                         <Link to="/checkout"><Button className="w-full rounded-full bg-[#9962FF] text-white hover:bg-[#9962ffe5] cursor-pointer">
-                       Proceed to Checkout
+                            Proceed to Checkout
                         </Button></Link>
 
                     </Card>
