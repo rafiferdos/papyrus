@@ -18,13 +18,13 @@ import { Label } from "@/components/ui/label";
 // import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 // import { listingFormValidationSchema } from "./ListingsFormValidation";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 // import { toast } from "sonner";
 
-const AddProductForm = () => {
+const UpdateProductForm = () => {
   // form validation
   const form = useForm({
     // resolver: zodResolver(listingFormValidationSchema),
@@ -51,7 +51,7 @@ const AddProductForm = () => {
     // }
   };
   return (
-    <div className="w-full md:w-[80%] lg:w-[50%] mx-auto h-full flex flex-col justify-center shadow-none overflow-scroll md:overflow-hidden rounded ">
+    <div className="w-full md:w-[80%] lg:w-[50%] mx-auto h-full flex flex-col justify-center shadow-none overflow-scroll md:overflow-hidden rounded mb-6">
       <Card className=" mx-auto flex flex-col justify-center shadow-xl overflow-scroll md:overflow-hidden rounded border-none">
         <CardContent>
           <Form {...form}>
@@ -268,39 +268,39 @@ const AddProductForm = () => {
               {/* End Condition */}
 
               {/* <FormField
-                control={form.control}
-                name="status"
-                render={({ field }) => (
-                  <FormItem className=" space-y-2">
-                    <FormLabel className="text-base font-bold">
-                      Listing Status
-                    </FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        className="flex flex-row space-x-1"
-                      >
-                        <FormItem className="flex items-center space-x-1 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="available" />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            Available
-                          </FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-1 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="sold" />
-                          </FormControl>
-                          <FormLabel className="font-normal">Sold</FormLabel>
-                        </FormItem>
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
+                        control={form.control}
+                        name="status"
+                        render={({ field }) => (
+                          <FormItem className=" space-y-2">
+                            <FormLabel className="text-base font-bold">
+                              Listing Status
+                            </FormLabel>
+                            <FormControl>
+                              <RadioGroup
+                                onValueChange={field.onChange}
+                                value={field.value}
+                                className="flex flex-row space-x-1"
+                              >
+                                <FormItem className="flex items-center space-x-1 space-y-0">
+                                  <FormControl>
+                                    <RadioGroupItem value="available" />
+                                  </FormControl>
+                                  <FormLabel className="font-normal">
+                                    Available
+                                  </FormLabel>
+                                </FormItem>
+                                <FormItem className="flex items-center space-x-1 space-y-0">
+                                  <FormControl>
+                                    <RadioGroupItem value="sold" />
+                                  </FormControl>
+                                  <FormLabel className="font-normal">Sold</FormLabel>
+                                </FormItem>
+                              </RadioGroup>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      /> */}
 
               {/* End status */}
 
@@ -308,11 +308,7 @@ const AddProductForm = () => {
                 type="submit"
                 className="w-full  bg-purple-500 hover:bg-purple-600 text-white tracking-wide cursor-pointer mt-3"
               >
-                {isSubmitting ? (
-                  <Loader2 className="animate-spin" />
-                ) : (
-                  "Add Product"
-                )}
+                {isSubmitting ? <Loader2 className="animate-spin" /> : "Update"}
               </Button>
             </form>
           </Form>
@@ -322,4 +318,4 @@ const AddProductForm = () => {
   );
 };
 
-export default AddProductForm;
+export default UpdateProductForm;

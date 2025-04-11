@@ -32,14 +32,14 @@ export function PTable<TData, TValue>({
   return (
     <div className="my-8 shadow">
       <Table>
-        <TableHeader className="bg-neutral-800 text-center  ">
+        <TableHeader className="bg-neutral-800  ">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead
                     key={header.id}
-                    className="font-bold h-16 text-base"
+                    className="font-bold h-16 text-base text-center"
                   >
                     {header.isPlaceholder
                       ? null
@@ -53,7 +53,7 @@ export function PTable<TData, TValue>({
             </TableRow>
           ))}
         </TableHeader>
-        <TableBody className="">
+        <TableBody className="text-center">
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow

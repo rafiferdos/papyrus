@@ -44,7 +44,7 @@ export const getNavItems = (role: "admin" | "user") => {
           },
           {
             title: "Update Product",
-            url: "#",
+            url: "/dashboard/admin/update-product",
           },
         ],
       },

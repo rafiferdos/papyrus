@@ -19,6 +19,7 @@ const Navbar = () => {
     { name: "Home", href: "/" },
     { name: "Products", href: "/products" },
     { name: "About", href: "/about" },
+    // shoyon add this
     { name: "Dashboard", href: "/dashboard/home" },
   ];
   return (

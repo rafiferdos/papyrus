@@ -4,6 +4,7 @@ import MainLayout from "@/layouts/MainLayout";
 import ManageOrders from "@/pages/Dashboard/Admin/orders/ManageOrders";
 import AddProduct from "@/pages/Dashboard/Admin/products/AddProduct";
 import ManageProducts from "@/pages/Dashboard/Admin/products/ManageProducts";
+import UpdateProduct from "@/pages/Dashboard/Admin/products/UpdateProduct";
 import ManageUsers from "@/pages/Dashboard/Admin/user/ManageUsers";
 import Orders from "@/pages/Dashboard/User/orders/Orders";
 import Profile from "@/pages/Dashboard/User/profile/Profile";
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+  //* shoyon add this
   // dashboard
   {
     path: "/dashboard",
@@ -37,6 +39,7 @@ const router = createBrowserRouter([
       // end orders
       { path: "/dashboard/admin/manage-products", element: <ManageProducts /> },
       { path: "/dashboard/admin/add-product", element: <AddProduct /> },
+      { path: "/dashboard/admin/update-product", element: <UpdateProduct /> },
       // end products
       { path: "/dashboard/admin/manage-users", element: <ManageUsers /> },
       // user

@@ -9,6 +9,7 @@ import { Edit, Trash2 } from "lucide-react";
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { usersData } from "./userData";
 // import { toast } from "sonner";
 
 // export type TUserProps = {
@@ -17,6 +18,7 @@ import { Link } from "react-router-dom";
 
 // const usersData: TUserProps = [
 const ManageUser = ({ user }: { user: TUser }) => {
+  console.log(user);
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
@@ -110,7 +112,7 @@ const ManageUser = ({ user }: { user: TUser }) => {
         ) : (
           "No Listings Available"
         )} */}
-      {<PTable data={user} columns={columns} />}
+      {<PTable data={usersData} columns={columns} />}
       <DeleteConfirmationModal
         name={selectedItem}
         isOpen={isModalOpen}

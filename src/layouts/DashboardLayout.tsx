@@ -27,8 +27,8 @@ const DashboardLayout = () => {
             </div>
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 pt-4 pl-4">
-          <div className="min-h-[100vh] flex-1 rounded bg-muted/50 md:min-h-min p-6">
+        <div className="flex flex-1 flex-col gap-4 pt-4 ">
+          <div className="min-h-[100vh] flex-1 rounded bg-muted/50 p-6">
             <Outlet />
           </div>
         </div>

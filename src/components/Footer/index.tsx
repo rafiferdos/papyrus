@@ -86,6 +86,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="font-medium text-primary hover:underline transition-colors"
                 >
+                  {/* shoyon add this */}
                   super cluster
                 </a>
               </div>
