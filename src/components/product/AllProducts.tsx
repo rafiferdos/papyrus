@@ -32,13 +32,22 @@ export type TProduct = {
 };
 
 const AllProducts: React.FC = () => {
+  const [page, setPage] = useState(1);
+  const [limit] = useState(8);
+
   const [params, setParams] = useState<TQueryParam[] | undefined>(undefined);
+
+  const finalParams: TQueryParam[] = [
+    ...(params?.filter((p) => p.name !== "page" && p.name !== "limit") || []),
+    { name: "page", value: String(page) },
+    { name: "limit", value: String(limit) },
+  ];
+
   const {
     data: response,
     isLoading,
     isError,
-  } = useGetAllProductDataQuery(params);
-  // const router = useNavigate();
+  } = useGetAllProductDataQuery(finalParams);
 
   const handleChangeFilter = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
@@ -64,7 +73,9 @@ const AllProducts: React.FC = () => {
   };
 
   const products = response?.data?.result || [];
-
+  const allProduct = response || [];
+  console.log(products);
+  console.log(allProduct);
   return (
     <div>
       <div className="relative">
@@ -77,7 +88,7 @@ const AllProducts: React.FC = () => {
         />
       </div>
 
-      <div className="flex items-center w-full gap-4 my-4">
+      <div className="flex flex-wrap md:flex-nowrap items-center w-full gap-4 my-4 ">
         <Select
           onValueChange={(value) => {
             setParams((prevParams) => {
@@ -145,22 +156,65 @@ const AllProducts: React.FC = () => {
 
       <div className="my-10 md:my-16">
         {isLoading ? (
-          <TextShimmer
-            className="my-12 text-3xl text-center font-charm"
-            duration={0.7}
-          >
-            Fetching products...
-          </TextShimmer>
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <TextShimmer className="text-xl font-medium" duration={1}>
+              Loading products....
+            </TextShimmer>
+          </div>
         ) : isError ? (
           <p className="text-center text-red-500">Error fetching products!</p>
         ) : products.length === 0 ? (
           <p className="text-lg font-semibold text-center">No products found</p>
         ) : (
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3  xl:grid-cols-4">
             {products.map((product: TProduct) => (
               // <SingleProduct key={product._id} product={product} />
               <ProductCard key={product._id} product={product} />
             ))}
+          </div>
+        )}
+        {response?.data?.meta && (
+          <div className="flex flex-col items-center mt-6 space-y-2">
+       
+
+            {/* Pagination Controls */}
+            <div className="flex justify-center space-x-2 mt-8">
+              <Button
+              variant={"primary"}
+                disabled={page === 1}
+                onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                className={page === 1 ? "opacity-50 cursor-not-allowed" : ""}
+              >
+                Previous
+              </Button>
+
+              <span className="px-4 py-2 border rounded">
+                Page {response.data.meta.page} of {response.data.meta.totalPage}
+              </span>
+
+              <Button
+                disabled={page === response.data.meta.totalPage}
+                onClick={() => setPage((prev) => prev + 1)}
+                variant={"primary"}
+                className={
+                  page === response.data.meta.totalPage
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }
+              >
+                Next
+              </Button>
+            </div>
+                 {/* Showing Range Text */}
+                 <p className="text-sm text-gray-700 dark:text-white">
+              Showing{" "}
+              {(response.data.meta.page - 1) * response.data.meta.limit + 1}–
+              {Math.min(
+                response.data.meta.page * response.data.meta.limit,
+                response.data.meta.total
+              )}{" "}
+              of {response.data.meta.total} products
+            </p>
           </div>
         )}
       </div>

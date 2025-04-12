@@ -114,7 +114,7 @@ export default function RegisterForm() {
         </div>
 
         <div className="flex justify-center">
-          <Button type="submit" size="lg" disabled={isLoading}>
+          <Button variant="primary" type="submit" size="lg" disabled={isLoading}>
             {isLoading ? "Registering..." : "Sign Up"}
           </Button>
         </div>

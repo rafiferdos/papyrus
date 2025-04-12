@@ -34,11 +34,11 @@ export default function Navbar() {
   const isAdmin = user?.role === "admin";
 
   const Tabs = [
-    { name: 'Home', href: '/' },
-    { name: 'Products', href: '/products' },
-    { name: 'About', href: '/about' },
-    { name: 'Profile', href: '/profile' },
-  ]
+    { name: "Home", href: "/" },
+    { name: "Products", href: "/products" },
+    { name: "About", href: "/about" },
+    { name: "Profile", href: "/profile" },
+  ];
 
   const handleLogout = () => {
     dispatch(logout());
@@ -62,7 +62,7 @@ export default function Navbar() {
             <SheetContent side="left">
               <Link to="/" className="mr-6 hidden lg:flex">
                 <MountainIcon className="h-6 w-6" />
-                <span className="sr-only">NoteNest</span>
+                <span className="sr-only ">Papyrus</span>
               </Link>
               {/* Mobile Menu Links */}
               <div className="grid gap-2 py-6  pl-7 mt-5">
@@ -85,22 +85,22 @@ export default function Navbar() {
                 <div className="relative">
                   <ModeToggle />
                 </div>
-              <div className="w-auto">
-              <TooltipProvider delayDuration={0}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="ghost" size="sm" asChild>
-                      <Link to={"/cart"}>
-                        <ShoppingCart />
-                      </Link>
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Cart</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              </div>
+                <div className="w-auto">
+                  <TooltipProvider delayDuration={0}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="ghost" size="sm" asChild>
+                          <Link to={"/cart"}>
+                            <ShoppingCart />
+                          </Link>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Cart</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
 
                 <div className="w-auto">
                   {token ? (
@@ -118,20 +118,19 @@ export default function Navbar() {
                     </Button>
                   )}
                 </div>
-
               </div>
             </SheetContent>
           </Sheet>
 
           {/* Desktop Links */}
-          <Link to="/" className="mr-6 hidden lg:flex">
+          <Link to="/" className="mr-6 flex items-center gap-2 hidden lg:flex">
             <MountainIcon className="h-6 w-6" />
-            <span className="sr-only">NoteNest</span>
+            <span className="text-xl font-semibold">Papyrus</span>
           </Link>
           <nav className="ml-auto hidden lg:flex gap-6 items-center">
             <AnimatedBackground
               defaultValue={Tabs[0].name}
-              className="border border-b-yellow-200 dark:border-b-yellow-600 border-t-0 border-l-0 border-r-0"
+              className="border border-b-indigo-500 dark:border-b-indigo-600 border-t-0 border-l-0 border-r-0"
               transition={{
                 type: "spring",
                 bounce: 0.2,
@@ -148,7 +147,7 @@ export default function Navbar() {
                   className={`px-2 py-0.5 transition-colors duration-300
                   ${
                     location.pathname === tab.href
-                      ? "text-zinc-950 dark:text-zinc-50 font-bold border-b-2 border-b-yellow-200 dark:border-b-yellow-600"
+                      ? "  text-zinc-950 dark:text-zinc-50 font-bold border-b-2 border-b-indigo-500 dark:border-b-indigo-600"
                       : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-50"
                   }`}
                 >
@@ -195,7 +194,7 @@ export default function Navbar() {
                 Logout
               </Button>
             ) : (
-              <Button variant="default" size="sm" asChild>
+              <Button variant="primary" size="sm" asChild>
                 <Link to={"/register"}>Sign Up</Link>
               </Button>
             )}

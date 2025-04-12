@@ -62,7 +62,8 @@ export default {
         },
       },
       fontFamily: {
-        charm: ['charm', 'cursive'],
+        charm: ['Charm', 'cursive'],
+        roboto: ['Roboto', 'sans-serif']
       },
     },
   },

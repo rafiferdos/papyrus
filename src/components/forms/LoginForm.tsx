@@ -143,7 +143,7 @@ export default function LoginForm() {
         </div>
 
         <div className="flex justify-center">
-          <Button type="submit" size="lg" disabled={isLoading}>
+          <Button variant="primary" type="submit" size="lg" disabled={isLoading}>
             {isLoading ? "Signing in..." : "Sign In"}
           </Button>
         </div>
