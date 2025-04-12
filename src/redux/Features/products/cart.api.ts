@@ -22,19 +22,19 @@ const cartSlice = createSlice({
       const existingItem = state.items.find(
         (item) => item._id === action.payload._id
       )
-     
+
       if (existingItem) {
-        existingItem.quantity += 1
+        existingItem.quantity += action.payload.quantity
       } else {
-        state.items.push({ ...action.payload, quantity: 1 })
+        state.items.push(action.payload)
       }
-      localStorage.setItem('cart', JSON.stringify(state.items)) 
+      localStorage.setItem('cart', JSON.stringify(state.items))
       console.log(state.items)
     },
 
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter((item) => item._id !== action.payload)
-      localStorage.setItem('cart', JSON.stringify(state.items)) 
+      localStorage.setItem('cart', JSON.stringify(state.items))
     },
 
     updateQuantity: (
@@ -45,12 +45,12 @@ const cartSlice = createSlice({
       if (item) {
         item.quantity = action.payload.quantity
       }
-      localStorage.setItem('cart', JSON.stringify(state.items)) 
+      localStorage.setItem('cart', JSON.stringify(state.items))
     },
 
     clearCart: (state) => {
       state.items = []
-      localStorage.removeItem('cart') 
+      localStorage.removeItem('cart')
     },
   },
 })

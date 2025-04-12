@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { motion } from 'motion/react'
 import { useDispatch } from 'react-redux'
-import { addToCart } from '@/redux/Features/products/cart.api'
+import { addToCart } from '@/redux/features/products/cart.api'
 import { Check, ShoppingCart, AlertTriangle, X } from 'lucide-react'
 import { ScrollReveal } from '@/components/ScrollReveal'
 import { Separator } from '@/components/ui/separator'
@@ -77,8 +77,83 @@ const SingleProduct: React.FC = () => {
     )
   }
 
+  // const handleAddToCart = () => {
+  //   dispatch(addToCart({ ...product, quantity }))
+  //   toast.success(`${product.name} added to cart - ${quantity} item(s) added`)
+  // }
+
   const handleAddToCart = () => {
-    dispatch(addToCart({ ...product, quantity }))
+    // Log before adding to cart
+    console.log(
+      'Before adding to cart, current localStorage:',
+      localStorage.getItem('cart')
+    )
+
+    // Ensure the property names exactly match what TOrderProduct expects
+    const cartItem = {
+      _id: product._id,
+      name: product.name,
+      price: product.price,
+      brand: product.brand,
+      category: product.category,
+      imageUrl: product.image, // Make sure this matches your TOrderProduct interface
+      description: product.description,
+      quantity: quantity,
+      inStock: product.inStock,
+    }
+
+    console.log('Adding item to cart:', cartItem)
+
+    // Dispatch with the proper cart item format
+    dispatch(addToCart(cartItem))
+
+    // Try manually saving to localStorage as fallback
+    try {
+      // Get current cart or initialize empty array
+      const currentCart = JSON.parse(localStorage.getItem('cart') || '[]')
+
+      // Check if item already exists
+      // Define interface for cart item
+      interface CartItem {
+        _id: string
+        name: string
+        price: number
+        brand: string
+        category: string
+        imageUrl: string
+        description: string
+        quantity: number
+        inStock: boolean
+      }
+
+      const existingItemIndex = currentCart.findIndex(
+        (item: CartItem) => item._id === cartItem._id
+      )
+
+      if (existingItemIndex >= 0) {
+        // Update quantity if item exists
+        currentCart[existingItemIndex].quantity += cartItem.quantity
+      } else {
+        // Add new item
+        currentCart.push(cartItem)
+      }
+
+      // Save back to localStorage
+      localStorage.setItem('cart', JSON.stringify(currentCart))
+
+      console.log('Manually saved cart to localStorage')
+    } catch (error) {
+      console.error('Error saving to localStorage:', error)
+    }
+
+    // Log after adding to cart
+    setTimeout(() => {
+      console.log(
+        'After adding to cart (with delay), localStorage:',
+        localStorage.getItem('cart')
+      )
+    }, 100)
+
     toast.success(`${product.name} added to cart - ${quantity} item(s) added`)
   }
 
