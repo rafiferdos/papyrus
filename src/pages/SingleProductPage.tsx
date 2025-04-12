@@ -2,11 +2,10 @@ import { useGetOneProductDataQuery } from "@/redux/features/products/productApi"
 import { useParams } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { TextScramble } from "@/components/ui/text-scramble";
 import { motion } from "motion/react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/redux/features/products/cart.api";
-import { Check, ShoppingCart, AlertTriangle } from "lucide-react";
+import { Check, ShoppingCart, AlertTriangle, X } from "lucide-react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
@@ -25,6 +24,9 @@ const SingleProduct: React.FC = () => {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  const dicountPrice = +(product?.price * 2).toFixed(2);
+
   if (isError) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
@@ -82,7 +84,7 @@ const SingleProduct: React.FC = () => {
 
   return (
     <div className="container mx-auto py-8 md:py-16 mt-20">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-16">
         <ScrollReveal direction="left" delay={0.2} distance={50}>
           <motion.div
             className="rounded-lg overflow-hidden bg-white shadow-xl hover:shadow-2xl transition-all relative aspect-square"
@@ -117,7 +119,7 @@ const SingleProduct: React.FC = () => {
             transition={{ duration: 0.5 }}
           >
             <div className="flex items-center justify-between gap-4">
-              <h1 className="text-4xl font-semibold font-thin ">
+              <h1 className="text-4xl font-medium  ">
                 {product.name}
               </h1>
               <Badge variant="secondary" className="text-md">
@@ -139,22 +141,36 @@ const SingleProduct: React.FC = () => {
                     <Check className="h-4 w-4" /> In Stock
                   </span>
                 ) : (
-                  "Out of Stock"
+                  <span className="flex items-center gap-1 text-white">
+                    <X className="h-4 w-4" />
+                    Out of Stock
+                  </span>
                 )}
               </Badge>
               <Badge className="text-sm">{product.category}</Badge>
             </div>
 
-            <div className="text-4xl font-semibold flex items-center gap-1 text-gray-200">
+            {/* <div className="text-4xl font-semibold flex items-center gap-1 text-gray-200">
               ৳<TextScramble>{product.price.toString()}</TextScramble>
+            </div> */}
+
+            <div className="flex items-center justify-between mt-2">
+              <div className="text-2xl font-bold">
+                <div className="flex flex-col sm:flex-row gap-1 sm:items-center">
+                  <span className="text-pink-600">
+                    ${product?.price.toFixed(2)}
+                  </span>
+                  <span className="text-sm line-through text-gray-400">
+                    ${dicountPrice}
+                  </span>
+                </div>
+              </div>
             </div>
 
             <p className="text-lg text-gray-400 leading-relaxed">
               {product.description}
             </p>
-
             <Separator />
-
             <div className="space-y-4">
               <div className="flex items-center gap-4">
                 <span className="text-sm font-medium">Quantity:</span>
@@ -162,7 +178,7 @@ const SingleProduct: React.FC = () => {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-8 w-8 rounded-r-none"
+                    className="h-8 w-8 rounded-r-none cursor-pointer"
                     onClick={() => quantity > 1 && setQuantity(quantity - 1)}
                     disabled={quantity <= 1}
                   >
@@ -174,7 +190,7 @@ const SingleProduct: React.FC = () => {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-8 w-8 rounded-l-none"
+                    className="h-8 w-8 rounded-l-none cursor-pointer"
                     onClick={() =>
                       quantity < product.quantity && setQuantity(quantity + 1)
                     }
@@ -189,8 +205,9 @@ const SingleProduct: React.FC = () => {
               </div>
 
               <Button
-                className="w-full md:w-auto bg-gradient-to-r from-green-400 to-blue-500 text-white"
                 size="lg"
+                className=" px-4 py-2 "
+                variant="primary"
                 onClick={handleAddToCart}
                 disabled={!product.inStock}
               >
