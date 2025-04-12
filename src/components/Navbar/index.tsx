@@ -99,11 +99,16 @@ export default function Navbar() {
                   <TooltipProvider delayDuration={0}>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <Button variant='ghost' size='sm' asChild>
+                        <Button
+                          variant='ghost'
+                          className='relative'
+                          size='sm'
+                          asChild
+                        >
                           <Link to={'/cart'}>
                             <ShoppingCart />
                             {totalItemsInCart > 0 && (
-                              <Badge className='absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-red-500 rounded-full text-[10px]'>
+                              <Badge className='absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 rounded-full text-[10px]'>
                                 {totalItemsInCart}
                               </Badge>
                             )}
@@ -174,11 +179,19 @@ export default function Navbar() {
               <TooltipProvider delayDuration={0}>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant='ghost' size='sm' asChild>
+                    <Button
+                      variant='ghost'
+                      className='relative'
+                      size='sm'
+                      asChild
+                    >
                       <Link to={'/cart'}>
                         <ShoppingCart />
                         {totalItemsInCart > 0 && (
-                          <Badge className='absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-red-500 rounded-full text-[10px]'>
+                          <Badge
+                            variant='outline'
+                            className='absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 rounded-full text-[10px]'
+                          >
                             {totalItemsInCart}
                           </Badge>
                         )}
