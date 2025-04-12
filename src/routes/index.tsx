@@ -1,18 +1,19 @@
-import MainLayout from "@/layouts/MainLayout";
-import PrivateRoute from "@/layouts/ProtectedRoute";
-import Login from "@/pages/Auth/Login";
-import Register from "@/pages/Auth/Register";
-import Home from "@/pages/Home";
-import MyProfile from "@/pages/profile/MyProfile";
-import AllProductsPage from "@/pages/AllProductsPage";
-import SingleProduct from "@/pages/SingleProductPage";
-import { createBrowserRouter } from "react-router-dom";
-import ShoppingCart from "@/pages/ShoppingCart";
-import Checkout from "@/pages/Checkout";
+import MainLayout from '@/layouts/MainLayout'
+import PrivateRoute from '@/layouts/ProtectedRoute'
+import Login from '@/pages/Auth/Login'
+import Register from '@/pages/Auth/Register'
+import Home from '@/pages/Home'
+import MyProfile from '@/pages/profile/MyProfile'
+import AllProductsPage from '@/pages/AllProductsPage'
+import SingleProduct from '@/pages/SingleProductPage'
+import { createBrowserRouter } from 'react-router-dom'
+import ShoppingCart from '@/pages/ShoppingCart'
+import Checkout from '@/pages/Checkout'
+import About from '@/pages/About'
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <MainLayout />,
     children: [
       {
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/profile",
+        path: '/profile',
         element: (
           <PrivateRoute>
             <MyProfile></MyProfile>
@@ -28,32 +29,36 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/login",
+        path: '/login',
         element: <Login></Login>,
       },
       {
-        path: "products",
+        path: 'products',
         element: <AllProductsPage />,
       },
       {
-        path: "/products/:productId",
+        path: '/products/:productId',
         element: <SingleProduct />,
       },
       {
-        path: "register",
+        path: 'register',
         element: <Register />,
       },
       {
-        path: "cart",
+        path: 'about',
+        element: <About />,
+      },
+      {
+        path: 'cart',
         element: <ShoppingCart />,
       },
       {
-        path: "/checkout",
+        path: '/checkout',
         element: <Checkout />,
       },
     ],
   },
-]);
+])
 
 //if protectedRoute need use <ProtectedRoute><ProtectedRoute/>
 //if protectedRoute with admin requre need use <ProtectedRoute={true}><ProtectedRoute/>
@@ -64,4 +69,4 @@ const router = createBrowserRouter([
 </ProtectedRoute> */
 }
 
-export default router;
+export default router
