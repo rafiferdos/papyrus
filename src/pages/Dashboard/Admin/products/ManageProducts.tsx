@@ -1,8 +1,10 @@
+import ManageProductTbl from "@/components/dashboard/product/ManageProductTbl";
+
 const ManageProducts = () => {
   return (
-    <div>
-      <h1>Admin Manage Products</h1>
-    </div>
+    <>
+      <ManageProductTbl />
+    </>
   );
 };
 

@@ -36,7 +36,7 @@ export const getNavItems = (role: "admin" | "user") => {
         items: [
           {
             title: "Manage Product",
-            url: "#",
+            url: "/dashboard/admin/manage-products",
           },
           {
             title: "Add Product",
