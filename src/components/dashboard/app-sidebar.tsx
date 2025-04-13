@@ -106,7 +106,7 @@ import { NavUser } from "./nav-user";
 import { getNavItems } from "./navData";
 
 export function AppSidebar({
-  userRole = "user", // pass this dynamically
+  userRole = "admin", // pass this dynamically
   userData = {
     name: "shadcn",
     email: "m@example.com",
