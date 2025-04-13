@@ -5,7 +5,6 @@ import MountainIcon from '../icons/MountainIcon'
 import { motion } from 'motion/react'
 import { ScrollReveal } from '../ScrollReveal'
 
-
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
@@ -67,8 +66,8 @@ export default function Footer() {
                 <h3 className='text-lg font-medium mb-4'>Contact Us</h3>
                 <address className='not-italic text-muted-foreground space-y-2'>
                   <p>140, School College Road</p>
-                  <p>Chapai Nawabganj, Bangladesh</p>
-                  <p>Email: rafiferdos@gmail.com</p>
+                  <p>Dhaka, Bangladesh</p>
+                  <p>Email: papyrus@gmail.com</p>
                   <p>Phone: (+880) 1921-479294</p>
                 </address>
               </div>
@@ -88,7 +87,7 @@ export default function Footer() {
                   rel='noopener noreferrer'
                   className='font-medium text-primary hover:underline transition-colors'
                 >
-               Super Cluster Team
+                  Team Super Cluster
                 </a>
               </div>
             </div>

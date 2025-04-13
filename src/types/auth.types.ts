@@ -7,4 +7,5 @@ export type TUser = {
   password: string
   role: TRole
   isActive?: boolean
+  userId?: string
 }
