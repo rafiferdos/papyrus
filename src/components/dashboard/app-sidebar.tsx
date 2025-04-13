@@ -117,7 +117,7 @@ export function AppSidebar({
   userRole: "admin" | "user";
   userData: { name: string; email: string; avatar: string };
 } & React.ComponentProps<typeof Sidebar>) {
-  const navItems = getNavItems(userRole);
+  const navItems = getNavItems(userRole === "admin" ? "admin" : "user");
 
   return (
     <Sidebar collapsible="icon" {...props}>

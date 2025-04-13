@@ -1,8 +1,10 @@
+import MyProfilePage from "@/pages/profile/MyProfile";
+
 const Profile = () => {
   return (
-    <div>
-      <p>User Profile</p>
-    </div>
+    <>
+      <MyProfilePage />
+    </>
   );
 };
 

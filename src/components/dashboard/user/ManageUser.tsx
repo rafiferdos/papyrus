@@ -9,16 +9,11 @@ import { Edit, Trash2 } from "lucide-react";
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { usersData } from "./userData";
+
 // import { toast } from "sonner";
 
-// export type TUserProps = {
-//   users: TUser[];
-// };
-
-// const usersData: TUserProps = [
-const ManageUser = ({ user }: { user: TUser }) => {
-  console.log(user);
+const ManageUser = ({ users }: { users: TUser[] }) => {
+  console.log(users);
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
@@ -105,14 +100,14 @@ const ManageUser = ({ user }: { user: TUser }) => {
   return (
     <>
       <DashboardPageTitle title="Mange User" />
-      <p className="my-6 text-xl">Total User : 09</p>
+      <p className="my-6 text-xl">Total User : {users?.data?.length}</p>
 
-      {/* {listings.length > 0 ? (
-          <TthTable data={listings} columns={columns} />
-        ) : (
-          "No Listings Available"
-        )} */}
-      {<PTable data={usersData} columns={columns} />}
+      {users?.data?.length > 0 ? (
+        <PTable data={users?.data} columns={columns} />
+      ) : (
+        "No Users Available"
+      )}
+
       <DeleteConfirmationModal
         name={selectedItem}
         isOpen={isModalOpen}

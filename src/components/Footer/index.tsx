@@ -24,7 +24,7 @@ export default function Footer() {
               <div>
                 <div className="flex items-center gap-2 mb-4">
                   <MountainIcon className="h-5 w-5" />
-                  <h3 className="text-xl font-semibold">NoteNest</h3>
+                  <h3 className="text-xl font-semibold">Papyrus</h3>
                 </div>
                 <p className="text-muted-foreground">
                   Your one-stop destination for all your stationery needs.
@@ -86,8 +86,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="font-medium text-primary hover:underline transition-colors"
                 >
-                  {/* shoyon add this */}
-                  super cluster
+                  Super Cluster Team
                 </a>
               </div>
             </div>

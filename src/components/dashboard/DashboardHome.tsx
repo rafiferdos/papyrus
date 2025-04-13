@@ -1,10 +1,30 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SidebarInset } from "@/components/ui/sidebar";
 import { Edit, Notebook, Truck, UsersRound, Wallet } from "lucide-react";
 import DashboardChart from "./DashboardChart";
 import { Button } from "../ui/button";
 
+import { useSelector } from "react-redux";
+import { useCurrentUser } from "@/redux/Features/auth/authSlice";
+import { useAppSelector } from "@/redux/hooks";
+import { useGetUserQuery } from "@/redux/Features/userApi";
+import { Link } from "react-router-dom";
+
 const DashboardHome = () => {
-  const isAdmin = false;
+  const user = useSelector(useCurrentUser);
+
+  const { userId }: string | any = useAppSelector(useCurrentUser);
+
+  const { data, isLoading } = useGetUserQuery(userId, {
+    skip: !userId,
+  });
+  const userData = data?.data;
+
+  const isAdmin = user?.role === "admin";
+
+  if (isLoading) {
+    return <p className="text-center">Loading....</p>;
+  }
   return (
     <>
       {isAdmin ? (
@@ -70,12 +90,16 @@ const DashboardHome = () => {
                 alt="user img"
                 className="w-56 rounded-full mx-auto mt-5"
               />
-              <p className="my-6 text-2xl text-center">User Name</p>
+              <p className="my-6 text-2xl text-center dark:text-white text-black">
+                {userData?.name}
+              </p>
               <div className="text-center">
-                <Button className="text-white cursor-pointer">
-                  Edit Your Profile
-                  <Edit />
-                </Button>
+                <Link to="/dashboard/user/profile">
+                  <Button className=" cursor-pointer dark:bg-white dark:text-black bg-white text-black">
+                    Edit Your Profile
+                    <Edit />
+                  </Button>
+                </Link>
               </div>
             </div>
             {/* <div className="shadow-2xl rounded h-96 w-96 pt-28">

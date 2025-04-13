@@ -1,9 +1,11 @@
 
-import Banner from '@/components/Home/Banner'
+// import Banner from '@/components/Home/Banner'
 // import FeaturedProducts from '@/components/Home/FeaturedProducts'
 import Testimonials from '@/components/Home/Testimonials'
 import { ScrollReveal } from '@/components/ScrollReveal'
 import { motion } from 'motion/react'
+
+
 
 const Home = () => {
   return (
@@ -14,7 +16,7 @@ const Home = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Banner />
+        {/* <Banner /> */}
       </motion.section>
 
       {/* Featured Products - appears on scroll */}

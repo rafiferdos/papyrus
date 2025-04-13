@@ -178,17 +178,16 @@
 // export default ManageUsers;
 
 import ManageUser from "@/components/dashboard/user/ManageUser";
-import { usersData } from "@/components/dashboard/user/userData";
-
-// import { TUser } from "@/types";
+import { useGetAllUsersQuery } from "@/redux/Features/userApi";
 
 const ManageUsers = () => {
+  const { data: allUsers, isLoading } = useGetAllUsersQuery();
+
+  if (isLoading) return <p>Loading...</p>;
+
   return (
     <>
-      {/* {usersData?.map((user: TUser) => (
-        <ManageUser key={user._id} user={user} />
-      ))} */}
-      <ManageUser user={usersData} />
+      <ManageUser users={allUsers || []} />
     </>
   );
 };
