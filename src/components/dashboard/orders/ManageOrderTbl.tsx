@@ -9,16 +9,11 @@ import { Edit, Trash2 } from "lucide-react";
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { usersData } from "./userData";
+import { usersData } from "../user/userData";
+
 // import { toast } from "sonner";
 
-// export type TUserProps = {
-//   users: TUser[];
-// };
-
-// const usersData: TUserProps = [
-const ManageUser = ({ user }: { user: TUser }) => {
-  console.log(user);
+const ManageOrderTbl = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
@@ -57,61 +52,79 @@ const ManageUser = ({ user }: { user: TUser }) => {
       header: () => <div className="">Serial Number</div>,
       cell: ({ row }) => <span className="truncate">{row.index + 1}</span>,
     },
-
     {
       accessorKey: "name",
-      header: () => <div>Name</div>,
+      header: () => <div>Customer</div>,
       cell: ({ row }) => (
         <span className="truncate">{row?.original?.name}</span>
       ),
     },
     {
-      accessorKey: "email",
-      header: () => <div>Email</div>,
+      accessorKey: "items",
+      header: () => <div>Items</div>,
       cell: ({ row }) => (
-        <span className="truncate">{row?.original?.email}</span>
+        <span className="truncate">{row?.original?.availability}</span>
       ),
     },
-
     {
-      accessorKey: "role",
-      header: () => <div className="text-center">Role</div>,
+      accessorKey: "status",
+      header: () => <div>Payment</div>,
       cell: ({ row }) => (
-        <button
-          onClick={() => handleUpdate(row.original)}
-          className="text-emerald-500"
-          title="edit listing"
-        >
-          <Link to={`/user/listings/${row.original._id}`}>
-            <Edit className="w-5 h-5" />
-          </Link>
-        </button>
+        <div>
+          {row?.original?.status === "available" ? (
+            <p className="text-green-500 border bg-green-100 w-20 text-center px-2 rounded">
+              {row?.original?.status}
+            </p>
+          ) : (
+            <p className="text-red-500 border bg-red-100 w-14 text-center px-1 rounded">
+              {row?.original?.status}
+            </p>
+          )}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "price",
+      header: () => <div>Total</div>,
+      cell: ({ row }) => (
+        <span className="truncate">${row?.original?.price}</span>
       ),
     },
     {
       accessorKey: "action",
       header: () => <div className="text-center">Action</div>,
       cell: ({ row }) => (
-        <button
-          className="text-red-500"
-          title="Delete"
-          onClick={() => handleDelete(row.original)}
-        >
-          <Trash2 className="w-5 h-5 cursor-pointer" />
-        </button>
+        <div className="flex justify-center items-center gap-6">
+          <button
+            onClick={() => handleUpdate(row.original)}
+            className="text-emerald-500"
+            title="edit listing"
+          >
+            <Link to={`/user/listings/${row.original._id}`}>
+              <Edit className="w-5 h-5" />
+            </Link>
+          </button>
+          <button
+            className="text-red-500"
+            title="Delete"
+            onClick={() => handleDelete(row.original)}
+          >
+            <Trash2 className="w-5 h-5 cursor-pointer" />
+          </button>
+        </div>
       ),
     },
   ];
   return (
     <>
-      <DashboardPageTitle title="Mange User" />
-      <p className="my-6 text-xl">Total User : 09</p>
+      <DashboardPageTitle title="Mange Orders" />
+      <p className="my-6 text-xl">Total Orders : 09</p>
 
       {/* {listings.length > 0 ? (
-          <TthTable data={listings} columns={columns} />
-        ) : (
-          "No Listings Available"
-        )} */}
+            <TthTable data={listings} columns={columns} />
+          ) : (
+            "No Listings Available"
+          )} */}
       {<PTable data={usersData} columns={columns} />}
       <DeleteConfirmationModal
         name={selectedItem}
@@ -123,4 +136,4 @@ const ManageUser = ({ user }: { user: TUser }) => {
   );
 };
 
-export default ManageUser;
+export default ManageOrderTbl;

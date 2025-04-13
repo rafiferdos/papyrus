@@ -132,7 +132,7 @@ const ManageProductTbl = () => {
     },
   ];
   return (
-    <div>
+    <>
       <DashboardPageTitle title="Mange Products" />
       <p className="my-6 text-xl">Total Products : 09</p>
 
@@ -148,7 +148,7 @@ const ManageProductTbl = () => {
         onOpenChange={setModalOpen}
         onConfirm={handleDeleteConfirm}
       />
-    </div>
+    </>
   );
 };
 

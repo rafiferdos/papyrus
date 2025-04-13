@@ -1,8 +1,10 @@
+import ManageOrderTbl from "@/components/dashboard/orders/ManageOrderTbl";
+
 const ManageOrders = () => {
   return (
-    <div>
-      <h1>Admin Manage Order</h1>
-    </div>
+    <>
+      <ManageOrderTbl />
+    </>
   );
 };
 

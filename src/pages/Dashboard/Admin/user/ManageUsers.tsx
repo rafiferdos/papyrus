@@ -184,12 +184,12 @@ import { usersData } from "@/components/dashboard/user/userData";
 
 const ManageUsers = () => {
   return (
-    <div>
+    <>
       {/* {usersData?.map((user: TUser) => (
         <ManageUser key={user._id} user={user} />
       ))} */}
       <ManageUser user={usersData} />
-    </div>
+    </>
   );
 };
 
