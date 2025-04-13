@@ -68,7 +68,7 @@ const ManageOrderTbl = () => {
     },
     {
       accessorKey: "status",
-      header: () => <div>Payment</div>,
+      header: () => <div>Payment Status</div>,
       cell: ({ row }) => (
         <div>
           {row?.original?.status === "available" ? (
@@ -85,7 +85,7 @@ const ManageOrderTbl = () => {
     },
     {
       accessorKey: "price",
-      header: () => <div>Total</div>,
+      header: () => <div>Total Price</div>,
       cell: ({ row }) => (
         <span className="truncate">${row?.original?.price}</span>
       ),
