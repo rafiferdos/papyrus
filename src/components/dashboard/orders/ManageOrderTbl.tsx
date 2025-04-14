@@ -127,7 +127,7 @@ const ManageOrderTbl = ({ orders, onStatusChange }: Props) => {
                 )}
               </TableCell>
               <TableCell className="px-4 py-3">
-                {formatDate(order.createdAt)}
+                {formatDate(order?.createdAt)}
               </TableCell>
               <TableCell className="px-4 py-3">
                 <DropdownMenu>
@@ -180,7 +180,7 @@ const ManageOrderTbl = ({ orders, onStatusChange }: Props) => {
                 </DropdownMenu>
               </TableCell>
               <TableCell className="px-4 py-3 text-right">
-                BDT {order.totalAmount.toFixed(2)}
+                BDT {order?.totalAmount.toFixed(2)}
               </TableCell>
             </TableRow>
           ))}

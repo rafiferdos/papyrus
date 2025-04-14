@@ -90,7 +90,7 @@ const ManageProductTbl = ({ products }: TProductsProps) => {
       accessorKey: "img",
       header: () => <div>Image</div>,
       cell: ({ row }) => (
-        <div>
+        <div className="inline-block mx-auto">
           <img
             src={row?.original?.image}
             alt={row?.original?.name}
@@ -110,7 +110,7 @@ const ManageProductTbl = ({ products }: TProductsProps) => {
     },
     {
       accessorKey: "quantity",
-      header: () => <div>quantity</div>,
+      header: () => <div>Quantity</div>,
       cell: ({ row }) => (
         <span className="truncate">{row?.original?.quantity}</span>
       ),
@@ -124,23 +124,25 @@ const ManageProductTbl = ({ products }: TProductsProps) => {
       ),
     },
 
-    {
-      accessorKey: "inStock",
-      header: () => <div>Availability</div>,
-      cell: ({ row }) => (
-        <div>
-          {row?.original?.inStock === true ? (
-            <p className="text-green-500 border bg-green-100 w-20 text-center px-2 rounded">
-              In Stock
-            </p>
-          ) : (
-            <p className="text-red-500 border bg-red-100 w-20 text-center px-2 rounded">
-              Out of Stock
-            </p>
-          )}
-        </div>
-      ),
-    },
+    // {
+    //   accessorKey: "inStock",
+    //   header: () => <div>Availability</div>,
+    //   cell: ({ row }) => (
+    //     <div>
+    //       {row?.original?.inStock === true ? (
+    //         <p className="text-green-500 border bg-green-100 w-20 text-center px-2 rounded">
+    //           In Stock
+    //         </p>
+    //       ) : (
+    //         <p className="text-red-500 border bg-red-100 w-20 text-center px-2 rounded">
+    //           Out of Stock
+    //         </p>
+    //       )}
+    //     </div>
+    //   ),
+    // },
+    //* In Stock
+
     {
       accessorKey: "price",
       header: () => <div>Price</div>,
@@ -151,9 +153,9 @@ const ManageProductTbl = ({ products }: TProductsProps) => {
 
     {
       accessorKey: "isDeleted",
-      header: () => <div>Avabiale</div>,
+      header: () => <div>Approval</div>,
       cell: ({ row }) => (
-        <div>
+        <div className=" mx-auto inline-block">
           {row?.original?.isDeleted === true ? (
             <p className="text-red-500 border bg-red-100 w-20 text-center px-2 rounded">
               True

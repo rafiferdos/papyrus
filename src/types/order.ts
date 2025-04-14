@@ -28,4 +28,5 @@ export type TOrder = {
   transaction: TTransaction;
   createdAt?: Date;
   updatedAt?: Date;
+  _id: string;
 };
