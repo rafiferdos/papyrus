@@ -19,7 +19,7 @@ import {
 import { useDispatch } from "react-redux";
 import { logout } from "@/redux/Features/auth/authSlice";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export function NavUser({
   user,
@@ -36,8 +36,6 @@ export function NavUser({
   const dispatch = useDispatch();
 
   const Navigate = useNavigate();
-
-  console.log(user);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -86,7 +84,7 @@ export function NavUser({
             <DropdownMenuSeparator />
 
             {user?.role === "user" && (
-              <>
+              <Link to="/dashboard/user/profile">
                 <DropdownMenuGroup>
                   <DropdownMenuItem>
                     <User />
@@ -94,7 +92,7 @@ export function NavUser({
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-              </>
+              </Link>
             )}
 
             <DropdownMenuItem className="bg-rose-500" onClick={handleLogout}>

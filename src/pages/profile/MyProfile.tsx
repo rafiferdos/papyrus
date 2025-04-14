@@ -104,7 +104,7 @@ export default function MyProfilePage() {
                     autoFocus
                   />
                 ) : (
-                  <p className="p-2 border rounded bg-gray-50 text-sm">
+                  <p className="p-2 border rounded bg-gray-500 text-sm">
                     {formData[field.name] || "Not set"}
                   </p>
                 )}
