@@ -9,11 +9,11 @@ export enum ProductCategory {
 }
 
 export interface TOrderProduct {
-  _id: string
+  productId: string
   name: string
   brand: string
   price: number
-  imageUrl: string
+  image: string
   category: ProductCategory
   description: string
   quantity: number
