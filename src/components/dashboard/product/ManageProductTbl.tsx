@@ -2,52 +2,85 @@
 import DashboardPageTitle from "@/components/dashboard/DashboardPageTitle";
 import DeleteConfirmationModal from "@/components/ui/core/PModal/DeleteConfirmationModal";
 import { PTable } from "@/components/ui/core/PTable";
-import { TUser } from "@/types";
-
+import { useDeleteProductMutation } from "@/redux/Features/products/productApi";
+import { TProduct } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Edit, Trash2 } from "lucide-react";
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { usersData } from "../user/userData";
+import { toast } from "sonner";
 
-// import { toast } from "sonner";
+interface MetaData {
+  total: number;
+  page: number;
+  limit: number;
+}
 
-const ManageProductTbl = () => {
-  // console.log(user);
+export type TProductsProps = {
+  products: TProduct[];
+  meta?: MetaData;
+};
+
+const ManageProductTbl = ({ products }: TProductsProps) => {
+  const [deleteProduct] = useDeleteProductMutation();
+
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
-  const handleDelete = (data: TUser) => {
+  const handleDelete = (data: TProduct) => {
+    console.log(data, selectedItem);
     setSelectedId(data?._id);
     setSelectedItem(data?.name);
     setModalOpen(true);
   };
 
-  const handleUpdate = (data: TUser) => {
+  const handleUpdate = (data: TProduct) => {
     setSelectedId(data?._id);
     setSelectedItem(data?.name);
   };
 
   const handleDeleteConfirm = async () => {
     try {
-      // if (selectedId) {
-      //   const res = await deleteListing(selectedId);
-      //   if (res.status) {
-      //     toast.success(res.message);
-      //     setModalOpen(false);
-      //   } else {
-      //     toast.error(res.message);
+      if (selectedId) {
+        const res = await deleteProduct(selectedId).unwrap(); // .unwrap() যোগ করুন
+
+        // console.log("Delete response:", res);
+
+        if (res.data.success) {
+          toast.success(res.message || "Product deleted successfully");
+          setModalOpen(false);
+          // স্টেট রিসেট করুন
+          setSelectedId(null);
+          setSelectedItem(null);
+        } else {
+          toast.error(res.data.message || "Failed to delete product");
+        }
+      }
+
+      // const response = await fetch(
+      //   `https://papyrus-server-lovat.vercel.app/api/product/${selectedId}`,
+      //   {
+      //     method: "DELETE",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization:
+      //         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2ZiYzBmZDg2NTMwOTg0MjU3YTNkMTAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NDQ1NzM4OTUsImV4cCI6MTc0NDU5MTg5NX0.GSfmkOE3kP4HjyTePSOi9INnrtVI2FxIf5eXAfUWLZU",
+      //     },
       //   }
+      // );
+      // const data = await response.json();
+      // console.log("Fetch response:", data);
+      // if (data.success) {
+      //   toast.success("delete product");
       // }
-      console.log(selectedId);
     } catch (err: any) {
-      console.error(err?.message);
+      console.error("Delete error:", err); // বিস্তারিত এরর লগ
+      toast.error(err.data?.message || err.message || "Deletion failed");
     }
   };
 
-  const columns: ColumnDef<TUser>[] = [
+  const columns: ColumnDef<TProduct>[] = [
     {
       accessorKey: "slNumber",
       header: () => <div className="">Serial Number</div>,
@@ -59,11 +92,11 @@ const ManageProductTbl = () => {
       cell: ({ row }) => (
         <div>
           <img
-            src={row?.original?.images}
+            src={row?.original?.image}
             alt={row?.original?.name}
             width={40}
             height={40}
-            className="w-8 h-8 rounded-full"
+            className="w-8 h-8 rounded-full text-left"
           />
         </div>
       ),
@@ -76,24 +109,33 @@ const ManageProductTbl = () => {
       ),
     },
     {
-      accessorKey: "availability",
-      header: () => <div>Availability</div>,
+      accessorKey: "quantity",
+      header: () => <div>quantity</div>,
       cell: ({ row }) => (
-        <span className="truncate">{row?.original?.availability}</span>
+        <span className="truncate">{row?.original?.quantity}</span>
       ),
     },
+
     {
-      accessorKey: "status",
-      header: () => <div>Status</div>,
+      accessorKey: "brand",
+      header: () => <div>Brand</div>,
+      cell: ({ row }) => (
+        <span className="truncate">{row?.original?.brand}</span>
+      ),
+    },
+
+    {
+      accessorKey: "inStock",
+      header: () => <div>Availability</div>,
       cell: ({ row }) => (
         <div>
-          {row?.original?.status === "available" ? (
+          {row?.original?.inStock === true ? (
             <p className="text-green-500 border bg-green-100 w-20 text-center px-2 rounded">
-              {row?.original?.status}
+              In Stock
             </p>
           ) : (
-            <p className="text-red-500 border bg-red-100 w-14 text-center px-1 rounded">
-              {row?.original?.status}
+            <p className="text-red-500 border bg-red-100 w-20 text-center px-2 rounded">
+              Out of Stock
             </p>
           )}
         </div>
@@ -106,6 +148,25 @@ const ManageProductTbl = () => {
         <span className="truncate">${row?.original?.price}</span>
       ),
     },
+
+    {
+      accessorKey: "isDeleted",
+      header: () => <div>Avabiale</div>,
+      cell: ({ row }) => (
+        <div>
+          {row?.original?.isDeleted === true ? (
+            <p className="text-red-500 border bg-red-100 w-20 text-center px-2 rounded">
+              True
+            </p>
+          ) : (
+            <p className="text-green-500 border bg-green-100 w-20 text-center px-2 rounded">
+              False
+            </p>
+          )}
+        </div>
+      ),
+    },
+
     {
       accessorKey: "action",
       header: () => <div className="text-center">Action</div>,
@@ -134,14 +195,14 @@ const ManageProductTbl = () => {
   return (
     <>
       <DashboardPageTitle title="Mange Products" />
-      <p className="my-6 text-xl">Total Products : 09</p>
+      <p className="my-6 text-xl">Total Products : {products?.length || 0}</p>
 
       {/* {listings.length > 0 ? (
             <TthTable data={listings} columns={columns} />
           ) : (
             "No Listings Available"
           )} */}
-      {<PTable data={usersData} columns={columns} />}
+      {<PTable data={products} columns={columns} />}
       <DeleteConfirmationModal
         name={selectedItem}
         isOpen={isModalOpen}

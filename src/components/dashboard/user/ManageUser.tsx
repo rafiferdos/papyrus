@@ -13,7 +13,6 @@ import { Link } from "react-router-dom";
 // import { toast } from "sonner";
 
 const ManageUser = ({ users }: { users: TUser[] }) => {
-  console.log(users);
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);

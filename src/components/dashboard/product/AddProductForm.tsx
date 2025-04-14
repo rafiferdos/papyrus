@@ -1,10 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  //   CardDescription,
-  //   CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -15,19 +11,20 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-// import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-// import { listingFormValidationSchema } from "./ListingsFormValidation";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useAddProductMutation } from "@/redux/Features/products/productApi";
 
-// import { toast } from "sonner";
+import { toast } from "sonner";
+import { productFormValidationSchema } from "./productFormValidation";
 
 const AddProductForm = () => {
+  const [createProduct] = useAddProductMutation();
   // form validation
   const form = useForm({
-    // resolver: zodResolver(listingFormValidationSchema),
+    resolver: zodResolver(productFormValidationSchema),
   });
 
   // Destructure form value
@@ -37,18 +34,30 @@ const AddProductForm = () => {
 
   // submit handler function
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
-    // try {
-    //   const res = await createListing(data);
-    //   if (res?.status === true) {
-    //     toast.success(res?.message);
-    //     form.reset();
-    //   } else {
-    //     toast.error(res?.message);
-    //   }
-    // } catch (error: any) {
-    //   console.error(error);
-    // }
+    // console.log(data);
+    try {
+      const newData = {
+        name: data.name,
+        image: data.image,
+        brand: data.brand,
+        price: parseInt(data.price),
+        category: data.category,
+        description: data.description,
+        quantity: parseInt(data.quantity),
+        inStock: Boolean(data.inStock),
+      };
+      // console.log("new data =>", newData);
+      const res = await createProduct(newData);
+      // console.log(res);
+      if (res?.data?.success) {
+        toast.success(res?.data?.message);
+        form.reset();
+      } else {
+        toast.error(res?.data?.message);
+      }
+    } catch (error: any) {
+      console.error(error);
+    }
   };
   return (
     <div className="w-full md:w-[80%] lg:w-[50%] mx-auto h-full flex flex-col justify-center shadow-none overflow-scroll md:overflow-hidden rounded ">
@@ -61,16 +70,16 @@ const AddProductForm = () => {
             >
               <FormField
                 control={form.control}
-                name="title"
+                name="name"
                 render={({ field }) => (
                   <FormItem>
                     <Label htmlFor="name" className="text-base font-bold">
-                      Title
+                      Name
                     </Label>
                     <FormControl>
                       <Input
-                        id="title"
-                        placeholder="Enter Listing Title"
+                        id="name"
+                        placeholder="Enter product name"
                         {...field}
                         value={field.value || ""}
                         className="placeholder:text-[#c0bfbd] w-full"
@@ -80,7 +89,8 @@ const AddProductForm = () => {
                   </FormItem>
                 )}
               />
-              {/* End Title */}
+              {/* End name */}
+
               <FormField
                 control={form.control}
                 name="description"
@@ -95,7 +105,7 @@ const AddProductForm = () => {
                     <FormControl>
                       <Input
                         id="description"
-                        placeholder="Enter Your Listing Description"
+                        placeholder="Enter Your product Description"
                         {...field}
                         value={field.value || ""}
                         className="placeholder:text-[#c0bfbd]"
@@ -105,7 +115,8 @@ const AddProductForm = () => {
                   </FormItem>
                 )}
               />
-              {/* End Email */}
+              {/* End Description */}
+
               <FormField
                 control={form.control}
                 name="price"
@@ -117,7 +128,7 @@ const AddProductForm = () => {
                     <FormControl>
                       <Input
                         id="price"
-                        placeholder="Enter Listing Price"
+                        placeholder="Enter product Price"
                         {...field}
                         value={field.value || ""}
                         className="placeholder:text-[#c0bfbd]"
@@ -131,16 +142,39 @@ const AddProductForm = () => {
 
               <FormField
                 control={form.control}
-                name="images"
+                name="quantity"
                 render={({ field }) => (
                   <FormItem>
-                    <Label htmlFor="images" className="text-base font-bold">
+                    <Label htmlFor="quantity" className="text-base font-bold">
+                      Quantity
+                    </Label>
+                    <FormControl>
+                      <Input
+                        id="quantity"
+                        placeholder="Enter product quantity"
+                        {...field}
+                        value={field.value || ""}
+                        className="placeholder:text-[#c0bfbd]"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-red-400" />
+                  </FormItem>
+                )}
+              />
+              {/* End quantity */}
+
+              <FormField
+                control={form.control}
+                name="image"
+                render={({ field }) => (
+                  <FormItem>
+                    <Label htmlFor="image" className="text-base font-bold">
                       Image Link
                     </Label>
                     <FormControl>
                       <Input
-                        id="images"
-                        placeholder="Enter Your Listing Img Link"
+                        id="image"
+                        placeholder="Enter Your product Img Link"
                         {...field}
                         value={field.value || ""}
                         className="placeholder:text-[#c0bfbd]"
@@ -157,13 +191,13 @@ const AddProductForm = () => {
                 name="brand"
                 render={({ field }) => (
                   <FormItem>
-                    <Label htmlFor="color" className="text-base font-bold">
+                    <Label htmlFor="brand" className="text-base font-bold">
                       Brand
                     </Label>
                     <FormControl>
                       <Input
                         id="brand"
-                        placeholder="Product Brand"
+                        placeholder="Enter Product Brand"
                         {...field}
                         value={field.value || ""}
                         className="placeholder:text-[#c0bfbd]"
@@ -177,7 +211,7 @@ const AddProductForm = () => {
 
               <FormField
                 control={form.control}
-                name="availability"
+                name="inStock"
                 render={({ field }) => (
                   <FormItem className=" space-y-2">
                     <FormLabel className="text-base font-bold">
@@ -191,7 +225,7 @@ const AddProductForm = () => {
                       >
                         <FormItem className="flex items-center space-x-1 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="in stock" />
+                            <RadioGroupItem value="true" />
                           </FormControl>
                           <FormLabel className="font-normal">
                             In Stock
@@ -199,7 +233,7 @@ const AddProductForm = () => {
                         </FormItem>
                         <FormItem className="flex items-center space-x-1 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="out of stock" />
+                            <RadioGroupItem value="false" />
                           </FormControl>
                           <FormLabel className="font-normal">
                             Out of Stock
@@ -215,7 +249,7 @@ const AddProductForm = () => {
 
               <FormField
                 control={form.control}
-                name="condition"
+                name="category"
                 render={({ field }) => (
                   <FormItem className=" space-y-2">
                     <FormLabel className="text-base font-bold">
@@ -229,7 +263,7 @@ const AddProductForm = () => {
                       >
                         <FormItem className="flex items-center space-x-1 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="brandNew" />
+                            <RadioGroupItem value="Writing Instruments" />
                           </FormControl>
                           <FormLabel className="font-normal">
                             Writing Instruments
@@ -237,7 +271,7 @@ const AddProductForm = () => {
                         </FormItem>
                         <FormItem className="flex items-center space-x-1 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="gentlyUsed" />
+                            <RadioGroupItem value="Paper Products" />
                           </FormControl>
                           <FormLabel className="font-normal">
                             Paper Products
@@ -245,7 +279,7 @@ const AddProductForm = () => {
                         </FormItem>
                         <FormItem className="flex items-center space-x-1 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="fairCondition" />
+                            <RadioGroupItem value="Art Supplies" />
                           </FormControl>
                           <FormLabel className="font-normal">
                             Art Supplies
@@ -253,7 +287,7 @@ const AddProductForm = () => {
                         </FormItem>
                         <FormItem className="flex items-center space-x-1 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="goodCondition" />
+                            <RadioGroupItem value="Educational" />
                           </FormControl>
                           <FormLabel className="font-normal">
                             Educational
@@ -273,7 +307,7 @@ const AddProductForm = () => {
                 render={({ field }) => (
                   <FormItem className=" space-y-2">
                     <FormLabel className="text-base font-bold">
-                      Listing Status
+                      product Status
                     </FormLabel>
                     <FormControl>
                       <RadioGroup

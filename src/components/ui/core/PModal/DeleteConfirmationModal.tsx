@@ -24,7 +24,7 @@ const DeleteConfirmationModal: React.FC<DeleteModalProps> = ({
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-white border-none">
+      <DialogContent className="dark:bg-white bg-gray-800 border-none">
         <DialogHeader>
           <DialogTitle>Delete Item</DialogTitle>
           <DialogDescription>
@@ -35,8 +35,7 @@ const DeleteConfirmationModal: React.FC<DeleteModalProps> = ({
         </DialogHeader>
         <DialogFooter>
           <Button
-            className="cursor-pointer"
-            variant="outline"
+            className="cursor-pointer dark:bg-white bg-gray-500  text-black"
             onClick={() => onOpenChange(false)}
           >
             Cancel
