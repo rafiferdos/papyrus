@@ -87,12 +87,17 @@ export default function LoginForm() {
         console.error('Token verification error:', tokenError)
         toast.error('Authentication error: Could not verify token')
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Login error:', error)
-      if (error.status === 400) {
-        toast.error('Invalid email or password')
-      } else if (error.status === 401) {
-        toast.error('Unauthorized access')
+      if (typeof error === 'object' && error !== null && 'status' in error) {
+        const apiError = error as { status: number };
+        if (apiError.status === 400) {
+          toast.error('Invalid email or password')
+        } else if (apiError.status === 401) {
+          toast.error('Unauthorized access')
+        } else {
+          toast.error('An unexpected error occurred')
+        }
       } else {
         toast.error('An unexpected error occurred')
       }
