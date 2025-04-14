@@ -1,11 +1,4 @@
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Sparkles,
-} from "lucide-react";
+import { ChevronsUpDown, LogOut, User } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -23,6 +16,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useDispatch } from "react-redux";
+import { logout } from "@/redux/Features/auth/authSlice";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 export function NavUser({
   user,
@@ -31,9 +28,22 @@ export function NavUser({
     name: string;
     email: string;
     avatar: string;
+    role: string;
   };
 }) {
   const { isMobile } = useSidebar();
+
+  const dispatch = useDispatch();
+
+  const Navigate = useNavigate();
+
+  console.log(user);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    toast.success("Logged out successfully");
+    Navigate("/");
+  };
 
   return (
     <SidebarMenu>
@@ -74,29 +84,20 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
+
+            {user?.role === "user" && (
+              <>
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>
+                    <User />
+                    Profile
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+              </>
+            )}
+
+            <DropdownMenuItem className="bg-rose-500" onClick={handleLogout}>
               <LogOut />
               Log out
             </DropdownMenuItem>

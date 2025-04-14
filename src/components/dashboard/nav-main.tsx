@@ -34,7 +34,7 @@ export function NavMain({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-xl text-center text-white mb-5">
+      <SidebarGroupLabel className="text-xl text-center dark:text-white text-gray-800 mb-5">
         <Link to="/">Papyrus</Link>
       </SidebarGroupLabel>
       <SidebarMenu>

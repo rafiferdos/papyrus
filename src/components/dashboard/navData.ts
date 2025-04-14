@@ -19,14 +19,6 @@ export const getNavItems = (role: "admin" | "user") => {
             title: "Mange Orders",
             url: "/dashboard/admin/manage-orders",
           },
-          {
-            title: "Create Order",
-            url: "#",
-          },
-          {
-            title: "Update Order",
-            url: "#",
-          },
         ],
       },
       {
