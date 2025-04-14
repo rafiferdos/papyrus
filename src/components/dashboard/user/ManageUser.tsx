@@ -12,7 +12,11 @@ import { Link } from "react-router-dom";
 
 // import { toast } from "sonner";
 
-const ManageUser = ({ users }: { users: TUser[] }) => {
+type TUserProps = {
+  data: TUser[];
+};
+
+const ManageUser = ({ users }: TUserProps) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
@@ -99,7 +103,7 @@ const ManageUser = ({ users }: { users: TUser[] }) => {
   return (
     <>
       <DashboardPageTitle title="Mange User" />
-      <p className="my-6 text-xl">Total User : {users?.data?.length}</p>
+      <p className="my-6 text-xl">Total User : {users?.data?.length | 0}</p>
 
       {users?.data?.length > 0 ? (
         <PTable data={users?.data} columns={columns} />

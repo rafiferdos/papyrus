@@ -20,9 +20,9 @@ import { Link } from "react-router-dom";
 import { verifyToken } from "@/utils/verifyToken";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { useLoginMutation } from "@/redux/Features/auth/authApi";
 import { TUser } from "@/types/auth.types";
-import { setCredentials } from "@/redux/features/auth/authSlice";
+import { setCredentials } from "@/redux/Features/auth/authSlice";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -143,7 +143,12 @@ export default function LoginForm() {
         </div>
 
         <div className="flex justify-center">
-          <Button variant="primary" type="submit" size="lg" disabled={isLoading}>
+          <Button
+            variant="primary"
+            type="submit"
+            size="lg"
+            disabled={isLoading}
+          >
             {isLoading ? "Signing in..." : "Sign In"}
           </Button>
         </div>

@@ -78,6 +78,8 @@ const router = createBrowserRouter([
             <ManageOrders />
           </PrivateRoute>
         ),
+        loader: () =>
+          fetch("https://papyrus-server-lovat.vercel.app/api/order"),
       },
       // end orders
       {
