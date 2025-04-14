@@ -89,14 +89,13 @@ const SingleProduct: React.FC = () => {
       localStorage.getItem('cart')
     )
 
-    // Ensure the property names exactly match what TOrderProduct expects
     const cartItem = {
       _id: product._id,
       name: product.name,
       price: product.price,
       brand: product.brand,
       category: product.category,
-      imageUrl: product.image, // Make sure this matches your TOrderProduct interface
+      imageUrl: product.image, 
       description: product.description,
       quantity: quantity,
       inStock: product.inStock,

@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { TUser } from "@/types/auth.types";
 import { setCredentials } from "@/redux/features/auth/authSlice";
+import { setUserId } from "@/redux/features/products/cart.api";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -39,6 +40,12 @@ export default function LoginForm() {
       // console.log('Login attempt with:', data)
       // Use unwrap() to get the actual response data or throw an error
       const result = await login(data).unwrap();
+      // Extract user data from result if available
+      const userData = result.data?.user || result.user;
+      if (userData && userData.userId) {
+        // Set user ID in cart
+        dispatch(setUserId(userData.userId))
+      }
       // console.log('Login API successful response:', result)
       // Log the entire response structure to help debugging
       // console.log('Full response structure:', result)

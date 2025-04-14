@@ -11,20 +11,41 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { ScrollReveal } from '@/components/ScrollReveal'
+import { useGetMultipleProductsQuery } from '@/redux/features/products/productApi'
 
 export default function ShoppingCart() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
+  const { products = [] } = useSelector((state: RootState) => state.cart)
   // Get cart items from Redux store
-  const cartItems = useSelector((state: RootState) => state.cart.items)
+  // const cartItems = useSelector((state: RootState) => state.cart.items)
+  // Get product IDs from cart
+  const productIds = products.map((item) => item.productId)
 
-  // Calculate subtotal and total
+  // Fetch product details (assuming you have this API endpoint)
+  const { data: productDetails } = useGetMultipleProductsQuery(
+    productIds,
+    {
+      skip: productIds.length === 0,
+    }
+  )
+
+  // Combine product details with quantities
+  const cartItems =
+    productDetails?.data?.map((product) => {
+      const cartItem = products.find((item) => item.productId === product._id)
+      return {
+        ...product,
+        quantity: cartItem?.quantity || 0,
+      }
+    }) || []
+
+  // Calculate totals
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   )
-  const shipping = 0 // Free shipping
+  const shipping = 0
   const total = subtotal + shipping
 
   // Handle quantity change
@@ -96,7 +117,7 @@ export default function ShoppingCart() {
                         >
                           <div className='flex gap-4 mb-4'>
                             <img
-                              src={item.imageUrl}
+                              src={item.image}
                               alt={item.name}
                               className='w-24 h-24 object-cover rounded-md'
                             />
@@ -190,7 +211,7 @@ export default function ShoppingCart() {
                             <td className='py-4'>
                               <div className='flex items-center gap-4'>
                                 <img
-                                  src={item.imageUrl}
+                                  src={item.image}
                                   alt={item.name}
                                   className='w-16 h-16 object-cover rounded-md'
                                 />

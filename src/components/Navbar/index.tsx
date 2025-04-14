@@ -39,12 +39,11 @@ export default function Navbar() {
 
   const user = useSelector(useCurrentUser)
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const isAdmin = user?.role === 'admin'
 
   // Get cart items from Redux store
-  const cartItems = useSelector((state: RootState) => state.cart.items)
-  // // Calculate total items in cart by summing all quantities
+const cartProducts =
+  useSelector((state: RootState) => state.cart.products) || []  // // Calculate total items in cart by summing all quantities
   // const totalItemsInCart = cartItems.reduce(
   //   (total, item) => total + item.quantity,
   //   0
@@ -122,9 +121,9 @@ export default function Navbar() {
                         >
                           <Link to={'/cart'}>
                             <ShoppingCart />
-                            {cartItems.length > 0 && (
+                            {cartProducts.length > 0 && (
                               <Badge className='absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-red-500 text-white rounded-full text-[10px]'>
-                                {cartItems.length}
+                                {cartProducts.length}
                               </Badge>
                             )}
                           </Link>
@@ -218,9 +217,9 @@ export default function Navbar() {
                     >
                       <Link to={'/cart'}>
                         <ShoppingCart />
-                        {cartItems.length > 0 && (
+                        {cartProducts.length > 0 && (
                           <Badge className='absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-red-500 text-white rounded-full text-[10px]'>
-                            {cartItems.length}
+                            {cartProducts.length}
                           </Badge>
                         )}
                       </Link>
