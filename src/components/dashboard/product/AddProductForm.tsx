@@ -34,7 +34,6 @@ const AddProductForm = () => {
 
   // submit handler function
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    // console.log(data);
     try {
       const newData = {
         name: data.name,
@@ -49,7 +48,7 @@ const AddProductForm = () => {
       // console.log("new data =>", newData);
       const res = await createProduct(newData);
       // console.log(res);
-      if (res?.data?.success) {
+      if (res?.data?.success == true) {
         toast.success(res?.data?.message);
         form.reset();
       } else {
@@ -59,6 +58,7 @@ const AddProductForm = () => {
       console.error(error);
     }
   };
+
   return (
     <div className="w-full md:w-[80%] lg:w-[50%] mx-auto h-full flex flex-col justify-center shadow-none overflow-scroll md:overflow-hidden rounded ">
       <Card className=" mx-auto flex flex-col justify-center shadow-xl overflow-scroll md:overflow-hidden rounded border-none">
@@ -340,7 +340,7 @@ const AddProductForm = () => {
 
               <Button
                 type="submit"
-                className="w-full  bg-purple-500 hover:bg-purple-600 text-white tracking-wide cursor-pointer mt-3"
+                className="w-full  dark:bg-white dark:text-black bg-gray-900 text-white tracking-wide cursor-pointer mt-3"
               >
                 {isSubmitting ? (
                   <Loader2 className="animate-spin" />

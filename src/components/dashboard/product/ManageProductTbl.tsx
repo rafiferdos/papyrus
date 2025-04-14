@@ -43,14 +43,14 @@ const ManageProductTbl = ({ products }: TProductsProps) => {
   const handleDeleteConfirm = async () => {
     try {
       if (selectedId) {
-        const res = await deleteProduct(selectedId).unwrap(); // .unwrap() যোগ করুন
+        const res = await deleteProduct(selectedId).unwrap();
 
         // console.log("Delete response:", res);
 
         if (res.data.success) {
           toast.success(res.message || "Product deleted successfully");
           setModalOpen(false);
-          // স্টেট রিসেট করুন
+          // স্টেট রিসেট
           setSelectedId(null);
           setSelectedItem(null);
         } else {
@@ -177,7 +177,7 @@ const ManageProductTbl = ({ products }: TProductsProps) => {
             className="text-emerald-500"
             title="edit listing"
           >
-            <Link to={`/user/listings/${row.original._id}`}>
+            <Link to={`/dashboard/admin/update-product/${row.original._id}`}>
               <Edit className="w-5 h-5" />
             </Link>
           </button>
@@ -197,12 +197,12 @@ const ManageProductTbl = ({ products }: TProductsProps) => {
       <DashboardPageTitle title="Mange Products" />
       <p className="my-6 text-xl">Total Products : {products?.length || 0}</p>
 
-      {/* {listings.length > 0 ? (
-            <TthTable data={listings} columns={columns} />
-          ) : (
-            "No Listings Available"
-          )} */}
-      {<PTable data={products} columns={columns} />}
+      {products.length > 0 ? (
+        <PTable data={products} columns={columns} />
+      ) : (
+        "No Products Available"
+      )}
+
       <DeleteConfirmationModal
         name={selectedItem}
         isOpen={isModalOpen}

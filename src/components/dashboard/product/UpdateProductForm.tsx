@@ -1,10 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  //   CardDescription,
-  //   CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -15,19 +11,31 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-// import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-
-// import { listingFormValidationSchema } from "./ListingsFormValidation";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { useUpdateProductMutation } from "@/redux/Features/products/productApi";
+import { TProduct } from "@/types";
+import { productFormValidationSchema } from "./productFormValidation";
+import { toast } from "sonner";
 
-// import { toast } from "sonner";
+const UpdateProductForm = ({ singleProduct }: { singleProduct: TProduct }) => {
+  const [updateProduct] = useUpdateProductMutation();
 
-const UpdateProductForm = () => {
   // form validation
   const form = useForm({
-    // resolver: zodResolver(listingFormValidationSchema),
+    resolver: zodResolver(productFormValidationSchema),
+    defaultValues: {
+      name: singleProduct?.name || "",
+      description: singleProduct?.description || "",
+      image: singleProduct?.image || "",
+      price: String(singleProduct?.price || ""),
+      brand: singleProduct?.brand,
+      quantity: String(singleProduct?.price || ""),
+      inStock: String(singleProduct?.inStock || "in stock"),
+      category: singleProduct?.category,
+    },
   });
 
   // Destructure form value
@@ -37,21 +45,36 @@ const UpdateProductForm = () => {
 
   // submit handler function
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
-    // try {
-    //   const res = await createListing(data);
-    //   if (res?.status === true) {
-    //     toast.success(res?.message);
-    //     form.reset();
-    //   } else {
-    //     toast.error(res?.message);
-    //   }
-    // } catch (error: any) {
-    //   console.error(error);
-    // }
+    try {
+      const newData = {
+        name: data.name,
+        image: data.image,
+        brand: data.brand,
+        price: parseInt(data.price),
+        category: data.category,
+        description: data.description,
+        quantity: parseInt(data.quantity),
+        inStock: Boolean(data.inStock),
+      };
+
+      const res = await updateProduct({
+        productId: singleProduct._id,
+        productInfo: newData,
+      });
+      // console.log("res =>", res);
+      if (res?.data.success == true) {
+        toast.success(res?.data?.message);
+        form.reset();
+      } else {
+        toast.error(res?.data?.message);
+      }
+    } catch (error: any) {
+      console.error(error);
+    }
   };
+
   return (
-    <div className="w-full md:w-[80%] lg:w-[50%] mx-auto h-full flex flex-col justify-center shadow-none overflow-scroll md:overflow-hidden rounded mb-6">
+    <div className="w-full md:w-[80%] lg:w-[50%] mx-auto h-full flex flex-col justify-center shadow-none overflow-scroll md:overflow-hidden rounded ">
       <Card className=" mx-auto flex flex-col justify-center shadow-xl overflow-scroll md:overflow-hidden rounded border-none">
         <CardContent>
           <Form {...form}>
@@ -61,16 +84,16 @@ const UpdateProductForm = () => {
             >
               <FormField
                 control={form.control}
-                name="title"
+                name="name"
                 render={({ field }) => (
                   <FormItem>
                     <Label htmlFor="name" className="text-base font-bold">
-                      Title
+                      Name
                     </Label>
                     <FormControl>
                       <Input
-                        id="title"
-                        placeholder="Enter Listing Title"
+                        id="name"
+                        placeholder="Enter product name"
                         {...field}
                         value={field.value || ""}
                         className="placeholder:text-[#c0bfbd] w-full"
@@ -80,7 +103,8 @@ const UpdateProductForm = () => {
                   </FormItem>
                 )}
               />
-              {/* End Title */}
+              {/* End name */}
+
               <FormField
                 control={form.control}
                 name="description"
@@ -95,7 +119,7 @@ const UpdateProductForm = () => {
                     <FormControl>
                       <Input
                         id="description"
-                        placeholder="Enter Your Listing Description"
+                        placeholder="Enter Your product Description"
                         {...field}
                         value={field.value || ""}
                         className="placeholder:text-[#c0bfbd]"
@@ -105,7 +129,8 @@ const UpdateProductForm = () => {
                   </FormItem>
                 )}
               />
-              {/* End Email */}
+              {/* End Description */}
+
               <FormField
                 control={form.control}
                 name="price"
@@ -117,7 +142,7 @@ const UpdateProductForm = () => {
                     <FormControl>
                       <Input
                         id="price"
-                        placeholder="Enter Listing Price"
+                        placeholder="Enter product Price"
                         {...field}
                         value={field.value || ""}
                         className="placeholder:text-[#c0bfbd]"
@@ -131,16 +156,39 @@ const UpdateProductForm = () => {
 
               <FormField
                 control={form.control}
-                name="images"
+                name="quantity"
                 render={({ field }) => (
                   <FormItem>
-                    <Label htmlFor="images" className="text-base font-bold">
+                    <Label htmlFor="quantity" className="text-base font-bold">
+                      Quantity
+                    </Label>
+                    <FormControl>
+                      <Input
+                        id="quantity"
+                        placeholder="Enter product quantity"
+                        {...field}
+                        value={field.value || ""}
+                        className="placeholder:text-[#c0bfbd]"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-red-400" />
+                  </FormItem>
+                )}
+              />
+              {/* End quantity */}
+
+              <FormField
+                control={form.control}
+                name="image"
+                render={({ field }) => (
+                  <FormItem>
+                    <Label htmlFor="image" className="text-base font-bold">
                       Image Link
                     </Label>
                     <FormControl>
                       <Input
-                        id="images"
-                        placeholder="Enter Your Listing Img Link"
+                        id="image"
+                        placeholder="Enter Your product Img Link"
                         {...field}
                         value={field.value || ""}
                         className="placeholder:text-[#c0bfbd]"
@@ -157,13 +205,13 @@ const UpdateProductForm = () => {
                 name="brand"
                 render={({ field }) => (
                   <FormItem>
-                    <Label htmlFor="color" className="text-base font-bold">
+                    <Label htmlFor="brand" className="text-base font-bold">
                       Brand
                     </Label>
                     <FormControl>
                       <Input
                         id="brand"
-                        placeholder="Product Brand"
+                        placeholder="Enter Product Brand"
                         {...field}
                         value={field.value || ""}
                         className="placeholder:text-[#c0bfbd]"
@@ -177,7 +225,7 @@ const UpdateProductForm = () => {
 
               <FormField
                 control={form.control}
-                name="availability"
+                name="inStock"
                 render={({ field }) => (
                   <FormItem className=" space-y-2">
                     <FormLabel className="text-base font-bold">
@@ -191,7 +239,7 @@ const UpdateProductForm = () => {
                       >
                         <FormItem className="flex items-center space-x-1 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="in stock" />
+                            <RadioGroupItem value="true" />
                           </FormControl>
                           <FormLabel className="font-normal">
                             In Stock
@@ -199,7 +247,7 @@ const UpdateProductForm = () => {
                         </FormItem>
                         <FormItem className="flex items-center space-x-1 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="out of stock" />
+                            <RadioGroupItem value="false" />
                           </FormControl>
                           <FormLabel className="font-normal">
                             Out of Stock
@@ -215,7 +263,7 @@ const UpdateProductForm = () => {
 
               <FormField
                 control={form.control}
-                name="condition"
+                name="category"
                 render={({ field }) => (
                   <FormItem className=" space-y-2">
                     <FormLabel className="text-base font-bold">
@@ -229,7 +277,7 @@ const UpdateProductForm = () => {
                       >
                         <FormItem className="flex items-center space-x-1 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="brandNew" />
+                            <RadioGroupItem value="Writing Instruments" />
                           </FormControl>
                           <FormLabel className="font-normal">
                             Writing Instruments
@@ -237,7 +285,7 @@ const UpdateProductForm = () => {
                         </FormItem>
                         <FormItem className="flex items-center space-x-1 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="gentlyUsed" />
+                            <RadioGroupItem value="Paper Products" />
                           </FormControl>
                           <FormLabel className="font-normal">
                             Paper Products
@@ -245,7 +293,7 @@ const UpdateProductForm = () => {
                         </FormItem>
                         <FormItem className="flex items-center space-x-1 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="fairCondition" />
+                            <RadioGroupItem value="Art Supplies" />
                           </FormControl>
                           <FormLabel className="font-normal">
                             Art Supplies
@@ -253,7 +301,7 @@ const UpdateProductForm = () => {
                         </FormItem>
                         <FormItem className="flex items-center space-x-1 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="goodCondition" />
+                            <RadioGroupItem value="Educational" />
                           </FormControl>
                           <FormLabel className="font-normal">
                             Educational
@@ -268,47 +316,51 @@ const UpdateProductForm = () => {
               {/* End Condition */}
 
               {/* <FormField
-                        control={form.control}
-                        name="status"
-                        render={({ field }) => (
-                          <FormItem className=" space-y-2">
-                            <FormLabel className="text-base font-bold">
-                              Listing Status
-                            </FormLabel>
-                            <FormControl>
-                              <RadioGroup
-                                onValueChange={field.onChange}
-                                value={field.value}
-                                className="flex flex-row space-x-1"
-                              >
-                                <FormItem className="flex items-center space-x-1 space-y-0">
-                                  <FormControl>
-                                    <RadioGroupItem value="available" />
-                                  </FormControl>
-                                  <FormLabel className="font-normal">
-                                    Available
-                                  </FormLabel>
-                                </FormItem>
-                                <FormItem className="flex items-center space-x-1 space-y-0">
-                                  <FormControl>
-                                    <RadioGroupItem value="sold" />
-                                  </FormControl>
-                                  <FormLabel className="font-normal">Sold</FormLabel>
-                                </FormItem>
-                              </RadioGroup>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      /> */}
+              control={form.control}
+              name="status"
+              render={({ field }) => (
+                <FormItem className=" space-y-2">
+                  <FormLabel className="text-base font-bold">
+                    product Status
+                  </FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      className="flex flex-row space-x-1"
+                    >
+                      <FormItem className="flex items-center space-x-1 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="available" />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          Available
+                        </FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-1 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="sold" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Sold</FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
 
               {/* End status */}
 
               <Button
                 type="submit"
-                className="w-full  bg-purple-500 hover:bg-purple-600 text-white tracking-wide cursor-pointer mt-3"
+                className="w-full  dark:bg-white dark:text-black bg-gray-900 text-white tracking-wide cursor-pointer mt-3"
               >
-                {isSubmitting ? <Loader2 className="animate-spin" /> : "Update"}
+                {isSubmitting ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  "Update Product"
+                )}
               </Button>
             </form>
           </Form>

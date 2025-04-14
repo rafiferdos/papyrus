@@ -97,12 +97,16 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard/admin/update-product",
+        path: "/dashboard/admin/update-product/:productId",
         element: (
           <PrivateRoute requireAdmin={true}>
-            <UpdateProduct />
+            <UpdateProduct />,
           </PrivateRoute>
         ),
+        loader: ({ params }) =>
+          fetch(
+            `https://papyrus-server-lovat.vercel.app/api/product/${params.productId}`
+          ),
       },
       // end products
       { path: "/dashboard/admin/manage-users", element: <ManageUsers /> },
