@@ -37,21 +37,19 @@ export default function Navbar() {
   const location = useLocation();
   const dispatch = useDispatch();
   const token = useSelector(useCurrentToken);
+  const user = useSelector(useCurrentUser);
 
   const navigate = useNavigate();
-
-  const user = useSelector(useCurrentUser);
 
   const isAdmin = user?.role === "admin";
 
   // Get cart items from Redux store
-  const cartItems = useSelector((state: RootState) => state.cart.items);
-
-  // Calculate total items in cart by summing all quantities
-  const totalItemsInCart = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
+  const cartProducts =
+    useSelector((state: RootState) => state.cart.products) || []; // // Calculate total items in cart by summing all quantities
+  // const totalItemsInCart = cartItems.reduce(
+  //   (total, item) => total + item.quantity,
+  //   0
+  // )
   const Tabs = [
     { name: "Home", href: "/" },
     { name: "Products", href: "/products" },
@@ -131,9 +129,9 @@ export default function Navbar() {
                         >
                           <Link to={"/cart"}>
                             <ShoppingCart />
-                            {totalItemsInCart > 0 && (
+                            {cartProducts.length > 0 && (
                               <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-red-500 text-white rounded-full text-[10px]">
-                                {totalItemsInCart}
+                                {cartProducts.length}
                               </Badge>
                             )}
                           </Link>
@@ -181,7 +179,7 @@ export default function Navbar() {
           </Sheet>
 
           {/* Desktop Links */}
-          <Link to="/" className="mr-6 flex items-center gap-2 hidden lg:flex">
+          <Link to="/" className="mr-6 flex items-center gap-2 lg:flex">
             <MountainIcon className="h-6 w-6" />
             <span className="text-xl font-semibold">Papyrus</span>
           </Link>
@@ -227,9 +225,9 @@ export default function Navbar() {
                     >
                       <Link to={"/cart"}>
                         <ShoppingCart />
-                        {totalItemsInCart > 0 && (
+                        {cartProducts.length > 0 && (
                           <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-red-500 text-white rounded-full text-[10px]">
-                            {totalItemsInCart}
+                            {cartProducts.length}
                           </Badge>
                         )}
                       </Link>

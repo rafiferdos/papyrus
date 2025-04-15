@@ -1,60 +1,100 @@
 import { TOrderProduct } from '@/types/global'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-const loadCartFromLocalStorage = () => {
-  const cart = localStorage.getItem('cart')
-  return cart ? JSON.parse(cart) : []
-}
-
+// New interface for cart structure
 interface CartState {
-  items: TOrderProduct[]
+  userId: string | null
+  products: Array<{
+    productId: string
+    quantity: number
+  }>
 }
 
-const initialState: CartState = {
-  items: loadCartFromLocalStorage(),
+// Initialize cart in localStorage if it doesn't exist
+const initialCart = {
+  userId: null,
+  products: []
 }
+
+if (typeof window !== 'undefined' && !localStorage.getItem('cart')) {
+  localStorage.setItem('cart', JSON.stringify(initialCart))
+}
+
+const loadCartFromLocalStorage = (): CartState => {
+  try {
+    const cart = localStorage.getItem('cart')
+    if (cart) {
+      return JSON.parse(cart)
+    }
+  } catch (error) {
+    console.error('Error loading cart from localStorage:', error)
+  }
+  return { userId: null, products: [] }
+}
+
+const initialState: CartState = loadCartFromLocalStorage()
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
+    setUserId: (state, action: PayloadAction<string>) => {
+      state.userId = action.payload
+      localStorage.setItem('cart', JSON.stringify(state))
+    },
+
     addToCart: (state, action: PayloadAction<TOrderProduct>) => {
-      const existingItem = state.items.find(
-        (item) => item._id === action.payload._id
+      // Find if product already exists
+      const existingProductIndex = state.products.findIndex(
+        (item) => item.productId === action.payload._id
       )
 
-      if (existingItem) {
-        existingItem.quantity += action.payload.quantity
+      if (existingProductIndex >= 0) {
+        // Update quantity if product exists
+        state.products[existingProductIndex].quantity += action.payload.quantity
       } else {
-        state.items.push(action.payload)
+        // Add new product
+        state.products.push({
+          productId: action.payload._id,
+          quantity: action.payload.quantity,
+        })
       }
-      localStorage.setItem('cart', JSON.stringify(state.items))
-      console.log(state.items)
+
+      localStorage.setItem('cart', JSON.stringify(state))
     },
 
     removeFromCart: (state, action: PayloadAction<string>) => {
-      state.items = state.items.filter((item) => item._id !== action.payload)
-      localStorage.setItem('cart', JSON.stringify(state.items))
+      state.products = state.products.filter(
+        (item) => item.productId !== action.payload
+      )
+      localStorage.setItem('cart', JSON.stringify(state))
     },
 
     updateQuantity: (
       state,
       action: PayloadAction<{ _id: string; quantity: number }>
     ) => {
-      const item = state.items.find((item) => item._id === action.payload._id)
+      const item = state.products.find(
+        (item) => item.productId === action.payload._id
+      )
       if (item) {
         item.quantity = action.payload.quantity
       }
-      localStorage.setItem('cart', JSON.stringify(state.items))
+      localStorage.setItem('cart', JSON.stringify(state))
     },
 
     clearCart: (state) => {
-      state.items = []
-      localStorage.removeItem('cart')
+      state.products = []
+      localStorage.setItem('cart', JSON.stringify(state))
     },
   },
 })
 
-export const { addToCart, removeFromCart, updateQuantity, clearCart } =
-  cartSlice.actions
+export const {
+  addToCart,
+  removeFromCart,
+  updateQuantity,
+  clearCart,
+  setUserId,
+} = cartSlice.actions
 export default cartSlice.reducer

@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "@/redux/Features/auth/authApi";
 import { TUser } from "@/types/auth.types";
 import { setCredentials } from "@/redux/Features/auth/authSlice";
+import { setUserId } from "@/redux/features/products/cart.api";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -36,40 +37,44 @@ export default function LoginForm() {
 
   const onFinish = async (data: { email: string; password: string }) => {
     try {
-      // console.log('Login attempt with:', data)
       // Use unwrap() to get the actual response data or throw an error
       const result = await login(data).unwrap();
-      // console.log('Login API successful response:', result)
-      // Log the entire response structure to help debugging
-      // console.log('Full response structure:', result)
-      // Try to find the access token in different possible locations
+
+      console.log("Full login response:", result);
+
+      // Get the token
       let token: string | undefined;
-      // Check for common token locations in API responses
       if (result.data?.token) {
         token = result.data.token;
       } else if (result.token) {
         token = result.token;
-      } else if (typeof result === "string") {
-        token = result;
       } else if (typeof result.data === "string") {
         token = result.data;
       }
-      // console.log('Access token extracted:', accessToken)
-      // console.log('Access token type:', typeof accessToken)
 
       if (!token || typeof token !== "string") {
         console.error("Invalid token format received from server");
         toast.error("Authentication error: Invalid token format");
         return;
       }
+
       try {
+        // Decode the token to get user data
         const user = verifyToken(token) as TUser;
-        // Log user data to console
-        // console.log('User data after login:', {
-        //   user,
-        //   token: accessToken,
-        //   fullResponse: result,
-        // })
+        console.log("Decoded user from token:", user);
+
+        // Extract userId from the decoded token
+        // The token likely contains userId instead of _id based on your response
+        // Check both to be safe
+        const userId = user.userId || user._id;
+
+        if (userId) {
+          dispatch(setUserId(userId));
+          console.log("Set userId in cart from token:", userId);
+        } else {
+          console.error("No userId found in decoded token");
+        }
+
         toast.success(result.message || "Login successful");
         dispatch(
           setCredentials({
@@ -82,18 +87,19 @@ export default function LoginForm() {
         console.error("Token verification error:", tokenError);
         toast.error("Authentication error: Could not verify token");
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      console.error("Login error details:", error);
-      // Handle specific API error responses
-      if (error.status === 401) {
-        toast.error("Invalid email or password");
-      } else if (error.status === 404) {
-        toast.error("API endpoint not found");
-      } else if (error.data?.message) {
-        toast.error(error.data.message);
+    } catch (error: unknown) {
+      console.error("Login error:", error);
+      if (typeof error === "object" && error !== null && "status" in error) {
+        const apiError = error as { status: number };
+        if (apiError.status === 400) {
+          toast.error("Invalid email or password");
+        } else if (apiError.status === 401) {
+          toast.error("Unauthorized access");
+        } else {
+          toast.error("An unexpected error occurred");
+        }
       } else {
-        toast.error("Failed to login. Please try again.");
+        toast.error("An unexpected error occurred");
       }
     }
   };

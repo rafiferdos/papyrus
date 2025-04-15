@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Pencil } from "lucide-react";
+import { CheckIcon, PencilIcon, XIcon } from "lucide-react";
 import { useCurrentUser } from "@/redux/Features/auth/authSlice";
 import { useAppSelector } from "@/redux/hooks";
 import userAvatar from "../../assets/user.png";
@@ -24,8 +23,8 @@ const fields = [
 ];
 
 export default function MyProfilePage() {
-  const { userId }: string | any = useAppSelector(useCurrentUser);
-
+  const currentUser = useAppSelector(useCurrentUser);
+  const userId = currentUser?.userId;
   const { data, isLoading } = useGetUserQuery(userId, {
     skip: !userId,
   });
@@ -68,67 +67,150 @@ export default function MyProfilePage() {
     setEditField(null);
   };
 
+  const handleCancel = () => {
+    setFormData(user);
+    setEditField(null);
+  };
+
   if (isLoading) {
-    return <p className="text-center">Loading profile...</p>;
+    return (
+      <div className="w-full h-[70vh] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-8 space-y-10 mt-28">
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-8 mt-16 sm:mt-20">
+      <div className="flex flex-col space-y-2 mb-8 mx-auto w-56">
+        <h1 className="text-4xl font-bold mb-6 text-center">My Profile</h1>
+        <p className="text-muted-foreground text-center">
+          Manage your personal information and preferences.
+        </p>
+      </div>
       {formData && (
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Avatar className="h-20 w-20">
-                  <AvatarImage src={userAvatar} />
-                  <AvatarFallback>{user?.name}</AvatarFallback>
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+          {/* Left Column - Profile Summary */}
+          <Card className="lg:col-span-2 h-fit dark:bg-gray-800/60">
+            <CardContent className="p-6">
+              <div className="flex flex-col items-center text-center space-y-4">
+                <Avatar className="h-32 w-32 border-4 border-background dark:border-gray-700 shadow-sm">
+                  <AvatarImage src={userAvatar} alt={user.name} />
+                  <AvatarFallback className="bg-primary/10 text-primary dark:bg-primary/20 text-2xl">
+                    {user.name
+                      ?.split(" ")
+                      .map((n: string) => n[0])
+                      .join("")
+                      .toUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
-                <div>
-                  <h2 className="text-2xl font-semibold">{user?.name}</h2>
-                  <p className="text-gray-500">{user?.email}</p>
+
+                <div className="space-y-1">
+                  <h2 className="text-2xl font-bold dark:text-white">
+                    {user.name}
+                  </h2>
+                  <p className="text-muted-foreground">{user.email}</p>
+                </div>
+
+                <div className="w-full pt-4 border-t border-border dark:border-gray-700">
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="text-left space-y-1">
+                      <p className="text-muted-foreground">Location</p>
+                      <p className="font-medium dark:text-gray-200">
+                        {user.city || "Not set"}
+                      </p>
+                    </div>
+                    <div className="text-left space-y-1">
+                      <p className="text-muted-foreground">Contact</p>
+                      <p className="font-medium dark:text-gray-200">
+                        {user.phone || "Not set"}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </CardHeader>
-          <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {fields.map((field) => (
-              <div key={field.name} className="space-y-1 relative">
-                <Label htmlFor={field.name} className="mb-4">
-                  {field.label}
-                </Label>
-                {editField === field.name ? (
-                  <Input
-                    name={field.name}
-                    value={formData[field.name] || ""}
-                    onChange={handleChange}
-                    autoFocus
-                  />
-                ) : (
-                  <p className="p-2 border rounded bg-gray-500 text-sm">
-                    {formData[field.name] || "Not set"}
-                  </p>
-                )}
-                {field.name === "email" ? (
-                  ""
-                ) : (
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="absolute right-0 top-8 cursor-pointer"
-                    onClick={() => setEditField(field.name)}
-                  >
-                    <Pencil className="h-4 w-4" />
-                  </Button>
-                )}
+            </CardContent>
+          </Card>
+
+          {/* Right Column - Editable Fields */}
+          <Card className="lg:col-span-3 dark:bg-gray-800/60">
+            <CardContent className="p-6">
+              <h3 className="text-lg font-medium mb-6 dark:text-white">
+                Personal Information
+              </h3>
+              <div className="space-y-5">
+                {fields.map((field) => (
+                  <div key={field.name} className="relative">
+                    <div className="flex flex-wrap justify-between items-center mb-2">
+                      <Label
+                        htmlFor={field.name}
+                        className="text-sm font-medium dark:text-gray-300"
+                      >
+                        {field.label}
+                      </Label>
+
+                      {field.name !== "email" && !editField && (
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="ghost"
+                          className="h-8 px-2 text-muted-foreground hover:text-primary"
+                          onClick={() => setEditField(field.name)}
+                        >
+                          <PencilIcon className="h-3.5 w-3.5 mr-1" />
+                          <span className="text-xs">Edit</span>
+                        </Button>
+                      )}
+                    </div>
+
+                    {editField === field.name ? (
+                      <div className="flex gap-2">
+                        <Input
+                          id={field.name}
+                          name={field.name}
+                          value={formData[field.name] || ""}
+                          onChange={handleChange}
+                          className="flex-1 dark:bg-gray-900/50 dark:border-gray-700 dark:text-white"
+                          autoFocus
+                        />
+                        <div className="flex gap-1">
+                          <Button
+                            type="button"
+                            size="icon"
+                            variant="outline"
+                            className="h-9 w-9 text-green-600 dark:text-green-500 border-green-200 dark:border-green-800/50"
+                            onClick={handleSave}
+                          >
+                            <CheckIcon className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            type="button"
+                            size="icon"
+                            variant="outline"
+                            className="h-9 w-9 text-red-600 dark:text-red-500 border-red-200 dark:border-red-800/50"
+                            onClick={handleCancel}
+                          >
+                            <XIcon className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="p-3 rounded-md bg-muted/50 dark:bg-gray-900/30 border border-border dark:border-gray-800">
+                        <p className="dark:text-gray-200">
+                          {formData[field.name] || (
+                            <span className="text-muted-foreground italic">
+                              Not provided
+                            </span>
+                          )}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
-            ))}
-            {editField && (
-              <div className="col-span-full flex justify-end">
-                <Button onClick={handleSave}>Save Changes</Button>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   );

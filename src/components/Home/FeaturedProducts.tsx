@@ -1,9 +1,9 @@
-import { useGetAllProductDataQuery } from '@/redux/Features/productManagement/productApi'
+import { useGetAllProductDataQuery } from '@/redux/features/products/productApi'
 import { SkeletonCard } from '../Skeletons/SkeletonCard'
-import { TProduct } from '../AllProducts/AllProducts'
-import OneProduct from '../AllProducts/OneProduct'
 import { Button } from '../ui/button'
 import { Link } from 'react-router-dom'
+import { TProduct } from '../product/AllProducts'
+import ProductCard from '../ProductCard/ProductCard'
 
 const FeaturedProducts = () => {
   const { data: response, isLoading } = useGetAllProductDataQuery('')
@@ -33,9 +33,13 @@ const FeaturedProducts = () => {
             </div>
           ) : (
             // show latest 6 products
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-              {products?.slice(-6).map((product: TProduct) => (
-                <OneProduct key={product._id} product={product} />
+              <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+                {
+                  // just console products
+                   console.log(products.result)
+                }
+                {products?.result?.slice(-6).map((product: TProduct) => (
+                <ProductCard key={product._id} product={product} />
               ))}
             </div>
           )}
