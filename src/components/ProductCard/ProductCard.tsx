@@ -21,7 +21,6 @@ type ProductCardProps = {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { _id, name, price, image, quantity, brand, createdAt, updatedAt } =
     product;
-  console.log(product);
   const isInStock = quantity > 0;
   const dicountPrice = +(product?.price * 2).toFixed(2);
 
@@ -83,11 +82,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 </div>
               </div>
             </div>
-            <Link to={`/products/${_id}`}>
+      
               <Button variant={"primary"} className="w-full  mt-3">
                 View Details
               </Button>
-            </Link>
+      
           </div>
         </div>
       </div>

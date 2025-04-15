@@ -81,7 +81,7 @@ export default function MyProfilePage() {
   }
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-8 mt-16 sm:mt-20">
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-8 mt-8 sm:mt-20">
       <div className="flex flex-col space-y-2 mb-8 mx-auto w-56">
         <h1 className="text-4xl font-bold mb-6 text-center">My Profile</h1>
         <p className="text-muted-foreground text-center">

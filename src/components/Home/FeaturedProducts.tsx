@@ -1,4 +1,4 @@
-import { useGetAllProductDataQuery } from '@/redux/features/products/productApi'
+import { useGetAllProductDataQuery } from '@/redux/Features/products/productApi'
 import { SkeletonCard } from '../Skeletons/SkeletonCard'
 import { Button } from '../ui/button'
 import { Link } from 'react-router-dom'
@@ -34,10 +34,6 @@ const FeaturedProducts = () => {
           ) : (
             // show latest 6 products
               <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-                {
-                  // just console products
-                   console.log(products.result)
-                }
                 {products?.result?.slice(-6).map((product: TProduct) => (
                 <ProductCard key={product._id} product={product} />
               ))}

@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Link, useNavigate } from "react-router-dom";
-import { useRegisterMutation } from "@/redux/features/auth/authApi";
+import { useRegisterMutation } from "@/redux/Features/auth/authApi";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -51,8 +51,8 @@ export default function RegisterForm() {
 
       if (error.status === 409) {
         toast.error("Email already exists. Please use a different email.");
-      } else if (error.data?.message) {
-        toast.error(error.data.message);
+      } else if (error?.data?.message) {
+        toast.error(error?.data?.message);
       } else {
         toast.error("Registration failed. Please try again.");
       }

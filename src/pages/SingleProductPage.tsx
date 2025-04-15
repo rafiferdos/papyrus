@@ -1,4 +1,4 @@
-import { useGetOneProductDataQuery } from '@/redux/features/products/productApi'
+import { useGetOneProductDataQuery } from '@/redux/Features/products/productApi'
 import { useParams } from 'react-router-dom'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'

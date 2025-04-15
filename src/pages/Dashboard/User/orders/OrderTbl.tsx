@@ -40,6 +40,8 @@ const OrderTbl = ({ orders }: Props) => {
     });
   };
 
+
+
   return (
     <div className="border rounded-lg overflow-hidden">
       <Table className="min-w-full">
@@ -59,7 +61,7 @@ const OrderTbl = ({ orders }: Props) => {
         </TableHeader>
 
         {/* End Table Header */}
-
+    
         <TableBody>
           {orders.map((order, index) => (
             <TableRow key={order._id} className="hover:bg-gray-50">
@@ -80,10 +82,11 @@ const OrderTbl = ({ orders }: Props) => {
                   </span>
                 </div>
               </TableCell>
-
+            
               <TableCell className="px-4 py-3">
                 <div className="flex flex-col space-y-2">
                   {order?.products?.map((product) => (
+                     
                     <div
                       key={product?._id}
                       className="flex items-center space-x-2"
@@ -94,6 +97,7 @@ const OrderTbl = ({ orders }: Props) => {
                           alt={product?.productId?.name}
                           className="rounded-md object-cover h-full w-full"
                         />
+                   
                       </div>
                       <span>{product?.productId?.name}</span>
                     </div>

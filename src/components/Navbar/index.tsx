@@ -32,12 +32,15 @@ import {
   useCurrentToken,
   useCurrentUser,
 } from "@/redux/Features/auth/authSlice";
+import { useGetUserQuery } from "@/redux/Features/userApi";
 
 export default function Navbar() {
   const location = useLocation();
   const dispatch = useDispatch();
   const token = useSelector(useCurrentToken);
   const user = useSelector(useCurrentUser);
+  const userData= useGetUserQuery(user?._id)
+  const userName = userData?.data?.data?.name
 
   const navigate = useNavigate();
 
@@ -54,12 +57,12 @@ export default function Navbar() {
     { name: "Home", href: "/" },
     { name: "Products", href: "/products" },
     { name: "About", href: "/about" },
-    {
-      name: "Dashboard",
-      href: `${
-        isAdmin ? "/dashboard/admin/manage-users" : "/dashboard/user/profile"
-      }`,
-    },
+    // {
+    //   name: "Dashboard",
+    //   href: `${
+    //     isAdmin ? "/dashboard/admin/manage-users" : "/dashboard/user/profile"
+    //   }`,
+    // },
   ];
 
   const handleLogout = () => {
@@ -244,7 +247,9 @@ export default function Navbar() {
             {token ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button
+                 <div className="flex justify-center items-center">
+                 <p className="mr-2.5 cursor-pointer">{userName}</p>
+                   <Button
                     variant="ghost"
                     size="icon"
                     className="rounded-full h-8 w-8 p-0"
@@ -255,15 +260,10 @@ export default function Navbar() {
                       </AvatarFallback>
                     </Avatar>
                   </Button>
+               </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem asChild>
-                    <Link to="/profile" className="cursor-pointer">
-                      <User className="mr-2 h-4 w-4" />
-                      Profile
-                    </Link>
-                  </DropdownMenuItem>
-                  {isAdmin && (
+                  {isAdmin ? (
                     <DropdownMenuItem asChild>
                       <Link
                         to="/dashboard/admin/manage-users"
@@ -271,6 +271,13 @@ export default function Navbar() {
                       >
                         <User className="mr-2 h-4 w-4" />
                         Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                  ) : (
+                    <DropdownMenuItem asChild>
+                      <Link to="/dashboard/user/profile" className="cursor-pointer">
+                        <User className="mr-2 h-4 w-4" />
+                        Profile
                       </Link>
                     </DropdownMenuItem>
                   )}
