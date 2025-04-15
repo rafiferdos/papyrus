@@ -59,7 +59,7 @@ const productApi = baseApi.injectEndpoints({
 
     getMultipleProducts: builder.query<TResponse<TProduct[]>, string[]>({
       query: (ids) => ({
-        url: '/products/multiple',
+        url: '/product/multiple',
         method: 'POST',
         body: { ids },
       }),
