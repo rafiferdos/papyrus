@@ -86,7 +86,7 @@ const ManageOrderTbl = ({ orders, onStatusChange }: Props) => {
         </TableHeader>
         <TableBody>
           {orders.map((order, index) => (
-            <TableRow key={order._id} className="hover:bg-gray-50">
+            <TableRow key={order._id} className="hover:bg-gray-700">
               <TableCell className="px-4 py-3 font-medium">
                 {index + 1}
               </TableCell>

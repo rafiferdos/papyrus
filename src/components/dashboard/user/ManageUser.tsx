@@ -104,7 +104,7 @@ const ManageUser = ({ users, refetch }: TUserProps) => {
       ),
     },
     {
-      accessorKey: "role",
+      accessorKey: "status",
       header: () => <div className="text-center">Deactivate/Active</div>,
       cell: ({ row }) => (
         <span

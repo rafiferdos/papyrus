@@ -9,11 +9,11 @@ const ManageOrders = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const token = localStorage.getItem("token");
-
         if (!token) {
           throw new Error("Authentication token not found");
         }
@@ -34,11 +34,12 @@ const ManageOrders = () => {
           }
           throw new Error(`Failed to fetch orders: ${response.statusText}`);
         }
-
         const data = await response.json();
+
         setOrders(data.data);
       } catch (err: any) {
         setError(err.message);
+
         toast.error(err.message);
       } finally {
         setLoading(false);
@@ -46,14 +47,14 @@ const ManageOrders = () => {
     };
 
     fetchOrders();
-  }, []);
+  }, [token]);
 
   const handleStatusChange = async (
     orderId: string,
     newStatus: TOrderStatus
   ) => {
     try {
-      const token = localStorage.getItem("token");
+      // const token = localStorage.getItem("token");
       if (!token) {
         throw new Error("Authentication token not found");
       }

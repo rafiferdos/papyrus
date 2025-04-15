@@ -29,7 +29,6 @@ const ManageProductTbl = ({ products }: TProductsProps) => {
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
   const handleDelete = (data: TProduct) => {
-    console.log(data, selectedItem);
     setSelectedId(data?._id);
     setSelectedItem(data?.name);
     setModalOpen(true);

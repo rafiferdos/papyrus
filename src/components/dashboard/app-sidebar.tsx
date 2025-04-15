@@ -14,11 +14,12 @@ export function AppSidebar({
     name: "shadcn",
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
+    role: "user | Admin",
   },
   ...props
 }: {
   userRole: "admin" | "user";
-  userData: { name: string; email: string; avatar: string };
+  userData: { name: string; email: string; avatar: string; role: string };
 } & React.ComponentProps<typeof Sidebar>) {
   const navItems = getNavItems(userRole === "admin" ? "admin" : "user");
 

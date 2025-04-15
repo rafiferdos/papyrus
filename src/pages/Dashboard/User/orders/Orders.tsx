@@ -1,141 +1,76 @@
-import { usersData } from "@/components/dashboard/user/userData";
-// import DeleteConfirmationModal from "@/components/ui/core/PModal/DeleteConfirmationModal";
-import { PTable } from "@/components/ui/core/PTable";
-import { TUser } from "@/types";
-
-import { ColumnDef } from "@tanstack/react-table";
-
-// import { useState } from "react";
-
-// import { toast } from "sonner";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from "react";
+import { TOrder } from "@/types/order";
+import { toast } from "sonner";
+import OrderTbl from "./OrderTbl";
 
 const Orders = () => {
-  // const [isModalOpen, setModalOpen] = useState(false);
-  // const [selectedId, setSelectedId] = useState<string | null>(null);
-  // const [selectedItem, setSelectedItem] = useState<string | null>(null);
+  const [orders, setOrders] = useState<TOrder[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // const handleDelete = (data: TUser) => {
-  //   setSelectedId(data?._id);
-  //   setSelectedItem(data?.name);
-  //   setModalOpen(true);
-  // };
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const token = localStorage.getItem("token");
 
-  // const handleUpdate = (data: TUser) => {
-  //   setSelectedId(data?._id);
-  //   setSelectedItem(data?.name);
-  // };
+        if (!token) {
+          throw new Error("Authentication token not found");
+        }
 
-  // const handleDeleteConfirm = async () => {
-  //   try {
-  //     if (selectedId) {
-  //       const res = await deleteListing(selectedId);
-  //       if (res.status) {
-  //         toast.success(res.message);
-  //         setModalOpen(false);
-  //       } else {
-  //         toast.error(res.message);
-  //       }
-  //     }
-  //     console.log(selectedId);
-  //   } catch (err: any) {
-  //     console.error(err?.message);
-  //   }
-  // };
+        const response = await fetch(
+          "https://papyrus-server-lovat.vercel.app/api/order/byUser",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-  const columns: ColumnDef<TUser>[] = [
-    {
-      accessorKey: "slNumber",
-      header: () => <div className="">Serial Number</div>,
-      cell: ({ row }) => <span className="truncate">{row.index + 1}</span>,
-    },
-    {
-      accessorKey: "img",
-      header: () => <div>Image</div>,
-      cell: ({ row }) => (
-        <div>
-          <img
-            src={row?.original?.images}
-            alt={row?.original?.name}
-            width={40}
-            height={40}
-            className="w-8 h-8 rounded-full"
-          />
-        </div>
-      ),
-    },
-    {
-      accessorKey: "items",
-      header: () => <div>Items</div>,
-      cell: ({ row }) => (
-        <span className="truncate">{row?.original?.availability}</span>
-      ),
-    },
-    {
-      accessorKey: "status",
-      header: () => <div>Payment</div>,
-      cell: ({ row }) => (
-        <div>
-          {row?.original?.status === "available" ? (
-            <p className="text-green-500 border bg-green-100 w-20 text-center px-2 rounded">
-              {row?.original?.status}
-            </p>
-          ) : (
-            <p className="text-red-500 border bg-red-100 w-14 text-center px-1 rounded">
-              {row?.original?.status}
-            </p>
-          )}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "price",
-      header: () => <div>Total</div>,
-      cell: ({ row }) => (
-        <span className="truncate">${row?.original?.price}</span>
-      ),
-    },
-    // {
-    //   accessorKey: "action",
-    //   header: () => <div className="text-center">Action</div>,
-    //   cell: ({ row }) => (
-    //     <div className="flex justify-center items-center gap-6">
-    //       <button
-    //         onClick={() => handleUpdate(row.original)}
-    //         className="text-emerald-500"
-    //         title="edit listing"
-    //       >
-    //         <Link to={`/user/listings/${row.original._id}`}>
-    //           <Edit className="w-5 h-5" />
-    //         </Link>
-    //       </button>
-    //       <button
-    //         className="text-red-500"
-    //         title="Delete"
-    //         onClick={() => handleDelete(row.original)}
-    //       >
-    //         <Trash2 className="w-5 h-5 cursor-pointer" />
-    //       </button>
-    //     </div>
-    //   ),
-    // },
-  ];
+        if (!response.ok) {
+          if (response.status === 401) {
+            throw new Error("Unauthorized - Please login again");
+          }
+          throw new Error(`Failed to fetch orders: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        setOrders(data?.data);
+      } catch (err: any) {
+        setError(err.message);
+
+        toast.error(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <p>Loading orders...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
+
   return (
-    <>
-      <p className="my-6 text-xl">Total Orders : 09</p>
-
-      {/* {listings.length > 0 ? (
-            <TthTable data={listings} columns={columns} />
-          ) : (
-            "No Listings Available"
-          )} */}
-      {<PTable data={usersData} columns={columns} />}
-      {/* <DeleteConfirmationModal
-        name={selectedItem}
-        isOpen={isModalOpen}
-        onOpenChange={setModalOpen}
-        onConfirm={handleDeleteConfirm}
-      /> */}
-    </>
+    <div className="container mx-auto py-8">
+      <h1 className="text-2xl font-bold mb-8 text-center">Manage Orders</h1>
+      <OrderTbl orders={orders} />
+    </div>
   );
 };
 
