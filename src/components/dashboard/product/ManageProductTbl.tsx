@@ -56,23 +56,6 @@ const ManageProductTbl = ({ products }: TProductsProps) => {
           toast.error(res.data.message || "Failed to delete product");
         }
       }
-
-      // const response = await fetch(
-      //   `https://papyrus-server-lovat.vercel.app/api/product/${selectedId}`,
-      //   {
-      //     method: "DELETE",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Authorization:
-      //         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2ZiYzBmZDg2NTMwOTg0MjU3YTNkMTAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NDQ1NzM4OTUsImV4cCI6MTc0NDU5MTg5NX0.GSfmkOE3kP4HjyTePSOi9INnrtVI2FxIf5eXAfUWLZU",
-      //     },
-      //   }
-      // );
-      // const data = await response.json();
-      // console.log("Fetch response:", data);
-      // if (data.success) {
-      //   toast.success("delete product");
-      // }
     } catch (err: any) {
       console.error("Delete error:", err); // বিস্তারিত এরর লগ
       toast.error(err.data?.message || err.message || "Deletion failed");
