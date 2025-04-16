@@ -1,10 +1,10 @@
-import { useGetOneProductDataQuery } from '@/redux/features/products/productApi'
+import { useGetOneProductDataQuery } from '@/redux/Features/products/productApi'
 import { useParams } from 'react-router-dom'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { motion } from 'motion/react'
 import { useDispatch } from 'react-redux'
-import { addToCart } from '@/redux/features/products/cart.api'
+import { addToCart } from '@/redux/Features/products/cart.api'
 import { Check, ShoppingCart, AlertTriangle, X } from 'lucide-react'
 import { ScrollReveal } from '@/components/ScrollReveal'
 import { Separator } from '@/components/ui/separator'
@@ -36,8 +36,8 @@ const SingleProduct: React.FC = () => {
           transition={{ duration: 0.5 }}
           className='text-center'
         >
-          <AlertTriangle className='h-16 w-16 text-red-500 mx-auto mb-4' />
-          <h2 className='text-4xl font-semibold text-gray-800 mb-2'>
+          <AlertTriangle className='w-16 h-16 mx-auto mb-4 text-red-500' />
+          <h2 className='mb-2 text-4xl font-semibold text-gray-800'>
             Error Loading Product
           </h2>
           <p className='text-lg text-gray-600'>Please try again later.</p>
@@ -65,8 +65,8 @@ const SingleProduct: React.FC = () => {
           transition={{ duration: 0.5 }}
           className='text-center'
         >
-          <AlertTriangle className='h-16 w-16 text-red-500 mx-auto mb-4' />
-          <h2 className='text-3xl font-semibold text-gray-800 mb-2'>
+          <AlertTriangle className='w-16 h-16 mx-auto mb-4 text-red-500' />
+          <h2 className='mb-2 text-3xl font-semibold text-gray-800'>
             Product Not Found
           </h2>
           <p className='text-lg text-gray-600'>
@@ -157,24 +157,24 @@ const SingleProduct: React.FC = () => {
   }
 
   return (
-    <div className='container mx-auto py-8 md:py-16 mt-20'>
-      <div className='grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-16'>
+    <div className='container py-8 mx-auto mt-20 md:py-16'>
+      <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 md:gap-16'>
         <ScrollReveal direction='left' delay={0.2} distance={50}>
           <motion.div
-            className='rounded-lg overflow-hidden bg-white shadow-xl hover:shadow-2xl transition-all relative aspect-square'
+            className='relative overflow-hidden transition-all bg-white rounded-lg shadow-xl hover:shadow-2xl aspect-square'
             initial={{ opacity: 0 }}
             animate={{ opacity: imageLoaded ? 1 : 0 }}
             transition={{ duration: 0.5 }}
           >
             {!imageLoaded && (
               <div className='absolute inset-0 flex items-center justify-center bg-muted/20'>
-                <div className='w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin'></div>
+                <div className='w-12 h-12 border-4 rounded-full border-primary border-t-transparent animate-spin'></div>
               </div>
             )}
             <img
               src={product.image}
               alt={product.name}
-              className='w-full h-full object-cover hover:scale-105 transition-transform'
+              className='object-cover w-full h-full transition-transform hover:scale-105'
               onLoad={() => setImageLoaded(true)}
               onError={(e) => {
                 e.currentTarget.src =
@@ -193,7 +193,7 @@ const SingleProduct: React.FC = () => {
             transition={{ duration: 0.5 }}
           >
             <div className='flex items-center justify-between gap-4'>
-              <h1 className='text-4xl font-medium  '>{product.name}</h1>
+              <h1 className='text-4xl font-medium '>{product.name}</h1>
               <Badge variant='secondary' className='text-md'>
                 {product.brand}
               </Badge>
@@ -210,11 +210,11 @@ const SingleProduct: React.FC = () => {
               >
                 {product.inStock ? (
                   <span className='flex items-center gap-1 text-green-500'>
-                    <Check className='h-4 w-4' /> In Stock
+                    <Check className='w-4 h-4' /> In Stock
                   </span>
                 ) : (
                   <span className='flex items-center gap-1 text-white'>
-                    <X className='h-4 w-4' />
+                    <X className='w-4 h-4' />
                     Out of Stock
                   </span>
                 )}
@@ -222,24 +222,24 @@ const SingleProduct: React.FC = () => {
               <Badge className='text-sm'>{product.category}</Badge>
             </div>
 
-            {/* <div className="text-4xl font-semibold flex items-center gap-1 text-gray-200">
+            {/* <div className="flex items-center gap-1 text-4xl font-semibold text-gray-200">
               ৳<TextScramble>{product.price.toString()}</TextScramble>
             </div> */}
 
             <div className='flex items-center justify-between mt-2'>
               <div className='text-2xl font-bold'>
-                <div className='flex flex-col sm:flex-row gap-1 sm:items-center'>
+                <div className='flex flex-col gap-1 sm:flex-row sm:items-center'>
                   <span className='text-pink-600'>
                     ${product?.price.toFixed(2)}
                   </span>
-                  <span className='text-sm line-through text-gray-400'>
+                  <span className='text-sm text-gray-400 line-through'>
                     ${dicountPrice}
                   </span>
                 </div>
               </div>
             </div>
 
-            <p className='text-lg text-gray-400 leading-relaxed'>
+            <p className='text-lg leading-relaxed text-gray-400'>
               {product.description}
             </p>
             <Separator />
@@ -250,19 +250,19 @@ const SingleProduct: React.FC = () => {
                   <Button
                     variant='outline'
                     size='icon'
-                    className='h-8 w-8 rounded-r-none cursor-pointer'
+                    className='w-8 h-8 rounded-r-none cursor-pointer'
                     onClick={() => quantity > 1 && setQuantity(quantity - 1)}
                     disabled={quantity <= 1}
                   >
                     -
                   </Button>
-                  <div className='h-8 px-4 flex items-center justify-center border-y'>
+                  <div className='flex items-center justify-center h-8 px-4 border-y'>
                     {quantity}
                   </div>
                   <Button
                     variant='outline'
                     size='icon'
-                    className='h-8 w-8 rounded-l-none cursor-pointer'
+                    className='w-8 h-8 rounded-l-none cursor-pointer'
                     onClick={() =>
                       quantity < product.quantity && setQuantity(quantity + 1)
                     }
@@ -278,12 +278,12 @@ const SingleProduct: React.FC = () => {
 
               <Button
                 size='lg'
-                className=' px-4 py-2 '
+                className='px-4 py-2 '
                 variant='primary'
                 onClick={handleAddToCart}
                 disabled={!product.inStock}
               >
-                <ShoppingCart className='mr-2 h-5 w-5' />
+                <ShoppingCart className='w-5 h-5 mr-2' />
                 Add to Cart
               </Button>
             </div>

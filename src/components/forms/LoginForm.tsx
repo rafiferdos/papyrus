@@ -39,9 +39,6 @@ export default function LoginForm() {
     try {
       // Use unwrap() to get the actual response data or throw an error
       const result = await login(data).unwrap();
-
-      console.log("Full login response:", result);
-
       // Get the token
       let token: string | undefined;
       if (result.data?.token) {
@@ -51,56 +48,33 @@ export default function LoginForm() {
       } else if (typeof result.data === "string") {
         token = result.data;
       }
-
       if (!token || typeof token !== "string") {
-        console.error("Invalid token format received from server");
         toast.error("Authentication error: Invalid token format");
         return;
       }
-
-      try {
-        // Decode the token to get user data
-        const user = verifyToken(token) as TUser;
-        console.log("Decoded user from token:", user);
-
-        // Extract userId from the decoded token
-        // The token likely contains userId instead of _id based on your response
-        // Check both to be safe
-        const userId = user.userId || user._id;
-
-        if (userId) {
-          dispatch(setUserId(userId));
-          console.log("Set userId in cart from token:", userId);
-        } else {
-          console.error("No userId found in decoded token");
-        }
-
-        toast.success(result.message || "Login successful");
-        dispatch(
-          setCredentials({
-            user: user,
-            token: token,
-          })
-        );
-        navigate("/");
-      } catch (tokenError) {
-        console.error("Token verification error:", tokenError);
-        toast.error("Authentication error: Could not verify token");
-      }
-    } catch (error: unknown) {
-      console.error("Login error:", error);
-      if (typeof error === "object" && error !== null && "status" in error) {
-        const apiError = error as { status: number };
-        if (apiError.status === 400) {
-          toast.error("Invalid email or password");
-        } else if (apiError.status === 401) {
-          toast.error("Unauthorized access");
-        } else {
-          toast.error("An unexpected error occurred");
-        }
+      // Decode the token to get user data
+      const user = verifyToken(token) as TUser;
+      // Extract userId from the decoded token
+      // The token likely contains userId instead of _id based on your response
+      // Check both to be safe
+      const userId = user.userId || user._id;
+      if (userId) {
+        dispatch(setUserId(userId));
+        console.log("Set userId in cart from token:", userId);
       } else {
-        toast.error("An unexpected error occurred");
+        console.error("No userId found in decoded token");
       }
+      dispatch(
+        setCredentials({
+          user: user,
+          token: token,
+        })
+      );
+      toast.success(result.message || "Login successful");
+      navigate("/");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error?.data?.message);
     }
   };
 

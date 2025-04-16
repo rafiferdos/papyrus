@@ -17,7 +17,7 @@ import { ScrollReveal } from '@/components/ScrollReveal'
 const About = () => {
   const [direction, setDirection] = useState(-1)
   return (
-    <div className='container py-12 mx-auto'>
+    <div className='container py-12 mx-auto mt-20'>
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -25,7 +25,7 @@ const About = () => {
         transition={{ duration: 0.5 }}
         className='text-center mb-16'
       >
-        <h1 className='text-4xl md:text-9xl font-bold mb-4 font-charm'>
+        <h1 className='text-4xl md:text-7xl font-bold mb-4 font-charm'>
           <TextLoop
             transition={{
               type: 'spring',

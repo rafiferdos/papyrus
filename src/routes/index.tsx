@@ -17,7 +17,10 @@ import { createBrowserRouter } from "react-router-dom";
 import ShoppingCart from "@/pages/ShoppingCart";
 import Checkout from "@/pages/Checkout";
 import About from "@/pages/About";
-import Profile from "@/pages/Dashboard/User/profile/Profile";
+// import Profile from "@/pages/Dashboard/User/profile/Profile";
+import MyProfilePage from "@/pages/profile/MyProfile";
+import OrderVerification from "@/pages/VerifyOrder";
+import OrderDetails from "@/pages/Order";
 
 const router = createBrowserRouter([
   {
@@ -56,23 +59,29 @@ const router = createBrowserRouter([
         path: "/checkout",
         element: <Checkout />,
       },
+      {
+        path: "/order/verify",
+        element: <OrderVerification />,
+      },
+      {
+        path: "/order",
+        element: <OrderDetails />,
+      },
     ],
   },
+
   //* shoyon add this
   // dashboard
   {
     path: "/dashboard",
-    element: (
-      <PrivateRoute>
-        <DashboardLayout />
-      </PrivateRoute>
-    ),
+    element: <DashboardLayout />,
     // errorElement: <ErrorElement />,
     children: [
-      { path: "/dashboard/home", element: <DashboardHome /> },
+      { index: true, element: <DashboardHome /> },
+      // { path: "home", element: <DashboardHome /> },
       //! admin route
       {
-        path: "/dashboard/admin/manage-orders",
+        path: "admin/manage-orders",
         element: (
           <PrivateRoute requireAdmin={true}>
             <ManageOrders />
@@ -83,7 +92,7 @@ const router = createBrowserRouter([
       },
       // end orders
       {
-        path: "/dashboard/admin/manage-products",
+        path: "admin/manage-products",
         element: (
           <PrivateRoute requireAdmin={true}>
             <ManageProducts />
@@ -91,7 +100,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard/admin/add-product",
+        path: "admin/add-product",
         element: (
           <PrivateRoute requireAdmin={true}>
             <AddProduct />
@@ -99,10 +108,10 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard/admin/update-product/:productId",
+        path: "admin/update-product/:productId",
         element: (
           <PrivateRoute requireAdmin={true}>
-            <UpdateProduct />,
+            <UpdateProduct />
           </PrivateRoute>
         ),
         loader: ({ params }) =>
@@ -111,60 +120,16 @@ const router = createBrowserRouter([
           ),
       },
       // end products
-      { path: "/dashboard/admin/manage-users", element: <ManageUsers /> },
+      { path: "admin/manage-users", element: <ManageUsers /> },
       // user
       //! user route
       { path: "/dashboard/user/orders", element: <Orders /> },
-      { path: "/dashboard/user/profile", element: <Profile /> },
+      { path: "/dashboard/user/profile", element: <MyProfilePage /> },
       // { path: "/dashboard/user/profile", element: <MyProfilePage /> },
     ],
   },
 ]);
 
-// export default router;
-//       {
-//         path: '/profile',
-//         element: (
-//           <PrivateRoute>
-//             <MyProfile></MyProfile>
-//           </PrivateRoute>
-//         ),
-//       },
-//       // {
-//       //   path: '/login',
-//       //   element: <Login></Login>,
-//       // },
-//       // {
-//       //   path: 'products',
-//       //   element: <AllProductsPage />,
-//       // },
-//       // {
-//       //   path: '/products/:productId',
-//       //   element: <SingleProduct />,
-//       // },
-//       // {
-//       //   path: 'register',
-//       //   element: <Register />,
-//       // },
-//       // {
-//       //   path: 'about',
-//       //   element: <About />,
-//       // },
-//       // {
-//       //   path: 'cart',
-//       //   element: <ShoppingCart />,
-//       // },
-//       // {
-//       //   path: '/checkout',
-//       //   element: <Checkout />,
-//       // },
-//     ],
-//   },
-// ])
-
-//if protectedRoute need use <ProtectedRoute><ProtectedRoute/>
-//if protectedRoute with admin requre need use <ProtectedRoute={true}><ProtectedRoute/>
-//example:
 {
   /* <ProtectedRoute requireAdmin={true}>
 <DashboardLayout />

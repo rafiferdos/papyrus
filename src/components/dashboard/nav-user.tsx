@@ -1,10 +1,10 @@
-import { ChevronsUpDown, LogOut, User } from "lucide-react";
+import { ChevronsUpDown, LogOut } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
+  // DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -19,7 +19,7 @@ import {
 import { useDispatch } from "react-redux";
 import { logout } from "@/redux/Features/auth/authSlice";
 import { toast } from "sonner";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 export function NavUser({
   user,
@@ -83,7 +83,7 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
 
-            {user?.role === "user" && (
+            {/* {user?.role === "user" && (
               <Link to="/dashboard/user/profile">
                 <DropdownMenuGroup>
                   <DropdownMenuItem>
@@ -93,7 +93,7 @@ export function NavUser({
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
               </Link>
-            )}
+            )} */}
 
             <DropdownMenuItem className="bg-rose-500" onClick={handleLogout}>
               <LogOut />

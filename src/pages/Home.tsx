@@ -1,13 +1,10 @@
 
-// import Banner from '@/components/Home/Banner'
-// import FeaturedProducts from '@/components/Home/FeaturedProducts'
 import Banner from '@/components/Home/Banner'
 import FeaturedProducts from '@/components/Home/FeaturedProducts'
+import NewsletterSignup from '@/components/Home/NewsletterSignup'
 import Testimonials from '@/components/Home/Testimonials'
 import { ScrollReveal } from '@/components/ScrollReveal'
 import { motion } from 'motion/react'
-
-
 
 const Home = () => {
   return (
@@ -20,16 +17,16 @@ const Home = () => {
       >
         <Banner />
       </motion.section>
-
       {/* Featured Products - appears on scroll */}
       <ScrollReveal direction='up' distance={40}>
         <FeaturedProducts />
       </ScrollReveal>
-
       {/* Testimonials - appears on scroll */}
       <ScrollReveal direction='up' distance={40} delay={0.2}>
         <Testimonials />
       </ScrollReveal>
+      {/* NewsletterSignup - appears on scroll */}
+      <NewsletterSignup></NewsletterSignup>
     </div>
   )
 }

@@ -22,9 +22,6 @@ const DashboardLayout = () => {
   });
   const userData = data?.data;
 
-  if (isLoading) {
-    return <p className="text-center">Loading.....</p>;
-  }
   return (
     <SidebarProvider>
       <AppSidebar userRole={user?.role ?? "user"} userData={userData} />
@@ -43,7 +40,11 @@ const DashboardLayout = () => {
         </header>
         <div className="flex flex-1 flex-col gap-4 pt-4 ">
           <div className="min-h-[100vh] flex-1 rounded bg-muted/50 p-6">
-            <Outlet />
+            {isLoading ? (
+              <p className="text-center">Loading.....</p>
+            ) : (
+              <Outlet />
+            )}
           </div>
         </div>
       </SidebarInset>
