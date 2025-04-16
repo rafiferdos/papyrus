@@ -5,13 +5,13 @@ const orderApi = baseApi.injectEndpoints({
     // Get all order
     getAllOrder: builder.query({
       query: (params) => {
-        const queryString = new URLSearchParams(params).toString();
+        const queryString = new URLSearchParams(params).toString()
         return {
           url: `/orders/all-order-list?${queryString}`,
-          method: "GET",
-        };
+          method: 'GET',
+        }
       },
-      providesTags: ["Orders", "Order"],
+      providesTags: ['Orders', 'Order'],
     }),
 
     // Get my order
@@ -19,10 +19,10 @@ const orderApi = baseApi.injectEndpoints({
       query: () => {
         return {
           url: `/orders/my-order-list`,
-          method: "GET",
-        };
+          method: 'GET',
+        }
       },
-      providesTags: ["Orders", "Order"],
+      providesTags: ['Orders', 'Order'],
     }),
 
     // Get single order
@@ -30,10 +30,10 @@ const orderApi = baseApi.injectEndpoints({
       query: (orderId) => {
         return {
           url: `/orders/single-order/${orderId}`,
-          method: "GET",
-        };
+          method: 'GET',
+        }
       },
-      providesTags: ["Orders", "Order"],
+      providesTags: ['Orders', 'Order'],
     }),
 
     // Get verify order
@@ -42,51 +42,59 @@ const orderApi = baseApi.injectEndpoints({
         return {
           url: `/orders/order-verify`,
           params: { order_id },
-          method: "GET",
-        };
+          method: 'GET',
+        }
       },
-      providesTags: ["Orders", "Order"],
+      providesTags: ['Orders', 'Order'],
     }),
 
     // Create a new order
     createOrder: builder.mutation({
-      query: (products) => ({
-        url: "/order",
-        method: "POST",
-        body: products,
-      }),
-      invalidatesTags: ["Orders", "Order"],
+      query: (orderData) => {
+        // Get token from localStorage
+        const token = localStorage.getItem('token')
+
+        return {
+          url: '/order',
+          method: 'POST',
+          body: orderData,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      },
+      invalidatesTags: ['Order', 'User'],
     }),
 
     // Update a specific order
     updateDeliveryOrder: builder.mutation({
       query: ({ updateData, orderId }) => ({
-        url: "/orders/change-order-status/" + orderId,
-        method: "PATCH",
+        url: '/orders/change-order-status/' + orderId,
+        method: 'PATCH',
         body: updateData,
       }),
-      invalidatesTags: ["Orders", "Order"],
+      invalidatesTags: ['Orders', 'Order'],
     }),
 
     // Delete a specific order by ID
     deleteSingleOrder: builder.mutation({
       query: (id) => ({
         url: `/orders/delete-single-order/${id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
-      invalidatesTags: ["Orders", "Order"],
+      invalidatesTags: ['Orders', 'Order'],
     }),
 
     // Delete all order
     deleteAllOrder: builder.mutation({
       query: () => ({
         url: `/orders/delete-all-order`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
-      invalidatesTags: ["Orders", "Order"],
+      invalidatesTags: ['Orders', 'Order'],
     }),
   }),
-});
+})
 
 export const {
   useGetAllOrderQuery,
