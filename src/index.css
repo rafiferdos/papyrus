@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Charm:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
@@ -114,8 +115,8 @@
 
 
 
-body{
-  font-family: "Roboto", sans-serif;
+.font-charm{
+  font-family: "Merriweather", serif;
 }
 
 @layer base {

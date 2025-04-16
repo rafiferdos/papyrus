@@ -21,11 +21,13 @@ import About from "@/pages/About";
 import MyProfilePage from "@/pages/profile/MyProfile";
 import OrderVerification from "@/pages/VerifyOrder";
 import OrderDetails from "@/pages/Order";
+import ErrorPage from "@/pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
@@ -53,7 +55,7 @@ const router = createBrowserRouter([
       },
       {
         path: "cart",
-        element: <ShoppingCart />,
+        element: <PrivateRoute><ShoppingCart /></PrivateRoute>,
       },
       {
         path: "/checkout",
@@ -75,6 +77,7 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <DashboardLayout />,
+    errorElement: <ErrorPage />,
     // errorElement: <ErrorElement />,
     children: [
       { index: true, element: <DashboardHome /> },

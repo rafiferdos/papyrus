@@ -62,8 +62,8 @@ export default {
         },
       },
       fontFamily: {
-        charm: ['Charm', 'cursive'],
-        roboto: ['Roboto', 'sans-serif']
+        charm: ['Merriweather', 'serif'],
+        roboto: ['Roboto', 'sans-serif'],
       },
     },
   },
