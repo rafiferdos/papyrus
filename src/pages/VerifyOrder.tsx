@@ -9,7 +9,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, AlertCircle } from "lucide-react";
 import { useVerifyOrderQuery } from "@/redux/Features/order/orderApi";
-import { Link, useSearchParams } from "react-router";
+import { Link, useSearchParams } from "react-router-dom";
 import {Skeleton} from "@/components/ui/skeleton";
 
 interface OrderData {
