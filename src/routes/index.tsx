@@ -19,6 +19,8 @@ import Checkout from "@/pages/Checkout";
 import About from "@/pages/About";
 // import Profile from "@/pages/Dashboard/User/profile/Profile";
 import MyProfilePage from "@/pages/profile/MyProfile";
+import OrderVerification from "@/pages/VerifyOrder";
+import OrderDetails from "@/pages/Order";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +58,14 @@ const router = createBrowserRouter([
       {
         path: "/checkout",
         element: <Checkout />,
+      },
+      {
+        path: "/order/verify",
+        element: <OrderVerification />,
+      },
+      {
+        path: "/order",
+        element: <OrderDetails />,
       },
     ],
   },
