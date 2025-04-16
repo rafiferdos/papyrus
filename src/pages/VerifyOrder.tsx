@@ -11,6 +11,7 @@ import { CheckCircle, AlertCircle } from 'lucide-react'
 import { useVerifyOrderQuery } from '@/redux/features/order/orderApi'
 import { Link, useSearchParams } from 'react-router'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useEffect } from 'react'
 
 interface OrderData {
   id: number
@@ -55,6 +56,11 @@ export default function OrderVerification() {
       refetchOnMountOrArgChange: true,
     }
   )
+
+  // Clear the cart from local storage when component mounts
+  useEffect(() => {
+    localStorage.removeItem('cart')
+  }, [])
 
   const orderData: OrderData = data?.data?.[0]
 
@@ -154,7 +160,7 @@ export default function OrderVerification() {
             </div>
           </CardContent>
           <CardFooter>
-            <Link to='/order'>
+            <Link to='/dashboard/user/orders'>
               <Button className='w-full'>View Orders</Button>
             </Link>
           </CardFooter>
