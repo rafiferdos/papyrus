@@ -13,7 +13,7 @@ import {
 } from "../ui/select";
 import { Button } from "../ui/button";
 // import { useNavigate } from 'react-router-dom';
-import { useGetAllProductDataQuery } from "@/redux/features/products/productApi";
+import { useGetAllProductDataQuery } from "@/redux/Features/products/productApi";
 import { TQueryParam } from "@/types/global";
 import ProductCard from "../ProductCard/ProductCard";
 
@@ -88,7 +88,7 @@ const AllProducts: React.FC = () => {
         />
       </div>
 
-      <div className="flex flex-wrap md:flex-nowrap items-center w-full gap-4 my-4 ">
+      <div className="flex flex-wrap items-center w-full gap-4 my-4 md:flex-nowrap ">
         <Select
           onValueChange={(value) => {
             setParams((prevParams) => {
@@ -166,7 +166,7 @@ const AllProducts: React.FC = () => {
         ) : products.length === 0 ? (
           <p className="text-lg font-semibold text-center">No products found</p>
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3  xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
             {products.map((product: TProduct) => (
               // <SingleProduct key={product._id} product={product} />
               <ProductCard key={product._id} product={product} />
@@ -178,7 +178,7 @@ const AllProducts: React.FC = () => {
        
 
             {/* Pagination Controls */}
-            <div className="flex justify-center space-x-2 mt-8">
+            <div className="flex justify-center mt-8 space-x-2">
               <Button
               variant={"primary"}
                 disabled={page === 1}

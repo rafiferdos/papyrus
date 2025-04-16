@@ -83,24 +83,24 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-screen bg-white dark:bg-black shadow-md">
-      <div className="container mx-auto max-w-7xl md:w-10/12 w-11/12">
-        <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6">
+    <nav className="w-screen bg-white shadow-md dark:bg-black">
+      <div className="container w-11/12 mx-auto max-w-7xl md:w-10/12">
+        <header className="flex items-center w-full h-20 px-4 shrink-0 md:px-6">
           {/* Mobile Menu */}
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="lg:hidden">
-                <MenuIcon className="h-6 w-6" />
+                <MenuIcon className="w-6 h-6" />
                 <span className="sr-only">Toggle navigation menu</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
-              <Link to="/" className="mr-6 hidden lg:flex">
-                <MountainIcon className="h-6 w-6" />
+              <Link to="/" className="hidden mr-6 lg:flex">
+                <MountainIcon className="w-6 h-6" />
                 <span className="sr-only">Papyrus</span>
               </Link>
               {/* Mobile Menu Links */}
-              <div className="grid gap-2 py-6 pl-7 mt-5">
+              <div className="grid gap-2 py-6 mt-5 pl-7">
                 {Tabs.map((tab) => (
                   <Link
                     to={tab.href}
@@ -155,9 +155,9 @@ export default function Navbar() {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="w-full justify-start"
+                          className="justify-start w-full"
                         >
-                          <User className="h-4 w-4 mr-2" />
+                          <User className="w-4 h-4 mr-2" />
                           Profile
                         </Button>
                       </Link>
@@ -165,9 +165,9 @@ export default function Navbar() {
                         variant="destructive"
                         size="sm"
                         onClick={handleLogout}
-                        className="w-full justify-start"
+                        className="justify-start w-full"
                       >
-                        <LogOut className="h-4 w-4 mr-2" />
+                        <LogOut className="w-4 h-4 mr-2" />
                         Logout
                       </Button>
                     </div>
@@ -182,14 +182,14 @@ export default function Navbar() {
           </Sheet>
 
           {/* Desktop Links */}
-          <Link to="/" className="mr-6 flex items-center gap-2 lg:flex">
-            <MountainIcon className="h-6 w-6" />
+          <Link to="/" className="flex items-center gap-2 mr-6 lg:flex">
+            <MountainIcon className="w-6 h-6" />
             <span className="text-xl font-semibold">Papyrus</span>
           </Link>
-          <nav className="ml-auto hidden lg:flex gap-6 items-center">
+          <nav className="items-center hidden gap-6 ml-auto lg:flex">
             <AnimatedBackground
               defaultValue={Tabs[0].name}
-              className="border border-b-indigo-500 dark:border-b-indigo-600 border-t-0 border-l-0 border-r-0"
+              className="border border-t-0 border-l-0 border-r-0 border-b-indigo-500 dark:border-b-indigo-600"
               transition={{
                 type: "spring",
                 bounce: 0.2,
@@ -247,15 +247,15 @@ export default function Navbar() {
             {token ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                 <div className="flex justify-center items-center">
+                 <div className="flex items-center justify-center">
                  <p className="mr-2.5 cursor-pointer">{userName}</p>
                    <Button
                     variant="ghost"
                     size="icon"
-                    className="rounded-full h-8 w-8 p-0"
+                    className="w-8 h-8 p-0 rounded-full"
                   >
-                    <Avatar className="h-8 w-8 cursor-pointer">
-                      <AvatarFallback className="bg-indigo-600 text-white">
+                    <Avatar className="w-8 h-8 cursor-pointer">
+                      <AvatarFallback className="text-white bg-indigo-600">
                         {getUserInitials()}
                       </AvatarFallback>
                     </Avatar>
@@ -269,14 +269,14 @@ export default function Navbar() {
                         to="/dashboard/admin/manage-users"
                         className="cursor-pointer"
                       >
-                        <User className="mr-2 h-4 w-4" />
+                        <User className="w-4 h-4 mr-2" />
                         Dashboard
                       </Link>
                     </DropdownMenuItem>
                   ) : (
                     <DropdownMenuItem asChild>
                       <Link to="/dashboard/user/profile" className="cursor-pointer">
-                        <User className="mr-2 h-4 w-4" />
+                        <User className="w-4 h-4 mr-2" />
                         Profile
                       </Link>
                     </DropdownMenuItem>
@@ -285,9 +285,9 @@ export default function Navbar() {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={handleLogout}
-                    className="text-red-600 focus:text-red-600 cursor-pointer"
+                    className="text-red-600 cursor-pointer focus:text-red-600"
                   >
-                    <LogOut className="mr-2 h-4 w-4" />
+                    <LogOut className="w-4 h-4 mr-2" />
                     Logout
                   </DropdownMenuItem>
                 </DropdownMenuContent>
