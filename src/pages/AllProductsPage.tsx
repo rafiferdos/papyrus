@@ -11,7 +11,7 @@ const AllProductsPage = () => {
       >
         <h1 className=" text-3xl text-center md:text-4xl">
           <span className="font-bold">Our</span>{" "}
-          <span className="font-thin">Products</span>
+          <span className="font-charm">Products</span>
         </h1>
       </motion.div>
 
@@ -23,11 +23,7 @@ const AllProductsPage = () => {
         <AllProducts />
       </motion.section>
 
-      <style>{`
-        .font-thin {
-          font-family: 'Thin', cursive;
-        }
-      `}</style>
+
     </div>
   );
 };

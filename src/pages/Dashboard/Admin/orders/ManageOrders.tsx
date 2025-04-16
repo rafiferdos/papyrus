@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import ManageOrderTbl from "@/components/dashboard/orders/ManageOrderTbl";
 import { TOrder, TOrderStatus } from "@/types/order";
 import { toast } from "sonner";
+import { TextShimmer } from "@/components/ui/text-shimmer";
 
 const ManageOrders = () => {
   const [orders, setOrders] = useState<TOrder[]>([]);
@@ -91,7 +92,7 @@ const ManageOrders = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <p>Loading orders...</p>
+        <TextShimmer duration={.7}>Loading orders...</TextShimmer>
       </div>
     );
   }
