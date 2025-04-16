@@ -5,7 +5,9 @@ import { useGetAllProductDataQuery } from '@/redux/features/products/productApi'
 const ManageProducts = () => {
   const { data: response, isLoading, error } = useGetAllProductDataQuery([]);
 
-  if (isLoading) return <TextShimmer>Loading...</TextShimmer>;
+  if (isLoading) return <div className="flex justify-center items-center h-64">
+  <TextShimmer>Loading...</TextShimmer>
+  </div>;
 
   if (error) return <div>Error loading products</div>;
 

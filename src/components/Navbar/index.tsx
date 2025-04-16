@@ -66,6 +66,8 @@ export default function Navbar() {
   ];
 
   const handleLogout = () => {
+    // Clear cart from local storage
+    localStorage.removeItem("cart");
     dispatch(logout());
     toast.success("Logged out successfully");
     navigate("/");

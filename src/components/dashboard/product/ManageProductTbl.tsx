@@ -44,8 +44,6 @@ const ManageProductTbl = ({ products }: TProductsProps) => {
       if (selectedId) {
         const res = await deleteProduct(selectedId).unwrap();
 
-        // console.log("Delete response:", res);
-
         if (res.data.success) {
           toast.success(res.message || "Product deleted successfully");
           setModalOpen(false);
@@ -57,7 +55,7 @@ const ManageProductTbl = ({ products }: TProductsProps) => {
         }
       }
     } catch (err: any) {
-      console.error("Delete error:", err); // বিস্তারিত এরর লগ
+      console.error("Delete error:", err);
       toast.error(err.data?.message || err.message || "Deletion failed");
     }
   };
@@ -106,25 +104,6 @@ const ManageProductTbl = ({ products }: TProductsProps) => {
       ),
     },
 
-    // {
-    //   accessorKey: "inStock",
-    //   header: () => <div>Availability</div>,
-    //   cell: ({ row }) => (
-    //     <div>
-    //       {row?.original?.inStock === true ? (
-    //         <p className="text-green-500 border bg-green-100 w-20 text-center px-2 rounded">
-    //           In Stock
-    //         </p>
-    //       ) : (
-    //         <p className="text-red-500 border bg-red-100 w-20 text-center px-2 rounded">
-    //           Out of Stock
-    //         </p>
-    //       )}
-    //     </div>
-    //   ),
-    // },
-    //* In Stock
-
     {
       accessorKey: "price",
       header: () => <div>Price</div>,
@@ -135,7 +114,7 @@ const ManageProductTbl = ({ products }: TProductsProps) => {
 
     {
       accessorKey: "isDeleted",
-      header: () => <div>Approval</div>,
+      header: () => <div>Deletion</div>,
       cell: ({ row }) => (
         <div className=" mx-auto inline-block">
           {row?.original?.isDeleted === true ? (
