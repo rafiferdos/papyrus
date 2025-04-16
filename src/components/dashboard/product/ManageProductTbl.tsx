@@ -12,6 +12,8 @@ import { toast } from 'sonner'
 import { motion } from 'motion/react'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@/components/ui/label'
 
 interface MetaData {
   total: number
@@ -30,25 +32,22 @@ const ManageProductTbl = ({ products }: TProductsProps) => {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
+  const [hideRemovedProducts, setHideRemovedProducts] = useState(true)
 
   // Filter products based on search term
-  const filteredProducts = searchTerm
-    ? products.filter(
-        (product) =>
-          product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          product.brand.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : products
+  const filteredProducts = products
+    .filter((product) => !hideRemovedProducts || product.isDeleted === false)
+    .filter(
+      (product) =>
+        !searchTerm ||
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.brand.toLowerCase().includes(searchTerm.toLowerCase())
+    )
 
   const handleDelete = (data: TProduct) => {
     setSelectedId(data?._id)
     setSelectedItem(data?.name)
     setModalOpen(true)
-  }
-
-  const handleUpdate = (data: TProduct) => {
-    setSelectedId(data?._id)
-    setSelectedItem(data?.name)
   }
 
   const handleDeleteConfirm = async () => {
@@ -101,7 +100,7 @@ const ManageProductTbl = ({ products }: TProductsProps) => {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.2 }}
-            className='relative w-10 h-10 rounded-full overflow-hidden border border-gray-200 bg-gray-50'
+            className='relative w-10 h-10 rounded-full overflow-hidden border border-gray-600'
           >
             <img
               src={row?.original?.image}
@@ -109,7 +108,7 @@ const ManageProductTbl = ({ products }: TProductsProps) => {
               className='w-full h-full object-cover'
               onError={(e) => {
                 e.currentTarget.src =
-                  'https://via.placeholder.com/40?text=No+Image'
+                  'https://media.istockphoto.com/id/1055079680/vector/black-linear-photo-camera-like-no-image-available.jpg?s=612x612&w=0&k=20&c=P1DebpeMIAtXj_ZbVsKVvg-duuL0v9DlrOZUvPG6UJk='
               }}
             />
           </motion.div>
@@ -260,16 +259,34 @@ const ManageProductTbl = ({ products }: TProductsProps) => {
       <DashboardPageTitle title='Manage Products' />
 
       <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6'>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className='text-lg font-medium'
-        >
-          Total Products:{' '}
-          <span className='font-bold text-indigo-600'>
-            {products?.length || 0}
-          </span>
-        </motion.p>
+        <div className='flex flex-col sm:flex-row gap-4 items-start sm:items-center'>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className='text-lg font-medium'
+          >
+            Total Products:{' '}
+            <span className='font-bold text-indigo-600'>
+              {filteredProducts?.length || 0}
+            </span>
+          </motion.p>
+
+          <div className='flex items-center space-x-2'>
+            <Checkbox
+              id='hideRemoved'
+              checked={hideRemovedProducts}
+              onCheckedChange={(checked) =>
+                setHideRemovedProducts(checked === true)
+              }
+            />
+            <Label
+              htmlFor='hideRemoved'
+              className='text-sm font-medium cursor-pointer'
+            >
+              Hide removed products
+            </Label>
+          </div>
+        </div>
 
         <motion.div
           initial={{ opacity: 0, x: 20 }}

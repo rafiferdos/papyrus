@@ -105,14 +105,14 @@ const ManageUser = ({ users, refetch }: TUserProps) => {
     },
     {
       accessorKey: "status",
-      header: () => <div className="text-center">Deactivate/Active</div>,
+      header: () => <div className="text-center">Deactive/Active</div>,
       cell: ({ row }) => (
         <span
           className={`truncate ${
             row?.original?.isDeactivate ? "text-rose-500" : "text-green-500"
           }`}
         >
-          {row?.original?.isDeactivate ? "Deactivate" : "Active"}
+          {row?.original?.isDeactivate ? "Deactive" : "Active"}
         </span>
       ),
     },
