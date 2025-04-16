@@ -1,19 +1,19 @@
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
 import {
   removeFromCart,
   updateQuantity,
 } from '@/redux/features/products/cart.api'
-import { RootState } from "@/redux/store";
-import { ArrowLeft, ShoppingBag, Trash2 } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import { ScrollReveal } from "@/components/ScrollReveal";
+import { RootState } from '@/redux/store'
+import { ArrowLeft, ShoppingBag, Trash2 } from 'lucide-react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
+import { ScrollReveal } from '@/components/ScrollReveal'
 import { useGetMultipleProductsQuery } from '@/redux/features/products/productApi'
-import { useEffect, useState, useMemo } from "react";
-import { useAppSelector } from "@/redux/hooks";
+import { useEffect, useState, useMemo } from 'react'
+import { useAppSelector } from '@/redux/hooks'
 import { useCurrentUser } from '@/redux/features/auth/authSlice'
 
 export default function ShoppingCart() {
@@ -64,13 +64,15 @@ export default function ShoppingCart() {
 
   // Combine product details with quantities with better error handling
   const cartItems = useMemo(() => {
-    return productDetails?.data?.map((product) => {
-      const cartItem = products.find((item) => item.productId === product._id)
-      return {
-        ...product,
-        quantity: cartItem?.quantity || 0,
-      }
-    }) || []
+    return (
+      productDetails?.data?.map((product) => {
+        const cartItem = products.find((item) => item.productId === product._id)
+        return {
+          ...product,
+          quantity: cartItem?.quantity || 0,
+        }
+      }) || []
+    )
   }, [productDetails?.data, products])
 
   // Log if we have cart items but no data returned
@@ -111,7 +113,6 @@ export default function ShoppingCart() {
     navigate('/products')
   }
 
-  
   // Show loading state if products exist but API is still loading
   if (isLoading && products.length > 0) {
     return (
