@@ -6,8 +6,8 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { useCurrentUser } from "@/redux/Features/auth/authSlice";
-import { useGetUserQuery } from "@/redux/Features/userApi";
+import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import { useGetUserQuery } from '@/redux/features/userApi'
 import { useAppSelector } from "@/redux/hooks";
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";

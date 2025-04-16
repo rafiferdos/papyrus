@@ -1,6 +1,6 @@
 import {Skeleton} from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-import { useGetMyOrderQuery } from "@/redux/Features/order/orderApi";
+import { useGetMyOrderQuery } from '@/redux/features/order/orderApi'
 export interface Transaction {
   id: string;
   transactionStatus: string | null;

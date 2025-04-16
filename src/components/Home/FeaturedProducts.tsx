@@ -1,4 +1,4 @@
-import { useGetAllProductDataQuery } from '@/redux/Features/products/productApi'
+import { useGetAllProductDataQuery } from '@/redux/features/products/productApi'
 import { SkeletonCard } from '../Skeletons/SkeletonCard'
 import { Button } from '../ui/button'
 import { Link } from 'react-router-dom'

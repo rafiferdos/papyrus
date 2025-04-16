@@ -17,7 +17,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useDispatch } from "react-redux";
-import { logout } from "@/redux/Features/auth/authSlice";
+import { logout } from "@/redux/features/auth/authSlice";
 import { toast } from "sonner";
 import {  useNavigate } from "react-router-dom";
 
