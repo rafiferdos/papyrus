@@ -1,14 +1,14 @@
-import { Home, SquareTerminal, Bot, UserRound } from "lucide-react";
+import { SquareTerminal, Bot, UserRound } from "lucide-react";
 
 export const getNavItems = (role: "admin" | "user") => {
   if (role === "admin") {
     return [
-      {
-        title: "Home",
-        url: "/dashboard/home",
-        icon: Home,
-        isActive: true,
-      },
+      // {
+      //   title: "Home",
+      //   url: "/dashboard/home",
+      //   icon: Home,
+      //   isActive: true,
+      // },
       {
         title: "Orders",
         url: "#",
@@ -34,10 +34,9 @@ export const getNavItems = (role: "admin" | "user") => {
             title: "Add Product",
             url: "/dashboard/admin/add-product",
           },
-          {
-            title: "Update Product",
-            url: "/dashboard/admin/update-product",
-          },
+          // {
+          //   title: "Update Product",
+          //   url: "/dashboard/admin/update-product",
         ],
       },
       {
@@ -54,12 +53,12 @@ export const getNavItems = (role: "admin" | "user") => {
     ];
   } else if (role === "user") {
     return [
-      {
-        title: "Home",
-        url: "/dashboard/home",
-        icon: Home,
-        isActive: true,
-      },
+      // {
+      //   title: "Home",
+      //   url: "/dashboard/home",
+      //   icon: Home,
+      //   isActive: true,
+      // },
       {
         title: "View Orders",
         url: "/dashboard/user/orders",

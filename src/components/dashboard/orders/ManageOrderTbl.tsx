@@ -70,7 +70,7 @@ const ManageOrderTbl = ({ orders, onStatusChange }: Props) => {
   return (
     <div className="border rounded-lg overflow-hidden">
       <Table className="min-w-full">
-        <TableHeader className="bg-gray-800">
+        <TableHeader className="bg-gray-500">
           <TableRow>
             <TableHead className="px-4 py-3 text-white">SL Number</TableHead>
             <TableHead className="px-4 py-3 text-white">Order ID</TableHead>
@@ -86,7 +86,7 @@ const ManageOrderTbl = ({ orders, onStatusChange }: Props) => {
         </TableHeader>
         <TableBody>
           {orders.map((order, index) => (
-            <TableRow key={order._id} className="hover:bg-gray-700">
+            <TableRow key={order._id} className="hover:bg-gray-400">
               <TableCell className="px-4 py-3 font-medium">
                 {index + 1}
               </TableCell>

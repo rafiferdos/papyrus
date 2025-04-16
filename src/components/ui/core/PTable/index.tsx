@@ -32,7 +32,7 @@ export function PTable<TData, TValue>({
   return (
     <div className="my-8 shadow">
       <Table>
-        <TableHeader className="bg-neutral-800  ">
+        <TableHeader className="bg-neutral-400  ">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
