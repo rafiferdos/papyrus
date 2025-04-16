@@ -1,13 +1,34 @@
 import { TOrderProduct } from '@/types/global'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+
+
+
+
+export interface CartItem {
+  productId: string;
+  quantity: number;
+}
+
+export interface CartItemDisplay extends CartItem {
+  _id: string;
+  imageUrl: string;
+  name: string;
+  price: number;
+}
+
 // New interface for cart structure
-interface CartState {
-  userId: string | null
-  products: Array<{
-    productId: string
-    quantity: number
-  }>
+// interface CartState {
+//   userId: string | null
+//   products: Array<{
+//     productId: string
+//     quantity: number
+//   }>
+// }
+
+export interface CartState {
+  userId: string | null;
+  products: CartItem[];
 }
 
 // Initialize cart in localStorage if it doesn't exist
@@ -44,23 +65,20 @@ const cartSlice = createSlice({
     },
 
     addToCart: (state, action: PayloadAction<TOrderProduct>) => {
-      // Find if product already exists
       const existingProductIndex = state.products.findIndex(
         (item) => item.productId === action.payload._id
-      )
+      );
 
       if (existingProductIndex >= 0) {
-        // Update quantity if product exists
-        state.products[existingProductIndex].quantity += action.payload.quantity
+        state.products[existingProductIndex].quantity += action.payload.quantity;
       } else {
-        // Add new product
         state.products.push({
           productId: action.payload._id,
-          quantity: action.payload.quantity,
-        })
+          quantity: action.payload.quantity
+        });
       }
 
-      localStorage.setItem('cart', JSON.stringify(state))
+      localStorage.setItem('cart', JSON.stringify(state));
     },
 
     removeFromCart: (state, action: PayloadAction<string>) => {

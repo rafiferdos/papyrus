@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import {
   removeFromCart,
   updateQuantity,
-} from "@/redux/features/products/cart.api";
+} from "@/redux/Features/products/cart.api";
 import { RootState } from "@/redux/store";
 import { ArrowLeft, ShoppingBag, Trash2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
@@ -116,15 +116,15 @@ export default function ShoppingCart() {
   if (isLoading && products.length > 0) {
     return (
       <div className='w-full min-h-[calc(100vh-5rem)] py-10 mt-16'>
-        <div className='container mx-auto px-4 md:px-6 max-w-7xl'>
-          <h1 className='text-2xl md:text-3xl font-bold mb-8'>
+        <div className='container px-4 mx-auto md:px-6 max-w-7xl'>
+          <h1 className='mb-8 text-2xl font-bold md:text-3xl'>
             My Shopping Cart
           </h1>
-          <Card className='w-full flex flex-col items-center justify-center py-16 px-4'>
+          <Card className='flex flex-col items-center justify-center w-full px-4 py-16'>
             <div className='mb-4'>
-              <ShoppingBag className='h-12 w-12 text-muted-foreground animate-pulse' />
+              <ShoppingBag className='w-12 h-12 text-muted-foreground animate-pulse' />
             </div>
-            <h2 className='text-xl font-semibold mb-2'>Loading your cart...</h2>
+            <h2 className='mb-2 text-xl font-semibold'>Loading your cart...</h2>
           </Card>
         </div>
       </div>
@@ -133,13 +133,13 @@ export default function ShoppingCart() {
 
   return (
     <div className='w-full min-h-[calc(100vh-5rem)] py-10 mt-16'>
-      <div className='container mx-auto px-4 md:px-6 max-w-7xl'>
+      <div className='container px-4 mx-auto md:px-6 max-w-7xl'>
         <div className='flex items-center justify-between mb-8'>
-          <h1 className='text-2xl md:text-3xl font-bold'>My Shopping Cart</h1>
+          <h1 className='text-2xl font-bold md:text-3xl'>My Shopping Cart</h1>
           <Button
             variant='ghost'
             onClick={handleReturnToShop}
-            className='hidden md:flex items-center gap-2'
+            className='items-center hidden gap-2 md:flex'
           >
             <ArrowLeft size={16} />
             Continue Shopping
@@ -148,14 +148,14 @@ export default function ShoppingCart() {
 
         {cartItems.length === 0 ? (
           <ScrollReveal direction='up' delay={0.1} distance={50}>
-            <Card className='w-full flex flex-col items-center justify-center py-16 px-4'>
+            <Card className='flex flex-col items-center justify-center w-full px-4 py-16'>
               <div className='mb-6'>
-                <ShoppingBag className='h-16 w-16 text-muted-foreground' />
+                <ShoppingBag className='w-16 h-16 text-muted-foreground' />
               </div>
-              <h2 className='text-2xl font-semibold mb-2'>
+              <h2 className='mb-2 text-2xl font-semibold'>
                 Your cart is empty
               </h2>
-              <p className='text-muted-foreground mb-8 text-center max-w-md'>
+              <p className='max-w-md mb-8 text-center text-muted-foreground'>
                 Looks like you haven't added any products to your cart yet.
                 Browse our collection and find something you'll love.
               </p>
@@ -168,30 +168,30 @@ export default function ShoppingCart() {
             </Card>
           </ScrollReveal>
         ) : (
-          <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
+          <div className='grid grid-cols-1 gap-8 lg:grid-cols-3'>
             {/* Cart Items - Takes up more space */}
             <div className='lg:col-span-2'>
               <ScrollReveal direction='left' delay={0.1} distance={50}>
-                <Card className='overflow-hidden mb-6 md:mb-0'>
-                  <div className='p-4 md:p-6 overflow-x-auto'>
+                <Card className='mb-6 overflow-hidden md:mb-0'>
+                  <div className='p-4 overflow-x-auto md:p-6'>
                     {/* Mobile view for each product */}
-                    <div className='lg:hidden space-y-6'>
+                    <div className='space-y-6 lg:hidden'>
                       {cartItems.map((item) => (
                         <div
                           key={item._id}
-                          className='flex flex-col border-b pb-6'
+                          className='flex flex-col pb-6 border-b'
                         >
                           <div className='flex gap-4 mb-4'>
                             <img
                               src={item.image}
                               alt={item.name}
-                              className='w-24 h-24 object-cover rounded-md'
+                              className='object-cover w-24 h-24 rounded-md'
                             />
                             <div className='flex-1'>
-                              <h3 className='font-medium text-base mb-1'>
+                              <h3 className='mb-1 text-base font-medium'>
                                 {item.name}
                               </h3>
-                              <p className='text-sm text-muted-foreground mb-2'>
+                              <p className='mb-2 text-sm text-muted-foreground'>
                                 {item.brand}
                               </p>
                               <p className='font-medium'>
@@ -200,7 +200,7 @@ export default function ShoppingCart() {
                             </div>
                           </div>
 
-                          <div className='flex justify-between items-center'>
+                          <div className='flex items-center justify-between'>
                             <div className='flex items-center border rounded-md'>
                               <Button
                                 variant='ghost'
@@ -244,7 +244,7 @@ export default function ShoppingCart() {
                                 onClick={() =>
                                   handleRemoveItem(item._id, item.name)
                                 }
-                                className='text-red-500 hover:bg-red-50 hover:text-red-600 p-2 h-8 w-8'
+                                className='w-8 h-8 p-2 text-red-500 hover:bg-red-50 hover:text-red-600'
                               >
                                 <Trash2 size={16} />
                               </Button>
@@ -255,17 +255,17 @@ export default function ShoppingCart() {
                     </div>
 
                     {/* Desktop table view */}
-                    <table className='w-full hidden lg:table'>
+                    <table className='hidden w-full lg:table'>
                       <thead>
                         <tr className='border-b'>
-                          <th className='text-left font-medium py-4'>
+                          <th className='py-4 font-medium text-left'>
                             Product
                           </th>
-                          <th className='text-left font-medium py-4'>Price</th>
-                          <th className='text-left font-medium py-4'>
+                          <th className='py-4 font-medium text-left'>Price</th>
+                          <th className='py-4 font-medium text-left'>
                             Quantity
                           </th>
-                          <th className='text-left font-medium py-4'>
+                          <th className='py-4 font-medium text-left'>
                             Subtotal
                           </th>
                           <th className='w-16'></th>
@@ -279,7 +279,7 @@ export default function ShoppingCart() {
                                 <img
                                   src={item.image}
                                   alt={item.name}
-                                  className='w-16 h-16 object-cover rounded-md'
+                                  className='object-cover w-16 h-16 rounded-md'
                                 />
                                 <div>
                                   <h3 className='font-medium'>{item.name}</h3>
@@ -291,7 +291,7 @@ export default function ShoppingCart() {
                             </td>
                             <td className='py-4'>${item.price.toFixed(2)}</td>
                             <td className='py-4'>
-                              <div className='flex items-center border rounded-md w-32'>
+                              <div className='flex items-center w-32 border rounded-md'>
                                 <Button
                                   variant='ghost'
                                   size='sm'
@@ -345,7 +345,7 @@ export default function ShoppingCart() {
                     </table>
                   </div>
 
-                  <div className='flex justify-between items-center p-4 md:p-6 border-t'>
+                  <div className='flex items-center justify-between p-4 border-t md:p-6'>
                     <Button
                       variant='outline'
                       onClick={handleReturnToShop}
@@ -354,7 +354,7 @@ export default function ShoppingCart() {
                       <ArrowLeft size={16} className='mr-2' />
                       Continue Shopping
                     </Button>
-                    <div className='text-sm text-muted-foreground ml-auto'>
+                    <div className='ml-auto text-sm text-muted-foreground'>
                       {cartItems.length}{' '}
                       {cartItems.length === 1 ? 'item' : 'items'} in cart
                     </div>
@@ -368,11 +368,11 @@ export default function ShoppingCart() {
               <ScrollReveal direction='right' delay={0.2} distance={50}>
                 <Card className='sticky top-24'>
                   <div className='p-6'>
-                    <h2 className='text-xl font-semibold mb-4'>
+                    <h2 className='mb-4 text-xl font-semibold'>
                       Order Summary
                     </h2>
 
-                    <div className='space-y-3 mb-6'>
+                    <div className='mb-6 space-y-3'>
                       <div className='flex justify-between'>
                         <span className='text-muted-foreground'>Subtotal</span>
                         <span className='font-medium'>
