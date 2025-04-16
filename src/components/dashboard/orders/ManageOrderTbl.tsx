@@ -86,7 +86,7 @@ const ManageOrderTbl = ({ orders, onStatusChange }: Props) => {
         </TableHeader>
         <TableBody>
           {orders.map((order, index) => (
-            <TableRow key={order._id} className="hover:bg-gray-700">
+            <TableRow key={order._id}>
               <TableCell className="px-4 py-3 font-medium">
                 {index + 1}
               </TableCell>
@@ -180,7 +180,7 @@ const ManageOrderTbl = ({ orders, onStatusChange }: Props) => {
                 </DropdownMenu>
               </TableCell>
               <TableCell className="px-4 py-3 text-right">
-                BDT {order?.totalAmount.toFixed(2)}
+                $ {order?.totalAmount.toFixed(2)}
               </TableCell>
             </TableRow>
           ))}

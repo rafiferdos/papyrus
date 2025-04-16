@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from '@/components/ui/card'
 import {
   Form,
   FormControl,
@@ -8,29 +7,31 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useAddProductMutation } from "@/redux/features/products/productApi";
-
-import { toast } from "sonner";
-import { productFormValidationSchema } from "./productFormValidation";
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { useAddProductMutation } from '@/redux/features/products/productApi'
+import { toast } from 'sonner'
+import { productFormValidationSchema } from './productFormValidation'
+import { motion } from 'motion/react'
+import { useState } from 'react'
 
 const AddProductForm = () => {
-  const [createProduct] = useAddProductMutation();
+  const [createProduct] = useAddProductMutation()
+  const [activeSection, setActiveSection] = useState('basic') // basic, details, availability
+
   // form validation
   const form = useForm({
     resolver: zodResolver(productFormValidationSchema),
-  });
+  })
 
   // Destructure form value
   const {
     formState: { isSubmitting },
-  } = form;
+  } = form
 
   // submit handler function
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -44,316 +45,335 @@ const AddProductForm = () => {
         description: data.description,
         quantity: parseInt(data.quantity),
         inStock: Boolean(data.inStock),
-      };
-      // console.log("new data =>", newData);
-      const res = await createProduct(newData);
-      // console.log(res);
+      }
+
+      const res = await createProduct(newData)
+
       if (res?.data?.success == true) {
-        toast.success(res?.data?.message);
-        form.reset();
+        toast.success(res?.data?.message)
+        form.reset()
+        setActiveSection('basic')
       } else {
-        toast.error(res?.data?.message);
+        toast.error(res?.data?.message)
       }
     } catch (error: any) {
-      console.error(error);
+      console.error(error)
+      toast.error('Failed to add product')
     }
-  };
+  }
+
+  const formSections = {
+    basic: (
+      <>
+        <FormField
+          control={form.control}
+          name='name'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='text-sm font-medium'>Name</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder='Enter product name'
+                  {...field}
+                  value={field.value || ''}
+                  className='transition-all duration-300 focus:border-indigo-500'
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name='description'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='text-sm font-medium'>Description</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder='Enter product description'
+                  {...field}
+                  value={field.value || ''}
+                  className='transition-all duration-300 focus:border-indigo-500'
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name='image'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='text-sm font-medium'>Image URL</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder='Enter image URL'
+                  {...field}
+                  value={field.value || ''}
+                  className='transition-all duration-300 focus:border-indigo-500'
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </>
+    ),
+
+    details: (
+      <>
+        <FormField
+          control={form.control}
+          name='price'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='text-sm font-medium'>Price</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder='Enter price'
+                  type='number'
+                  {...field}
+                  value={field.value || ''}
+                  className='transition-all duration-300 focus:border-indigo-500'
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name='quantity'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='text-sm font-medium'>Quantity</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder='Enter quantity'
+                  type='number'
+                  {...field}
+                  value={field.value || ''}
+                  className='transition-all duration-300 focus:border-indigo-500'
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name='brand'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='text-sm font-medium'>Brand</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder='Enter brand name'
+                  {...field}
+                  value={field.value || ''}
+                  className='transition-all duration-300 focus:border-indigo-500'
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </>
+    ),
+
+    availability: (
+      <>
+        <FormField
+          control={form.control}
+          name='inStock'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='text-sm font-medium'>
+                Availability
+              </FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  className='flex flex-wrap gap-4'
+                >
+                  <div className='flex items-center space-x-2'>
+                    <RadioGroupItem value='true' id='instock' />
+                    <label htmlFor='instock' className='text-sm cursor-pointer'>
+                      In Stock
+                    </label>
+                  </div>
+                  <div className='flex items-center space-x-2'>
+                    <RadioGroupItem value='false' id='outofstock' />
+                    <label
+                      htmlFor='outofstock'
+                      className='text-sm cursor-pointer'
+                    >
+                      Out of Stock
+                    </label>
+                  </div>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name='category'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='text-sm font-medium'>Category</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  className='grid grid-cols-1 sm:grid-cols-2 gap-3'
+                >
+                  {[
+                    'Writing Instruments',
+                    'Paper Products',
+                    'Art Supplies',
+                    'Educational',
+                  ].map((category) => (
+                    <div
+                      key={category}
+                      className='flex items-center space-x-2 border rounded-md p-2 hover:border-indigo-400 transition-colors'
+                    >
+                      <RadioGroupItem
+                        value={category}
+                        id={category.replace(/\s+/g, '')}
+                      />
+                      <label
+                        htmlFor={category.replace(/\s+/g, '')}
+                        className='text-sm cursor-pointer'
+                      >
+                        {category}
+                      </label>
+                    </div>
+                  ))}
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </>
+    ),
+  }
 
   return (
-    <div className="w-full md:w-[80%] lg:w-[50%] mx-auto h-full flex flex-col justify-center shadow-none overflow-scroll md:overflow-hidden rounded ">
-      <Card className=" mx-auto flex flex-col justify-center shadow-xl overflow-scroll md:overflow-hidden rounded border-none">
-        <CardContent>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="grid w-full items-center gap-4"
-            >
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label htmlFor="name" className="text-base font-bold">
-                      Name
-                    </Label>
-                    <FormControl>
-                      <Input
-                        id="name"
-                        placeholder="Enter product name"
-                        {...field}
-                        value={field.value || ""}
-                        className="placeholder:text-[#c0bfbd] w-full"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-400" />
-                  </FormItem>
-                )}
-              />
-              {/* End name */}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className='w-full max-w-xl mx-auto px-4 py-6'
+    >
+      <Card className='overflow-hidden border-none shadow-lg rounded-xl bg-white dark:bg-gray-900'>
+        <CardContent className='p-6'>
+          <motion.h2
+            className='text-2xl font-bold mb-6 text-center'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            Add New Product
+          </motion.h2>
 
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label
-                      htmlFor="description"
-                      className="text-base font-bold"
-                    >
-                      Description
-                    </Label>
-                    <FormControl>
-                      <Input
-                        id="description"
-                        placeholder="Enter Your product Description"
-                        {...field}
-                        value={field.value || ""}
-                        className="placeholder:text-[#c0bfbd]"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-400" />
-                  </FormItem>
-                )}
-              />
-              {/* End Description */}
-
-              <FormField
-                control={form.control}
-                name="price"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label htmlFor="price" className="text-base font-bold">
-                      Price
-                    </Label>
-                    <FormControl>
-                      <Input
-                        id="price"
-                        placeholder="Enter product Price"
-                        {...field}
-                        value={field.value || ""}
-                        className="placeholder:text-[#c0bfbd]"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-400" />
-                  </FormItem>
-                )}
-              />
-              {/* End price */}
-
-              <FormField
-                control={form.control}
-                name="quantity"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label htmlFor="quantity" className="text-base font-bold">
-                      Quantity
-                    </Label>
-                    <FormControl>
-                      <Input
-                        id="quantity"
-                        placeholder="Enter product quantity"
-                        {...field}
-                        value={field.value || ""}
-                        className="placeholder:text-[#c0bfbd]"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-400" />
-                  </FormItem>
-                )}
-              />
-              {/* End quantity */}
-
-              <FormField
-                control={form.control}
-                name="image"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label htmlFor="image" className="text-base font-bold">
-                      Image Link
-                    </Label>
-                    <FormControl>
-                      <Input
-                        id="image"
-                        placeholder="Enter Your product Img Link"
-                        {...field}
-                        value={field.value || ""}
-                        className="placeholder:text-[#c0bfbd]"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-400" />
-                  </FormItem>
-                )}
-              />
-              {/* End img */}
-
-              <FormField
-                control={form.control}
-                name="brand"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label htmlFor="brand" className="text-base font-bold">
-                      Brand
-                    </Label>
-                    <FormControl>
-                      <Input
-                        id="brand"
-                        placeholder="Enter Product Brand"
-                        {...field}
-                        value={field.value || ""}
-                        className="placeholder:text-[#c0bfbd]"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-400" />
-                  </FormItem>
-                )}
-              />
-              {/* End color */}
-
-              <FormField
-                control={form.control}
-                name="inStock"
-                render={({ field }) => (
-                  <FormItem className=" space-y-2">
-                    <FormLabel className="text-base font-bold">
-                      Availability
-                    </FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        className="flex flex-row space-x-1"
-                      >
-                        <FormItem className="flex items-center space-x-1 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="true" />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            In Stock
-                          </FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-1 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="false" />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            Out of Stock
-                          </FormLabel>
-                        </FormItem>
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* End Availability */}
-
-              <FormField
-                control={form.control}
-                name="category"
-                render={({ field }) => (
-                  <FormItem className=" space-y-2">
-                    <FormLabel className="text-base font-bold">
-                      Category
-                    </FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        className="flex flex-row space-x-1"
-                      >
-                        <FormItem className="flex items-center space-x-1 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="Writing Instruments" />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            Writing Instruments
-                          </FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-1 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="Paper Products" />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            Paper Products
-                          </FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-1 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="Art Supplies" />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            Art Supplies
-                          </FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-1 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="Educational" />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            Educational
-                          </FormLabel>
-                        </FormItem>
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* End Condition */}
-
-              {/* <FormField
-                control={form.control}
-                name="status"
-                render={({ field }) => (
-                  <FormItem className=" space-y-2">
-                    <FormLabel className="text-base font-bold">
-                      product Status
-                    </FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        className="flex flex-row space-x-1"
-                      >
-                        <FormItem className="flex items-center space-x-1 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="available" />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            Available
-                          </FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-1 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="sold" />
-                          </FormControl>
-                          <FormLabel className="font-normal">Sold</FormLabel>
-                        </FormItem>
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
-
-              {/* End status */}
-
-              <Button
-                type="submit"
-                className="w-full  dark:bg-white dark:text-black bg-gray-900 text-white tracking-wide cursor-pointer mt-3"
+          <div className='flex justify-between mb-8'>
+            {['basic', 'details', 'availability'].map((section, index) => (
+              <motion.button
+                key={section}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setActiveSection(section)}
+                className={`flex-1 text-sm py-2 mx-1 capitalize rounded-md ${
+                  activeSection === section
+                    ? 'bg-indigo-500 text-white'
+                    : 'bg-gray-100 text-gray-500 dark:bg-gray-800'
+                } transition-all duration-300`}
               >
-                {isSubmitting ? (
-                  <Loader2 className="animate-spin" />
+                {index + 1}. {section}
+              </motion.button>
+            ))}
+          </div>
+
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+              <motion.div
+                key={activeSection}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+                className='space-y-4'
+              >
+                {formSections[activeSection as keyof typeof formSections]}
+              </motion.div>
+
+              <div className='flex justify-between mt-10'>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  type='button'
+                  onClick={() => {
+                    if (activeSection === 'details') setActiveSection('basic')
+                    if (activeSection === 'availability')
+                      setActiveSection('details')
+                  }}
+                  className={`px-4 py-2 border border-gray-300 rounded-md ${
+                    activeSection === 'basic' ? 'invisible' : ''
+                  }`}
+                >
+                  Back
+                </motion.button>
+
+                {activeSection !== 'availability' ? (
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    type='button'
+                    onClick={() => {
+                      if (activeSection === 'basic') setActiveSection('details')
+                      if (activeSection === 'details')
+                        setActiveSection('availability')
+                    }}
+                    className='px-4 py-2 bg-indigo-500 text-white rounded-md'
+                  >
+                    Continue
+                  </motion.button>
                 ) : (
-                  "Add Product"
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    type='submit'
+                    disabled={isSubmitting}
+                    className='px-4 py-2 bg-green-500 text-white rounded-md flex items-center gap-2'
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className='h-4 w-4 animate-spin' />
+                        <span>Adding...</span>
+                      </>
+                    ) : (
+                      <span>Add Product</span>
+                    )}
+                  </motion.button>
                 )}
-              </Button>
+              </div>
             </form>
           </Form>
         </CardContent>
       </Card>
-    </div>
-  );
-};
+    </motion.div>
+  )
+}
 
-export default AddProductForm;
+export default AddProductForm
