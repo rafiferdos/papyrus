@@ -11,6 +11,9 @@ import { CheckCircle, AlertCircle } from 'lucide-react'
 import { useVerifyOrderQuery } from '@/redux/features/order/orderApi'
 import { Link, useSearchParams } from 'react-router'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { clearCart } from '@/redux/features/products/cart.api'
 
 interface OrderData {
   id: number
@@ -48,6 +51,7 @@ interface OrderData {
 
 export default function OrderVerification() {
   const [searchParams] = useSearchParams()
+  const dispatch = useDispatch()
 
   const { isLoading, data } = useVerifyOrderQuery(
     searchParams.get('order_id'),
@@ -55,6 +59,11 @@ export default function OrderVerification() {
       refetchOnMountOrArgChange: true,
     }
   )
+
+  // Clear the cart from local storage when component mounts
+  useEffect(() => {
+    dispatch(clearCart())
+  }, [])
 
   const orderData: OrderData = data?.data?.[0]
 
@@ -154,7 +163,7 @@ export default function OrderVerification() {
             </div>
           </CardContent>
           <CardFooter>
-            <Link to='/order'>
+            <Link to='/dashboard/user/orders'>
               <Button className='w-full'>View Orders</Button>
             </Link>
           </CardFooter>
