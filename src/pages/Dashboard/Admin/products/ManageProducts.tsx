@@ -1,10 +1,11 @@
 import ManageProductTbl from "@/components/dashboard/product/ManageProductTbl";
+import { TextShimmer } from "@/components/ui/text-shimmer";
 import { useGetAllProductDataQuery } from '@/redux/features/products/productApi'
 
 const ManageProducts = () => {
   const { data: response, isLoading, error } = useGetAllProductDataQuery([]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <TextShimmer>Loading...</TextShimmer>;
 
   if (error) return <div>Error loading products</div>;
 

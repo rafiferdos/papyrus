@@ -97,7 +97,7 @@ export default function Navbar() {
             <SheetContent side="left">
               <Link to="/" className="hidden mr-6 lg:flex">
                 <MountainIcon className="w-6 h-6" />
-                <span className="sr-only">Papyrus</span>
+                <span className="sr-only font-charm">Papyrus</span>
               </Link>
               {/* Mobile Menu Links */}
               <div className="grid gap-2 py-6 mt-5 pl-7">
@@ -184,7 +184,7 @@ export default function Navbar() {
           {/* Desktop Links */}
           <Link to="/" className="flex items-center gap-2 mr-6 lg:flex">
             <MountainIcon className="w-6 h-6" />
-            <span className="text-xl font-semibold">Papyrus</span>
+            <span className="text-xl font-semibold font-charm">Papyrus</span>
           </Link>
           <nav className="items-center hidden gap-6 ml-auto lg:flex">
             <AnimatedBackground

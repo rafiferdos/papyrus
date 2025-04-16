@@ -9,6 +9,7 @@ import { useCurrentUser } from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hooks";
 import { useGetUserQuery } from "@/redux/features/userApi";
 import { Link } from "react-router-dom";
+import { TextShimmer } from "../ui/text-shimmer";
 
 const DashboardHome = () => {
   const user = useSelector(useCurrentUser);
@@ -23,7 +24,7 @@ const DashboardHome = () => {
   const isAdmin = user?.role === "admin";
 
   if (isLoading) {
-    return <p className="text-center">Loading....</p>;
+    return <TextShimmer className="text-center">Loading....</TextShimmer>;
   }
   return (
     <>

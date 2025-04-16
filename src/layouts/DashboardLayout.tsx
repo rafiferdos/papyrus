@@ -6,6 +6,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar'
+import { TextShimmer } from '@/components/ui/text-shimmer'
 import { useCurrentUser } from '@/redux/features/auth/authSlice'
 import { useGetUserQuery } from '@/redux/features/userApi'
 import { useAppSelector } from '@/redux/hooks'
@@ -32,7 +33,7 @@ const DashboardLayout = () => {
             <Separator orientation='vertical' className='mr-2 h-4' />
             <div className='hidden md:block '>
               <h1 className='text-2xl inline mr-6'>Hi, Welcome Back</h1>
-              <p className='inline font-extrabold text-2xl dark:text-white text-black'>
+              <p className='inline font-extrabold text-2xl dark:text-white text-black font-charm'>
                 {userData?.name}
               </p>
             </div>
@@ -41,7 +42,9 @@ const DashboardLayout = () => {
         <div className='flex flex-1 flex-col gap-4 pt-4 '>
           <div className='min-h-[100vh] flex-1 rounded bg-muted/50 p-6'>
             {isLoading ? (
-              <p className='text-center'>Loading.....</p>
+              <div className='flex items-center justify-center h-96'>
+              <TextShimmer duration={.7} className='text-center text-3xl'>Loading.....</TextShimmer>
+              </div>
             ) : (
               <Outlet />
             )}
