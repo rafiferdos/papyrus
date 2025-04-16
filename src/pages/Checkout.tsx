@@ -12,12 +12,12 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useEffect, useState } from "react";
-import { useGetUserQuery } from "@/redux/Features/userApi";
+import { useGetUserQuery } from '@/redux/features/userApi'
 import { useAppSelector } from "@/redux/hooks";
-import { useCurrentUser } from "@/redux/Features/auth/authSlice";
-import { CartItem } from "@/redux/Features/products/cart.api";
-import { useGetAllProductDataQuery } from "@/redux/Features/products/productApi";
-import { useCreateOrderMutation } from "@/redux/Features/order/orderApi";
+import { useCurrentUser } from '@/redux/features/auth/authSlice'
+import { CartItem } from '@/redux/features/products/cart.api'
+import { useGetAllProductDataQuery } from '@/redux/features/products/productApi'
+import { useCreateOrderMutation } from '@/redux/features/order/orderApi'
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -104,6 +104,7 @@ export default function Checkout() {
           alert("Payment link not found");
         }
       }, 1500);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Order creation error:", error);
       if (error.status === 404 && error.data?.message === "User not found") {

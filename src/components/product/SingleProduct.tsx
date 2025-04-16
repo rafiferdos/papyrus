@@ -13,7 +13,7 @@ import { TextScramble } from '../ui/text-scramble';
 import { TProduct } from './AllProducts';
 import { ScrollReveal } from '@/components/ScrollReveal';
 import toast from 'react-hot-toast';
-import { addToCart } from '@/redux/Features/products/cart.api';
+import { addToCart } from '@/redux/features/products/cart.api'
 import { useDispatch } from 'react-redux';
 import { ProductCategory } from '@/types/global';
 

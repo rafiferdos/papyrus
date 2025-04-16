@@ -13,7 +13,7 @@ import {
 } from "../ui/select";
 import { Button } from "../ui/button";
 // import { useNavigate } from 'react-router-dom';
-import { useGetAllProductDataQuery } from "@/redux/Features/products/productApi";
+import { useGetAllProductDataQuery } from "@/redux/features/products/productApi";
 import { TQueryParam } from "@/types/global";
 import ProductCard from "../ProductCard/ProductCard";
 

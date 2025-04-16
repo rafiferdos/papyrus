@@ -11,9 +11,9 @@ import {
 } from 'redux-persist'
 import { configureStore } from '@reduxjs/toolkit'
 import { baseApi } from './api/baseApi'
-import authReducer from './Features/auth/authSlice'
-import cartReducer from './Features/products/cart.api'
-import orderReducer from './Features/order/orderSlice';
+import authReducer from './features/auth/authSlice'
+import cartReducer from './features/products/cart.api'
+import orderReducer from './features/order/orderSlice';
 const persistConfig = {
   key: 'auth',
   storage,

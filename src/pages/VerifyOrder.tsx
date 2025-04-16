@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, AlertCircle } from "lucide-react";
-import { useVerifyOrderQuery } from "@/redux/Features/order/orderApi";
+import { useVerifyOrderQuery } from '@/redux/features/order/orderApi'
 import { Link, useSearchParams } from "react-router";
 import {Skeleton} from "@/components/ui/skeleton";
 
