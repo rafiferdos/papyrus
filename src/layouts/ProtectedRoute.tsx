@@ -2,7 +2,7 @@ import {
   logout,
   useCurrentToken,
   useCurrentUser,
-} from "@/redux/Features/auth/authSlice";
+} from '@/redux/features/auth/authSlice'
 import { useAppDispatch } from "@/redux/hooks";
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";

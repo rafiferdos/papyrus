@@ -20,9 +20,9 @@ import { Link } from "react-router-dom";
 import { verifyToken } from "@/utils/verifyToken";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useLoginMutation } from "@/redux/Features/auth/authApi";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { TUser } from "@/types/auth.types";
-import { setCredentials } from "@/redux/Features/auth/authSlice";
+import { setCredentials } from "@/redux/features/auth/authSlice";
 import { setUserId } from "@/redux/features/products/cart.api";
 
 const formSchema = z.object({

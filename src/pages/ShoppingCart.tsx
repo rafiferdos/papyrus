@@ -4,17 +4,17 @@ import { Separator } from "@/components/ui/separator";
 import {
   removeFromCart,
   updateQuantity,
-} from "@/redux/Features/products/cart.api";
+} from '@/redux/features/products/cart.api'
 import { RootState } from "@/redux/store";
 import { ArrowLeft, ShoppingBag, Trash2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { useGetMultipleProductsQuery } from "@/redux/Features/products/productApi";
+import { useGetMultipleProductsQuery } from '@/redux/features/products/productApi'
 import { useEffect, useState, useMemo } from "react";
 import { useAppSelector } from "@/redux/hooks";
-import { useCurrentUser } from "@/redux/Features/auth/authSlice";
+import { useCurrentUser } from '@/redux/features/auth/authSlice'
 
 export default function ShoppingCart() {
   const dispatch = useDispatch()

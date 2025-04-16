@@ -5,9 +5,9 @@ import DashboardChart from "./DashboardChart";
 import { Button } from "../ui/button";
 
 import { useSelector } from "react-redux";
-import { useCurrentUser } from "@/redux/Features/auth/authSlice";
+import { useCurrentUser } from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hooks";
-import { useGetUserQuery } from "@/redux/Features/userApi";
+import { useGetUserQuery } from "@/redux/features/userApi";
 import { Link } from "react-router-dom";
 
 const DashboardHome = () => {

@@ -31,8 +31,8 @@ import {
   logout,
   useCurrentToken,
   useCurrentUser,
-} from "@/redux/Features/auth/authSlice";
-import { useGetUserQuery } from "@/redux/Features/userApi";
+} from "@/redux/features/auth/authSlice";
+import { useGetUserQuery } from "@/redux/features/userApi";
 
 export default function Navbar() {
   const location = useLocation();

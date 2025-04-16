@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Link, useNavigate } from "react-router-dom";
-import { useRegisterMutation } from "@/redux/Features/auth/authApi";
+import { useRegisterMutation } from "@/redux/features/auth/authApi";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),

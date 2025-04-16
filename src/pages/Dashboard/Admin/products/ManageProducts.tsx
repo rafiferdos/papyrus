@@ -1,5 +1,5 @@
 import ManageProductTbl from "@/components/dashboard/product/ManageProductTbl";
-import { useGetAllProductDataQuery } from "@/redux/Features/products/productApi";
+import { useGetAllProductDataQuery } from '@/redux/features/products/productApi'
 
 const ManageProducts = () => {
   const { data: response, isLoading, error } = useGetAllProductDataQuery([]);

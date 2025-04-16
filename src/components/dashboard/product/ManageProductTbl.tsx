@@ -2,7 +2,7 @@
 import DashboardPageTitle from "@/components/dashboard/DashboardPageTitle";
 import DeleteConfirmationModal from "@/components/ui/core/PModal/DeleteConfirmationModal";
 import { PTable } from "@/components/ui/core/PTable";
-import { useDeleteProductMutation } from "@/redux/Features/products/productApi";
+import { useDeleteProductMutation } from "@/redux/features/products/productApi";
 import { TProduct } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Edit, Trash2 } from "lucide-react";

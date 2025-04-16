@@ -5,13 +5,13 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CheckIcon, PencilIcon, XIcon } from "lucide-react";
-import { useCurrentUser } from "@/redux/Features/auth/authSlice";
+import { useCurrentUser } from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hooks";
 import userAvatar from "../../assets/user.png";
 import {
   useGetUserQuery,
   useUpdateUserMutation,
-} from "@/redux/Features/userApi";
+} from "@/redux/features/userApi";
 import toast from "react-hot-toast";
 
 const fields = [

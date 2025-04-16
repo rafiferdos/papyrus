@@ -15,7 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useAddProductMutation } from "@/redux/Features/products/productApi";
+import { useAddProductMutation } from "@/redux/features/products/productApi";
 
 import { toast } from "sonner";
 import { productFormValidationSchema } from "./productFormValidation";
