@@ -22,8 +22,6 @@ const AllProductsPage = () => {
       >
         <AllProducts />
       </motion.section>
-
-
     </div>
   );
 };
