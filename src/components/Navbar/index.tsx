@@ -68,10 +68,10 @@ export default function Navbar() {
   const Tabs = [
     { name: "Home", href: "/" },
     { name: "Products", href: "/products" },
-    { name: "Categories", href: "#", isMegaMenu: true },
     { name: "Blog", href: "/blog" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
+    { name: "More", href: "#", isMegaMenu: true },
   ];
 
   const handleLogout = () => {
