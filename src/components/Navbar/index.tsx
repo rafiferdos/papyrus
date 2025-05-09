@@ -489,20 +489,19 @@ export default function Navbar() {
                     </NavigationMenuItem>
                   ) : (
                     <NavigationMenuItem key={tab.name}>
-                      <Link to={tab.href}>
-                        <NavigationMenuLink
-                          className={cn(
-                            navigationMenuTriggerStyle(),
-                            `${
-                              location.pathname === tab.href
-                                ? "text-zinc-950 dark:text-zinc-50 font-bold"
-                                : "text-zinc-600 dark:text-zinc-400"
-                            }`
-                          )}
-                        >
-                          {tab.name}
-                        </NavigationMenuLink>
-                      </Link>
+                      <NavigationMenuLink
+                        asChild
+                        className={cn(
+                          navigationMenuTriggerStyle(),
+                          `${
+                            location.pathname === tab.href
+                              ? "text-zinc-950 dark:text-zinc-50 font-bold"
+                              : "text-zinc-600 dark:text-zinc-400"
+                          }`
+                        )}
+                      >
+                        <Link to={tab.href}>{tab.name}</Link>
+                      </NavigationMenuLink>
                     </NavigationMenuItem>
                   )
                 )}
