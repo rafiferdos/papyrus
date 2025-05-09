@@ -2,72 +2,7 @@ import AllProducts from "@/components/product/AllProducts";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { ArrowDown, Sparkles, Stars, Tag, Truck } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-
-// Add this CountUp component
-const CountUp = ({ value }: { value: string }) => {
-  const [displayValue, setDisplayValue] = useState("0");
-  const valueRef = useRef<string>(value);
-  const isAnimating = useRef(false);
-
-  // Handle numeric values with + suffix
-  const numericPart = value.replace(/[^0-9.]/g, "");
-  const suffix = value.replace(numericPart, "");
-  const targetNumber = parseFloat(numericPart);
-
-  useEffect(() => {
-    if (isAnimating.current) return;
-    if (valueRef.current !== value) {
-      valueRef.current = value;
-
-      // Only animate if visible in viewport
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            animateValue();
-            observer.disconnect();
-          }
-        },
-        { threshold: 0.3 }
-      );
-
-      const element = document.getElementById(`stat-${value}`);
-      if (element) observer.observe(element);
-
-      return () => observer.disconnect();
-    }
-  }, [value]);
-
-  const animateValue = () => {
-    isAnimating.current = true;
-    const duration = 1500;
-    const startTimestamp = performance.now();
-
-    const step = (timestamp: number) => {
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      const easedProgress = easeOutExpo(progress);
-      const currentValue = Math.floor(easedProgress * targetNumber);
-
-      setDisplayValue(`${currentValue}${suffix}`);
-
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
-      } else {
-        setDisplayValue(value);
-        isAnimating.current = false;
-      }
-    };
-
-    window.requestAnimationFrame(step);
-  };
-
-  // Easing function for smooth animation
-  const easeOutExpo = (x: number): number => {
-    return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
-  };
-
-  return <span id={`stat-${value}`}>{displayValue}</span>;
-};
+import { useEffect, useState } from "react";
 
 const AllProductsPage = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -603,17 +538,14 @@ const AllProductsPage = () => {
                   </div>
 
                   {/* Counter animation */}
-                  <motion.p
+                  <p
                     className={`text-3xl md:text-4xl font-bold bg-gradient-to-r bg-clip-text text-transparent mb-1`}
                     style={{
                       backgroundImage: `linear-gradient(to right, ${stat.color})`,
                     }}
-                    initial={{ opacity: 0.3 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
                   >
-                    <CountUp value={stat.value} />
-                  </motion.p>
+                    {stat.value}
+                  </p>
 
                   <p className="text-sm text-muted-foreground">{stat.label}</p>
 
