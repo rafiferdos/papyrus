@@ -82,11 +82,12 @@ export default function Footer() {
                 Made with{" "}
                 <Heart className="h-4 w-4 text-red-500 fill-red-500" /> by{" "}
                 <a
-                  href="/"
+                  href="https://rafiferdos.vercel.app/"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="font-medium text-primary hover:underline transition-colors"
                 >
-                  Team Super Cluster
+                  Rafi Ferdos
                 </a>
               </div>
             </div>
