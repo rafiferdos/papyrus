@@ -18,6 +18,8 @@ import ShoppingCart from "@/pages/ShoppingCart";
 import SingleProduct from "@/pages/SingleProductPage";
 import { createBrowserRouter } from "react-router-dom";
 // import Profile from "@/pages/Dashboard/User/profile/Profile";
+import Blog from "@/pages/Blog";
+import Contact from "@/pages/Contact";
 import ErrorPage from "@/pages/ErrorPage";
 import OrderDetails from "@/pages/Order";
 import MyProfilePage from "@/pages/profile/MyProfile";
@@ -94,6 +96,14 @@ const router = createBrowserRouter([
       {
         path: "resources/workspace-organization",
         element: <WorkspaceOrganization />,
+      },
+      {
+        path: "blog",
+        element: <Blog />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
       },
     ],
   },
