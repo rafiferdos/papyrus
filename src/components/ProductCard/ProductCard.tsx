@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Eye, Clock, Tag, ShoppingBag, X } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
@@ -106,7 +106,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => {
             setIsHovered(false);
-            setShowQuickView(false);
           }}
         >
           {/* Product Image */}
@@ -291,154 +290,159 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </motion.div>
       </Link>
       
-      {/* Quick View Modal */}
-      {showQuickView && (
-        <div 
-          className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4"
-          onClick={(e) => {
-            e.preventDefault();
-            setShowQuickView(false);
-          }}
-        >
+      {/* Quick View Modal - Using AnimatePresence */}
+      <AnimatePresence>
+        {showQuickView && (
           <motion.div 
-            className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden max-w-md w-full shadow-2xl"
-            onClick={e => e.stopPropagation()}
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={(e) => {
+              e.preventDefault();
+              setShowQuickView(false);
+            }}
           >
-            <div className="relative">
-              <img 
-                src={image} 
-                alt={name}
-                className="w-full aspect-video object-cover"
-              />
-              <button 
-                onClick={(e) => {
-                  e.preventDefault(); 
-                  e.stopPropagation();
-                  setShowQuickView(false);
-                }}
-                className="absolute top-3 right-3 bg-black/50 hover:bg-black/70 text-white rounded-full p-1.5 transition-colors"
-              >
-                <X size={16} />
-              </button>
-              
-              {isNew && (
-                <div className="absolute bottom-3 left-3">
-                  <Badge className="bg-gradient-to-r from-violet-500 to-purple-600 border-none text-white px-3 py-1 flex items-center gap-1 shadow-md">
-                    <Clock size={12} className="animate-pulse" />
-                    <span>New Arrival</span>
-                  </Badge>
-                </div>
-              )}
-
-              {!isInStock && (
-                <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/40 flex items-center justify-center">
-                  <Badge className="bg-red-500 text-white border-none px-4 py-2 text-sm">
-                    Out of Stock
-                  </Badge>
-                </div>
-              )}
-            </div>
-            
-            <div className="p-6">
-              <div className="flex items-center gap-2 mb-2">
-                <Badge className="bg-primary/10 text-primary border-none">
-                  {brand}
-                </Badge>
+            <motion.div 
+              className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden max-w-md w-full shadow-2xl"
+              onClick={e => e.stopPropagation()}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            >
+              <div className="relative">
+                <img 
+                  src={image} 
+                  alt={name}
+                  className="w-full aspect-video object-cover"
+                />
+                <button 
+                  onClick={(e) => {
+                    e.preventDefault(); 
+                    e.stopPropagation();
+                    setShowQuickView(false);
+                  }}
+                  className="absolute top-3 right-3 bg-black/50 hover:bg-black/70 text-white rounded-full p-1.5 transition-colors"
+                >
+                  <X size={16} />
+                </button>
                 
-                {discountPercentage >= 40 && (
-                  <Badge className="bg-rose-500 text-white border-none flex items-center gap-1">
-                    <Tag size={12} />
-                    <span>{discountPercentage}% OFF</span>
-                  </Badge>
+                {isNew && (
+                  <div className="absolute bottom-3 left-3">
+                    <Badge className="bg-gradient-to-r from-violet-500 to-purple-600 border-none text-white px-3 py-1 flex items-center gap-1 shadow-md">
+                      <Clock size={12} className="animate-pulse" />
+                      <span>New Arrival</span>
+                    </Badge>
+                  </div>
+                )}
+
+                {!isInStock && (
+                  <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/40 flex items-center justify-center">
+                    <Badge className="bg-red-500 text-white border-none px-4 py-2 text-sm">
+                      Out of Stock
+                    </Badge>
+                  </div>
                 )}
               </div>
               
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
-                {name}
-              </h3>
-              
-              {/* Product Description - Added */}
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                {description}
-              </p>
-              
-              <div className="flex items-baseline gap-3 mb-4">
-                <span className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
-                  ${price.toFixed(2)}
-                </span>
-                <span className="text-base line-through text-gray-400">
-                  ${discountPrice}
-                </span>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
-                <div className="flex flex-col bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">
-                  <span className="text-gray-500 dark:text-gray-400 text-xs mb-1">Status</span>
-                  <span className={cn(
-                    "font-medium",
-                    isInStock ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"
-                  )}>
-                    {isInStock ? "In Stock" : "Out of Stock"}
+              <div className="p-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <Badge className="bg-primary/10 text-primary border-none">
+                    {brand}
+                  </Badge>
+                  
+                  {discountPercentage >= 40 && (
+                    <Badge className="bg-rose-500 text-white border-none flex items-center gap-1">
+                      <Tag size={12} />
+                      <span>{discountPercentage}% OFF</span>
+                    </Badge>
+                  )}
+                </div>
+                
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                  {name}
+                </h3>
+                
+                {/* Product Description - Added */}
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  {description}
+                </p>
+                
+                <div className="flex items-baseline gap-3 mb-4">
+                  <span className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
+                    ${price.toFixed(2)}
+                  </span>
+                  <span className="text-base line-through text-gray-400">
+                    ${discountPrice}
                   </span>
                 </div>
                 
-                <div className="flex flex-col bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">
-                  <span className="text-gray-500 dark:text-gray-400 text-xs mb-1">Category</span>
-                  <span className="font-medium">{category}</span>
+                <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
+                  <div className="flex flex-col bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">
+                    <span className="text-gray-500 dark:text-gray-400 text-xs mb-1">Status</span>
+                    <span className={cn(
+                      "font-medium",
+                      isInStock ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"
+                    )}>
+                      {isInStock ? "In Stock" : "Out of Stock"}
+                    </span>
+                  </div>
+                  
+                  <div className="flex flex-col bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">
+                    <span className="text-gray-500 dark:text-gray-400 text-xs mb-1">Category</span>
+                    <span className="font-medium">{category}</span>
+                  </div>
+                </div>
+                
+                <div className="flex gap-3">
+                  <Button 
+                    className="flex-1 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white py-2.5"
+                    asChild
+                    disabled={!isInStock}
+                  >
+                    <Link 
+                      to={`/products/${_id}`}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <span>View Details</span>
+                      <ArrowRight size={16} className="ml-2" />
+                    </Link>
+                  </Button>
+                  
+                  {/* Add to Cart button */}
+                  <Button 
+                    className={cn(
+                      "flex-1 py-2.5 font-medium transition-colors flex items-center justify-center gap-2",
+                      isInStock
+                        ? "bg-emerald-600 hover:bg-emerald-700 text-white"
+                        : "bg-gray-200 text-gray-500 cursor-not-allowed"
+                    )}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleAddToCart(e);
+                    }}
+                    disabled={!isInStock || isAddingToCart}
+                  >
+                    {isAddingToCart ? (
+                      <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                      </svg>
+                    ) : (
+                      <>
+                        <ShoppingBag size={16} />
+                        <span>{isInStock ? "Add to Cart" : "Out of Stock"}</span>
+                      </>
+                    )}
+                  </Button>
                 </div>
               </div>
-              
-              <div className="flex gap-3">
-                <Button 
-                  className="flex-1 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white py-2.5"
-                  asChild
-                  disabled={!isInStock}
-                >
-                  <Link 
-                    to={`/products/${_id}`}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <span>View Details</span>
-                    <ArrowRight size={16} className="ml-2" />
-                  </Link>
-                </Button>
-                
-                {/* Add to Cart button */}
-                <Button 
-                  className={cn(
-                    "flex-1 py-2.5 font-medium transition-colors flex items-center justify-center gap-2",
-                    isInStock
-                      ? "bg-emerald-600 hover:bg-emerald-700 text-white"
-                      : "bg-gray-200 text-gray-500 cursor-not-allowed"
-                  )}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleAddToCart(e);
-                  }}
-                  disabled={!isInStock || isAddingToCart}
-                >
-                  {isAddingToCart ? (
-                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                    </svg>
-                  ) : (
-                    <>
-                      <ShoppingBag size={16} />
-                      <span>{isInStock ? "Add to Cart" : "Out of Stock"}</span>
-                    </>
-                  )}
-                </Button>
-              </div>
-            </div>
+            </motion.div>
           </motion.div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };
