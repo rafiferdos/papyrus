@@ -1,32 +1,32 @@
 import DashboardHome from "@/components/dashboard/DashboardHome";
 import DashboardLayout from "@/layouts/DashboardLayout";
+import MainLayout from "@/layouts/MainLayout";
+import PrivateRoute from "@/layouts/ProtectedRoute";
+import About from "@/pages/About";
+import AllProductsPage from "@/pages/AllProductsPage";
+import Login from "@/pages/Auth/Login";
+import Register from "@/pages/Auth/Register";
+import Checkout from "@/pages/Checkout";
 import ManageOrders from "@/pages/Dashboard/Admin/orders/ManageOrders";
 import AddProduct from "@/pages/Dashboard/Admin/products/AddProduct";
 import ManageProducts from "@/pages/Dashboard/Admin/products/ManageProducts";
 import UpdateProduct from "@/pages/Dashboard/Admin/products/UpdateProduct";
 import ManageUsers from "@/pages/Dashboard/Admin/user/ManageUsers";
 import Orders from "@/pages/Dashboard/User/orders/Orders";
-import MainLayout from "@/layouts/MainLayout";
-import PrivateRoute from "@/layouts/ProtectedRoute";
-import Login from "@/pages/Auth/Login";
-import Register from "@/pages/Auth/Register";
 import Home from "@/pages/Home";
-import AllProductsPage from "@/pages/AllProductsPage";
+import ShoppingCart from "@/pages/ShoppingCart";
 import SingleProduct from "@/pages/SingleProductPage";
 import { createBrowserRouter } from "react-router-dom";
-import ShoppingCart from "@/pages/ShoppingCart";
-import Checkout from "@/pages/Checkout";
-import About from "@/pages/About";
 // import Profile from "@/pages/Dashboard/User/profile/Profile";
+import ErrorPage from "@/pages/ErrorPage";
+import OrderDetails from "@/pages/Order";
 import MyProfilePage from "@/pages/profile/MyProfile";
 import OrderVerification from "@/pages/VerifyOrder";
-import OrderDetails from "@/pages/Order";
-import ErrorPage from "@/pages/ErrorPage";
 
 // Resource pages
-import PaperGuide from "@/pages/resources/paper-guide";
-import JournalIdeas from "@/pages/resources/journal-ideas";
 import CalligraphyBasics from "@/pages/resources/calligraphy-basics";
+import JournalIdeas from "@/pages/resources/journal-ideas";
+import PaperGuide from "@/pages/resources/paper-guide";
 import WorkspaceOrganization from "@/pages/resources/workspace-organization";
 
 const router = createBrowserRouter([
@@ -61,7 +61,11 @@ const router = createBrowserRouter([
       },
       {
         path: "cart",
-        element: <PrivateRoute><ShoppingCart /></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <ShoppingCart />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/checkout",
@@ -70,7 +74,8 @@ const router = createBrowserRouter([
       {
         path: "/order/verify",
         element: <OrderVerification />,
-      },      {
+      },
+      {
         path: "/order",
         element: <OrderDetails />,
       },

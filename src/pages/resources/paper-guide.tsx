@@ -218,7 +218,9 @@ export default function PaperGuide() {
                   At Papyrus, we prioritize eco-friendly options and clearly
                   label all sustainable products with our green leaf icon.
                 </p>
-                <div className="mt-4 flex justify-end">                  <Button variant="outline" size="sm" asChild>
+                <div className="mt-4 flex justify-end">
+                  {" "}
+                  <Button variant="outline" size="sm" asChild>
                     <Link to="/products/eco-friendly">
                       Shop Eco-Friendly Options
                     </Link>
@@ -342,7 +344,8 @@ export default function PaperGuide() {
               <p className="mb-4">
                 Our paper experts are available to help you choose the right
                 products for your specific needs.
-              </p>              <Button variant="outline" asChild>
+              </p>{" "}
+              <Button variant="outline" asChild>
                 <Link to="/contact">Contact Our Experts</Link>
               </Button>
             </div>
@@ -350,7 +353,9 @@ export default function PaperGuide() {
             <div className="bg-muted p-6 rounded-lg border">
               <h3 className="text-xl font-bold mb-4">Related Resources</h3>
               <ul className="space-y-2">
-                <li>                  <Link
+                <li>
+                  {" "}
+                  <Link
                     to="/resources/ink-guide"
                     className="text-primary hover:underline flex items-center gap-2"
                   >
@@ -371,7 +376,9 @@ export default function PaperGuide() {
                     Complete Guide to Inks
                   </Link>
                 </li>
-                <li>                  <Link
+                <li>
+                  {" "}
+                  <Link
                     to="/resources/notebook-buying-guide"
                     className="text-primary hover:underline flex items-center gap-2"
                   >
@@ -392,7 +399,9 @@ export default function PaperGuide() {
                     Notebook Buying Guide
                   </Link>
                 </li>
-                <li>                  <Link
+                <li>
+                  {" "}
+                  <Link
                     to="/resources/calligraphy-basics"
                     className="text-primary hover:underline flex items-center gap-2"
                   >
@@ -417,7 +426,9 @@ export default function PaperGuide() {
                     Calligraphy for Beginners
                   </Link>
                 </li>
-                <li>                  <Link
+                <li>
+                  {" "}
+                  <Link
                     to="/blog/conservation"
                     className="text-primary hover:underline flex items-center gap-2"
                   >

@@ -348,9 +348,9 @@ export default function Navbar() {
                                   <path d="M19 8 8 19l-5 2 2-5L16 5z"></path>
                                 </svg>
                                 <span>Calligraphy for Beginners</span>
-                              </Link>
+                              </Link>{" "}
                               <Link
-                                to="/resources/organize-workspace"
+                                to="/resources/workspace-organization"
                                 className="flex items-center gap-2 hover:text-primary transition-colors"
                               >
                                 <svg

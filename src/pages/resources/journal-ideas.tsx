@@ -945,7 +945,9 @@ export default function JournalIdeas() {
                     </div>
                   </div>
                   <Button className="mt-5" asChild>
-                    <Link to="/products/journal-starter-kit">Shop Starter Kit</Link>
+                    <Link to="/products/journal-starter-kit">
+                      Shop Starter Kit
+                    </Link>
                   </Button>
                 </div>
               </div>
