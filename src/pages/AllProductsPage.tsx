@@ -319,7 +319,7 @@ const AllProductsPage = () => {
         </div>
       </section>
 
-      {/* Stats banner */}
+      {/* Stats banner - FIXED SECTION */}
       <section className="relative py-16 overflow-hidden rounded-4xl">
         {/* Decorative background */}
         <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-violet-500/5 to-primary/5 -z-10" />
@@ -424,6 +424,7 @@ const AllProductsPage = () => {
                 ),
                 color: "from-violet-600 to-indigo-600",
                 bgColor: "bg-violet-50 dark:bg-violet-900/20",
+                textColor: "text-violet-600 dark:text-violet-400",
               },
               {
                 value: "12k+",
@@ -444,6 +445,7 @@ const AllProductsPage = () => {
                 ),
                 color: "from-pink-500 to-rose-500",
                 bgColor: "bg-pink-50 dark:bg-pink-900/20",
+                textColor: "text-pink-600 dark:text-pink-400",
               },
               {
                 value: "98%",
@@ -467,6 +469,7 @@ const AllProductsPage = () => {
                 ),
                 color: "from-emerald-500 to-green-500",
                 bgColor: "bg-emerald-50 dark:bg-emerald-900/20",
+                textColor: "text-emerald-600 dark:text-emerald-400",
               },
               {
                 value: "24/7",
@@ -488,6 +491,7 @@ const AllProductsPage = () => {
                 ),
                 color: "from-amber-500 to-yellow-500",
                 bgColor: "bg-amber-50 dark:bg-amber-900/20",
+                textColor: "text-amber-600 dark:text-amber-400",
               },
             ].map((stat, index) => (
               <motion.div
@@ -537,17 +541,16 @@ const AllProductsPage = () => {
                     </motion.div>
                   </div>
 
-                  {/* Counter animation */}
-                  <p
-                    className={`text-3xl md:text-4xl font-bold bg-gradient-to-r bg-clip-text text-transparent mb-1`}
-                    style={{
-                      backgroundImage: `linear-gradient(to right, ${stat.color})`,
-                    }}
-                  >
-                    {stat.value}
-                  </p>
+                  {/* Fixed Counter Value - Direct display with styled text */}
+                  <div className="text-center mb-1">
+                    <span
+                      className={`text-3xl md:text-4xl font-bold ${stat.textColor}`}
+                    >
+                      {stat.value}
+                    </span>
+                  </div>
 
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
+                  <p className="text-sm text-muted-foreground text-center">{stat.label}</p>
 
                   {/* Little floating elements */}
                   {[...Array(3)].map((_, i) => (
