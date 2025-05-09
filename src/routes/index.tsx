@@ -23,6 +23,12 @@ import OrderVerification from "@/pages/VerifyOrder";
 import OrderDetails from "@/pages/Order";
 import ErrorPage from "@/pages/ErrorPage";
 
+// Resource pages
+import PaperGuide from "@/pages/resources/paper-guide";
+import JournalIdeas from "@/pages/resources/journal-ideas";
+import CalligraphyBasics from "@/pages/resources/calligraphy-basics";
+import WorkspaceOrganization from "@/pages/resources/workspace-organization";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -64,10 +70,25 @@ const router = createBrowserRouter([
       {
         path: "/order/verify",
         element: <OrderVerification />,
-      },
-      {
+      },      {
         path: "/order",
         element: <OrderDetails />,
+      },
+      {
+        path: "resources/paper-guide",
+        element: <PaperGuide />,
+      },
+      {
+        path: "resources/journal-ideas",
+        element: <JournalIdeas />,
+      },
+      {
+        path: "resources/calligraphy-basics",
+        element: <CalligraphyBasics />,
+      },
+      {
+        path: "resources/workspace-organization",
+        element: <WorkspaceOrganization />,
       },
     ],
   },
