@@ -342,9 +342,8 @@ export default function PaperGuide() {
               <p className="mb-4">
                 Our paper experts are available to help you choose the right
                 products for your specific needs.
-              </p>
-              <Button variant="outline" asChild>
-                <a href="/contact">Contact Our Experts</a>
+              </p>              <Button variant="outline" asChild>
+                <Link to="/contact">Contact Our Experts</Link>
               </Button>
             </div>
 
