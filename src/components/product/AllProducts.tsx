@@ -822,75 +822,517 @@ const AllProducts: React.FC = () => {
         </div>
         
         {/* Pagination */}
-        {response?.data?.meta && (
-          <div className="flex flex-col items-center pt-8 mt-4 border-t space-y-4">
-            <div className="flex items-center justify-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={page === 1}
-                onClick={() => setPage(1)}
-                className={page === 1 ? 'opacity-50 cursor-not-allowed' : ''}
+{/* Cyberpunk 2077-inspired Pagination System */}
+{response?.data?.meta && (
+  <motion.div 
+    className="mt-16 mb-8 relative"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 0.5 }}
+  >
+    {/* Decorative background elements */}
+    <div className="absolute inset-0 -z-10 overflow-hidden">
+      {/* Glowing circuit lines */}
+      <svg className="absolute w-full h-full" viewBox="0 0 1000 200" xmlns="http://www.w3.org/2000/svg">
+        <path 
+          d="M0,100 Q250,180 500,100 T1000,100" 
+          fill="none" 
+          stroke="url(#circuit-gradient)" 
+          strokeWidth="0.5"
+          strokeDasharray="5,5"
+        />
+        <path 
+          d="M0,120 Q250,40 500,120 T1000,120" 
+          fill="none" 
+          stroke="url(#circuit-gradient)" 
+          strokeWidth="0.5" 
+          strokeDasharray="4,6"
+        />
+        <defs>
+          <linearGradient id="circuit-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.1" />
+            <stop offset="50%" stopColor="var(--primary)" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="var(--primary)" stopOpacity="0.1" />
+          </linearGradient>
+        </defs>
+      </svg>
+      
+      {/* Animated data flow particles */}
+      {[...Array(15)].map((_, i) => (
+        <motion.div
+          key={`particle-${i}`}
+          className="absolute h-1 w-1 rounded-full bg-primary/60 blur-[1px]"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            x: [0, Math.random() * 100 - 50],
+            y: [0, Math.random() * 60 - 30],
+            opacity: [0, 0.8, 0],
+            scale: [0, 1.5, 0],
+          }}
+          transition={{
+            duration: Math.random() * 2 + 2,
+            repeat: Infinity,
+            repeatDelay: Math.random() * 3,
+          }}
+        />
+      ))}
+    </div>
+
+    <div className="glass-container backdrop-blur-sm bg-white/30 dark:bg-gray-900/30 border border-primary/10 rounded-2xl p-6 shadow-xl">
+      <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+        {/* Page navigation controls */}
+        <div className="flex items-center">
+          {/* Page indicator with futuristic design */}
+          <motion.div 
+            className="mr-6 flex flex-col items-center bg-primary/5 dark:bg-primary/10 border border-primary/20 rounded-xl p-3 relative overflow-hidden"
+            animate={{ boxShadow: ['0 0 0px rgba(var(--primary-rgb), 0.3)', '0 0 8px rgba(var(--primary-rgb), 0.5)', '0 0 0px rgba(var(--primary-rgb), 0.3)'] }}
+            transition={{ duration: 3, repeat: Infinity }}
+          >
+            {/* Top glowing line */}
+            <motion.div 
+              className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent"
+              animate={{ opacity: [0.3, 1, 0.3] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+            
+            <span className="text-sm text-muted-foreground mb-1">CURRENT PAGE</span>
+            <div className="flex items-center justify-center">
+              <span className="text-3xl font-bold text-primary tabular-nums">
+                {String(response.data.meta.page).padStart(2, '0')}
+              </span>
+              <span className="text-muted-foreground mx-2">/</span>
+              <span className="text-lg text-muted-foreground tabular-nums">
+                {String(response.data.meta.totalPage).padStart(2, '0')}
+              </span>
+            </div>
+          </motion.div>
+
+          {/* Navigation buttons with high-tech effects */}
+          <div className="flex items-center space-x-2">
+            {/* First page button */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              disabled={page === 1}
+              onClick={() => setPage(1)}
+              className={`relative group flex items-center justify-center w-10 h-10 rounded-lg border border-primary/20 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm overflow-hidden transition-all duration-300 ${
+                page === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:border-primary/50 hover:bg-primary/5'
+              }`}
+            >
+              {/* Hover glow effect */}
+              <motion.div 
+                className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                animate={{ 
+                  background: ['rgba(var(--primary-rgb), 0.05)', 'rgba(var(--primary-rgb), 0.15)', 'rgba(var(--primary-rgb), 0.05)'] 
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              
+              {/* Icon with animation */}
+              <motion.div
+                animate={page !== 1 ? { 
+                  x: [0, -2, 0],
+                } : {}}
+                transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
                   <polyline points="11 17 6 12 11 7"></polyline>
                   <polyline points="18 17 13 12 18 7"></polyline>
                 </svg>
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={page === 1}
-                onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-                className={page === 1 ? 'opacity-50 cursor-not-allowed' : ''}
+              </motion.div>
+            </motion.button>
+
+            {/* Previous page button */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              disabled={page === 1}
+              onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+              className={`group relative flex items-center justify-center h-10 px-4 rounded-lg border border-primary/20 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm overflow-hidden transition-all duration-300 ${
+                page === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:border-primary/50 hover:bg-primary/5'
+              }`}
+            >
+              {/* Button highlight effect */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 opacity-0 group-hover:opacity-100"
+                animate={{ 
+                  x: ['-100%', '100%'], 
+                }}
+                transition={{ 
+                  duration: 1.5, 
+                  repeat: Infinity,
+                  repeatDelay: 0.5 
+                }}
+              />
+              
+              <motion.div
+                className="flex items-center"
+                animate={page !== 1 ? { 
+                  x: [0, -3, 0],
+                } : {}}
+                transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary mr-1">
                   <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
-                <span className="ml-1">Previous</span>
-              </Button>
+                <span className="font-medium">Previous</span>
+              </motion.div>
+            </motion.button>
 
-              <div className="flex items-center px-4">
-                <span className="text-sm font-medium">
-                  Page {response.data.meta.page} of {response.data.meta.totalPage}
-                </span>
-              </div>
+            {/* Smart page selection - Renders nearby pages and important landmarks */}
+            <div className="hidden lg:flex items-center px-1">
+              {Array.from({ length: response.data.meta.totalPage }).map((_, idx) => {
+                const pageNumber = idx + 1;
+                
+                // Show first page, last page, current page, and pages near current
+                const shouldShowPage = 
+                  pageNumber === 1 || 
+                  pageNumber === response.data.meta.totalPage ||
+                  Math.abs(pageNumber - page) <= 1;
+                
+                // Show ellipsis at appropriate breakpoints
+                const showEllipsisBefore = pageNumber === page - 2 && pageNumber > 2;
+                const showEllipsisAfter = pageNumber === page + 2 && pageNumber < response.data.meta.totalPage - 1;
+                
+                if (showEllipsisBefore) {
+                  return (
+                    <motion.div 
+                      key={`ellipsis-${pageNumber}`}
+                      className="w-10 h-10 flex items-center justify-center text-muted-foreground"
+                      animate={{ 
+                        opacity: [0.5, 1, 0.5],
+                      }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="1" fill="currentColor" />
+                        <circle cx="6" cy="12" r="1" fill="currentColor" />
+                        <circle cx="18" cy="12" r="1" fill="currentColor" />
+                      </svg>
+                    </motion.div>
+                  );
+                }
+                
+                if (showEllipsisAfter) {
+                  return (
+                    <motion.div 
+                      key={`ellipsis-${pageNumber}`}
+                      className="w-10 h-10 flex items-center justify-center text-muted-foreground"
+                      animate={{ 
+                        opacity: [0.5, 1, 0.5],
+                      }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="1" fill="currentColor" />
+                        <circle cx="6" cy="12" r="1" fill="currentColor" />
+                        <circle cx="18" cy="12" r="1" fill="currentColor" />
+                      </svg>
+                    </motion.div>
+                  );
+                }
+                
+                if (shouldShowPage) {
+                  return (
+                    <motion.button
+                      key={pageNumber}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setPage(pageNumber)}
+                      className={`relative w-10 h-10 flex items-center justify-center rounded-lg mx-1 font-medium ${
+                        pageNumber === page 
+                          ? 'bg-primary text-white shadow-lg shadow-primary/30' 
+                          : 'bg-white/30 dark:bg-gray-800/30 hover:bg-primary/10 border border-primary/20'
+                      }`}
+                    >
+                      {pageNumber === page && (
+                        <motion.div 
+                          className="absolute inset-0 rounded-lg bg-primary -z-10"
+                          animate={{ 
+                            boxShadow: [
+                              '0 0 0px rgba(var(--primary-rgb), 0.3)', 
+                              '0 0 10px rgba(var(--primary-rgb), 0.6)', 
+                              '0 0 0px rgba(var(--primary-rgb), 0.3)'
+                            ] 
+                          }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                        />
+                      )}
+                      {pageNumber}
+                    </motion.button>
+                  );
+                }
+                
+                return null;
+              })}
+            </div>
 
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={page === response.data.meta.totalPage}
-                onClick={() => setPage((prev) => prev + 1)}
-                className={page === response.data.meta.totalPage ? 'opacity-50 cursor-not-allowed' : ''}
+            {/* Next page button */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              disabled={page === response.data.meta.totalPage}
+              onClick={() => setPage((prev) => prev + 1)}
+              className={`group relative flex items-center justify-center h-10 px-4 rounded-lg border border-primary/20 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm overflow-hidden transition-all duration-300 ${
+                page === response.data.meta.totalPage ? 'opacity-50 cursor-not-allowed' : 'hover:border-primary/50 hover:bg-primary/5'
+              }`}
+            >
+              {/* Button highlight effect */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 opacity-0 group-hover:opacity-100"
+                animate={{ 
+                  x: ['-100%', '100%'], 
+                }}
+                transition={{ 
+                  duration: 1.5, 
+                  repeat: Infinity,
+                  repeatDelay: 0.5 
+                }}
+              />
+              
+              <motion.div
+                className="flex items-center"
+                animate={page !== response.data.meta.totalPage ? { 
+                  x: [0, 3, 0],
+                } : {}}
+                transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
               >
-                <span className="mr-1">Next</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <span className="font-medium">Next</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary ml-1">
                   <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={page === response.data.meta.totalPage}
-                onClick={() => setPage(response.data.meta.totalPage)}
-                className={page === response.data.meta.totalPage ? 'opacity-50 cursor-not-allowed' : ''}
+              </motion.div>
+            </motion.button>
+
+            {/* Last page button */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              disabled={page === response.data.meta.totalPage}
+              onClick={() => setPage(response.data.meta.totalPage)}
+              className={`relative group flex items-center justify-center w-10 h-10 rounded-lg border border-primary/20 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm overflow-hidden transition-all duration-300 ${
+                page === response.data.meta.totalPage ? 'opacity-50 cursor-not-allowed' : 'hover:border-primary/50 hover:bg-primary/5'
+              }`}
+            >
+              {/* Hover glow effect */}
+              <motion.div 
+                className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                animate={{ 
+                  background: ['rgba(var(--primary-rgb), 0.05)', 'rgba(var(--primary-rgb), 0.15)', 'rgba(var(--primary-rgb), 0.05)'] 
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              
+              {/* Icon with animation */}
+              <motion.div
+                animate={page !== response.data.meta.totalPage ? { 
+                  x: [0, 2, 0],
+                } : {}}
+                transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
                   <polyline points="13 17 18 12 13 7"></polyline>
                   <polyline points="6 17 11 12 6 7"></polyline>
                 </svg>
-              </Button>
-            </div>
-            
-            <p className="text-sm text-muted-foreground">
-              Showing {(response.data.meta.page - 1) * response.data.meta.limit + 1}–
-              {Math.min(
-                response.data.meta.page * response.data.meta.limit,
-                response.data.meta.total
-              )} of {response.data.meta.total} products
-            </p>
+              </motion.div>
+            </motion.button>
           </div>
-        )}
+        </div>
+        
+        {/* Results tracker with futuristic visualization */}
+        <div className="flex flex-col md:flex-row items-center gap-4">
+          {/* Data visualization bar */}
+          <div className="w-full md:w-48 h-4 bg-primary/10 rounded-full overflow-hidden relative">
+            <motion.div 
+              className="absolute top-0 left-0 h-full bg-gradient-to-r from-primary/40 via-primary/80 to-primary/40"
+              style={{ 
+                width: `${(Math.min(response.data.meta.page * response.data.meta.limit, response.data.meta.total) / response.data.meta.total) * 100}%` 
+              }}
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              {/* Animated pulse effect */}
+              <motion.div
+                className="absolute top-0 right-0 h-full w-1 bg-white"
+                animate={{ 
+                  opacity: [0, 0.8, 0],
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity,
+                }}
+              />
+            </motion.div>
+          </div>
+          
+          {/* Stats display with cyberpunk style */}
+          <div className="flex items-center space-x-2 text-sm font-mono">
+            <span className="inline-flex items-center px-2 py-1 bg-primary/10 border border-primary/20 rounded text-primary font-medium">
+              <motion.span
+                className="inline-block w-1.5 h-1.5 rounded-full bg-primary mr-2"
+                animate={{ opacity: [0.4, 1, 0.4] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              />
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                {(response.data.meta.page - 1) * response.data.meta.limit + 1}-
+                {Math.min(
+                  response.data.meta.page * response.data.meta.limit,
+                  response.data.meta.total
+                )}
+              </motion.span>
+            </span>
+            <span className="text-muted-foreground">of</span>
+            <motion.span 
+              className="text-primary font-semibold tabular-nums"
+              animate={{ 
+                textShadow: [
+                  '0 0 0px rgba(var(--primary-rgb), 0.5)',
+                  '0 0 4px rgba(var(--primary-rgb), 0.5)',
+                  '0 0 0px rgba(var(--primary-rgb), 0.5)'
+                ] 
+              }}
+              transition={{ duration: 3, repeat: Infinity }}
+            >
+              {response.data.meta.total}
+            </motion.span>
+            <motion.span 
+              className="text-muted-foreground ml-1"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
+            >
+              items
+            </motion.span>
+          </div>
+        </div>
+      </div>
+      
+      {/* Direct page jump control */}
+      <motion.div 
+        className="mt-5 flex flex-wrap items-center justify-center gap-3 pt-5 border-t border-primary/10"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        <span className="text-xs text-muted-foreground">QUICK JUMP</span>
+        
+        <div className="relative">
+          <input
+            type="number"
+            min={1}
+            max={response.data.meta.totalPage}
+            className="w-16 h-8 pl-2 pr-0 bg-white/30 dark:bg-gray-800/30 border border-primary/20 rounded text-center text-sm focus:border-primary focus:ring-1 focus:ring-primary"
+            placeholder={String(page)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                const target = e.target as HTMLInputElement;
+                const value = parseInt(target.value);
+                if (value && value >= 1 && value <= response.data.meta.totalPage) {
+                  setPage(value);
+                  target.value = '';
+                }
+              }
+            }}
+          />
+          
+          <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs text-muted-foreground pointer-events-none">
+            pg
+          </span>
+        </div>
+        
+        <div className="flex gap-2">
+          {[25, 50, 100].map(jumpAmount => {
+            // Only show jumps that make sense based on current position
+            const canJumpForward = page + jumpAmount <= response.data.meta.totalPage;
+            const canJumpBackward = page - jumpAmount >= 1;
+            
+            return (
+              <div key={`jump-${jumpAmount}`} className="flex gap-1">
+                {canJumpBackward && (
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setPage(Math.max(page - jumpAmount, 1))}
+                    className="text-xs px-2 py-1 rounded border border-primary/20 bg-white/30 dark:bg-gray-800/30 hover:bg-primary/10 transition-colors"
+                  >
+                    -{jumpAmount}
+                  </motion.button>
+                )}
+                
+                {canJumpForward && (
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setPage(Math.min(page + jumpAmount, response.data.meta.totalPage))}
+                    className="text-xs px-2 py-1 rounded border border-primary/20 bg-white/30 dark:bg-gray-800/30 hover:bg-primary/10 transition-colors"
+                  >
+                    +{jumpAmount}
+                  </motion.button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </motion.div>
+      
+      {/* Virtual reality toggle concept - purely decorative */}
+      <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2">
+        <motion.div 
+          className="flex items-center px-3 py-1 bg-gradient-to-r from-primary/80 to-violet-600/80 rounded-full text-xs text-white shadow-lg backdrop-blur-sm cursor-pointer"
+          whileHover={{ scale: 1.05 }}
+        >
+          <motion.span
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+              <path d="M21 3v5h-5"/>
+              <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+              <path d="M3 21v-5h5"/>
+            </svg>
+          </motion.span>
+          <span className="ml-1 mr-1">AUTO SYNC</span>
+          <motion.div
+            className="w-2 h-2 rounded-full bg-green-400"
+            animate={{ 
+              boxShadow: [
+                '0 0 0px rgba(74, 222, 128, 0.5)',
+                '0 0 4px rgba(74, 222, 128, 0.8)',
+                '0 0 0px rgba(74, 222, 128, 0.5)'
+              ] 
+            }}
+            transition={{ duration: 1.2, repeat: Infinity }}
+          />
+        </motion.div>
+      </div>
+    </div>
+  </motion.div>
+)}
+
+{/* Add this style to your CSS */}
+<style jsx global>{`
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  
+  .glass-container {
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+      0 2px 4px -1px rgba(0, 0, 0, 0.06),
+      0 0 0 1px rgba(var(--primary-rgb), 0.1),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  }
+`}</style>
       </div>
     </div>
   )
