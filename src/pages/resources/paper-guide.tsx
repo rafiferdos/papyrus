@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { motion } from "motion/react";
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 
 export default function PaperGuide() {
   return (
