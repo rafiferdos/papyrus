@@ -212,7 +212,7 @@ const About = () => {
   ]
 
   return (
-    <div className={`${theme === 'dark' ? 'dark bg-gray-900 text-white' : 'bg-white text-gray-900'} transition-colors duration-500`}>
+    <div className={`${theme === 'dark' ? 'dark bg-black text-white' : 'bg-white text-gray-900'} transition-colors duration-500`}>
       {/* Progress bar */}
       <motion.div 
         className={`fixed top-0 left-0 right-0 h-1 z-50 ${themeColorMap[accentColor].textColor}`}
@@ -1107,31 +1107,78 @@ const About = () => {
               ))}
             </motion.div>
 
-            <motion.div
-              className="mt-16"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <form className="max-w-md mx-auto">
-                <h3 className="text-xl font-semibold mb-4">Subscribe to our newsletter</h3>
-                <div className="flex">
-                  <input 
-                    type="email" 
-                    placeholder="Your email address" 
-                    className={`flex-1 px-4 py-3 rounded-l-lg outline-none ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border focus:border-primary`}
-                    style={{ borderColor: `var(--primary)20` }}
-                  />
-                  <Button 
-                    className="rounded-r-lg" 
-                    style={{ background: `var(--primary)` }}
-                  >
-                    Subscribe
-                  </Button>
-                </div>
-              </form>
-            </motion.div>
+<motion.div
+  className="mt-16"
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.5, delay: 0.7 }}
+  viewport={{ once: true, amount: 0.3 }}
+>
+  <form className="max-w-xl mx-auto backdrop-blur-sm p-8 rounded-2xl border border-opacity-20 shadow-lg" 
+    style={{ borderColor: `var(--primary)20`, background: theme === 'dark' ? 'rgba(17, 24, 39, 0.7)' : 'rgba(255, 255, 255, 0.7)' }}>
+    <motion.h3 
+      className="text-2xl font-bold mb-3 text-center"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
+    >
+      Stay in the <span style={{ color: `var(--primary)` }}>Loop</span>
+    </motion.h3>
+    <p className="text-muted-foreground mb-6 text-center">
+      Get exclusive offers, inspiration and updates straight to your inbox.
+    </p>
+    
+    <div className="flex flex-col sm:flex-row gap-3">
+      <div className="relative flex-grow">
+        <input 
+          type="email" 
+          placeholder="Your email address" 
+          className={`w-full px-5 py-4 rounded-lg outline-none ${
+            theme === 'dark' ? 
+              'bg-gray-800/80 text-white placeholder:text-gray-400 hover:bg-gray-800' : 
+              'bg-white/90 text-gray-900 placeholder:text-gray-500 hover:bg-white'
+          } border-2 border-opacity-20 transition-all focus:border-opacity-100`}
+          style={{ 
+            borderColor: `var(--primary)40`,
+          }}
+        />
+        <div className="absolute inset-0 rounded-lg pointer-events-none" 
+          style={{ boxShadow: `0 0 0 2px var(--primary)00`, transition: 'box-shadow 0.2s' }}></div>
+      </div>
+      
+      <Button 
+        className="px-6 py-4 h-auto rounded-lg transition-all duration-300 font-medium flex items-center justify-center gap-2 shadow-lg hover:shadow-xl cursor-pointer"
+        style={{ 
+          background: `var(--primary)`, 
+          minWidth: '140px',
+          transform: 'translateY(0)',
+        }}
+      >
+        <span>Subscribe</span>
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          width="20" 
+          height="20" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="2" 
+          strokeLinecap="round" 
+          strokeLinejoin="round"
+          className="transition-transform group-hover:translate-x-1"
+        >
+          <path d="M5 12h14"></path>
+          <path d="m12 5 7 7-7 7"></path>
+        </svg>
+      </Button>
+    </div>
+    
+    <p className="text-xs text-muted-foreground mt-4 text-center">
+      By subscribing, you agree to our Privacy Policy and consent to receive updates.
+    </p>
+  </form>
+</motion.div>
           </motion.section>
         </ScrollReveal>
       </div>
