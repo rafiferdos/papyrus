@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { motion } from "motion/react";
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 
 export default function JournalIdeas() {
   return (
@@ -944,7 +945,7 @@ export default function JournalIdeas() {
                     </div>
                   </div>
                   <Button className="mt-5" asChild>
-                    <a href="/products/journal-starter-kit">Shop Starter Kit</a>
+                    <Link to="/products/journal-starter-kit">Shop Starter Kit</Link>
                   </Button>
                 </div>
               </div>

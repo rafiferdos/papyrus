@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { BookOpen, GraduationCap, Lightbulb, PenTool, Sparkles } from 'lucide-react'
 import { motion } from 'motion/react'
 import { Helmet } from 'react-helmet-async'
+import { Link } from 'react-router-dom'
 
 export default function CalligraphyBasics() {
   return (
@@ -101,7 +102,7 @@ export default function CalligraphyBasics() {
                       They're affordable, portable, and allow you to practice pressure techniques without the learning curve of dip pens.
                     </p>
                     <Button variant="link" className="text-primary p-0 mt-2" asChild>
-                      <a href="/products/calligraphy-starter-kit">Shop Our Beginner Kits →</a>
+                      <Link to="/products/calligraphy-starter-kit">Shop Our Beginner Kits →</Link>
                     </Button>
                   </div>
                 </ResourceCard>
@@ -328,7 +329,7 @@ export default function CalligraphyBasics() {
                             Beginner-Friendly
                           </span>
                           <Button variant="ghost" size="sm" className="text-xs" asChild>
-                            <a href="/products/category/modern-calligraphy">View Tools</a>
+                            <Link to="/products/category/modern-calligraphy">View Tools</Link>
                           </Button>
                         </div>
                       </div>
@@ -351,7 +352,7 @@ export default function CalligraphyBasics() {
                             Intermediate
                           </span>
                           <Button variant="ghost" size="sm" className="text-xs" asChild>
-                            <a href="/products/category/copperplate-calligraphy">View Tools</a>
+                            <Link to="/products/category/copperplate-calligraphy">View Tools</Link>
                           </Button>
                         </div>
                       </div>
@@ -374,7 +375,7 @@ export default function CalligraphyBasics() {
                             Intermediate
                           </span>
                           <Button variant="ghost" size="sm" className="text-xs" asChild>
-                            <a href="/products/category/gothic-calligraphy">View Tools</a>
+                            <Link to="/products/category/gothic-calligraphy">View Tools</Link>
                           </Button>
                         </div>
                       </div>
@@ -397,7 +398,7 @@ export default function CalligraphyBasics() {
                             Beginner-Friendly
                           </span>
                           <Button variant="ghost" size="sm" className="text-xs" asChild>
-                            <a href="/products/category/italic-calligraphy">View Tools</a>
+                            <Link to="/products/category/italic-calligraphy">View Tools</Link>
                           </Button>
                         </div>
                       </div>
@@ -562,7 +563,7 @@ export default function CalligraphyBasics() {
                     Join our monthly calligraphy sessions with expert instructors. All materials provided.
                   </p>
                   <Button variant="outline" asChild className="w-full">
-                    <a href="/events/workshops">View Schedule</a>
+                    <Link to="/events/workshops">View Schedule</Link>
                   </Button>
                 </div>
               </div>
@@ -581,7 +582,7 @@ export default function CalligraphyBasics() {
                     Everything you need to begin your calligraphy journey, curated by our experts.
                   </p>
                   <Button variant="outline" asChild className="w-full">
-                    <a href="/products/calligraphy-kits">Shop Kits</a>
+                    <Link to="/products/calligraphy-kits">Shop Kits</Link>
                   </Button>
                 </div>
               </div>
@@ -600,7 +601,7 @@ export default function CalligraphyBasics() {
                     Learn at your own pace with our comprehensive video tutorials and assignments.
                   </p>
                   <Button variant="outline" asChild className="w-full">
-                    <a href="/courses/calligraphy-fundamentals">Explore Courses</a>
+                    <Link to="/courses/calligraphy-fundamentals">Explore Courses</Link>
                   </Button>
                 </div>
               </div>
@@ -644,7 +645,7 @@ export default function CalligraphyBasics() {
                     </div>
                   </div>
                   <Button asChild>
-                    <a href="/community/calligraphy">Join Community</a>
+                    <Link to="/community/calligraphy">Join Community</Link>
                   </Button>
                 </div>
               </div>

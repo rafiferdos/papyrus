@@ -371,9 +371,8 @@ export default function PaperGuide() {
                     Complete Guide to Inks
                   </Link>
                 </li>
-                <li>
-                  <a
-                    href="/resources/notebook-buying-guide"
+                <li>                  <Link
+                    to="/resources/notebook-buying-guide"
                     className="text-primary hover:underline flex items-center gap-2"
                   >
                     <svg
@@ -391,11 +390,10 @@ export default function PaperGuide() {
                       <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
                     </svg>
                     Notebook Buying Guide
-                  </a>
+                  </Link>
                 </li>
-                <li>
-                  <a
-                    href="/resources/calligraphy-basics"
+                <li>                  <Link
+                    to="/resources/calligraphy-basics"
                     className="text-primary hover:underline flex items-center gap-2"
                   >
                     <svg
@@ -417,11 +415,10 @@ export default function PaperGuide() {
                       <path d="M21 14h-4" />
                     </svg>
                     Calligraphy for Beginners
-                  </a>
+                  </Link>
                 </li>
-                <li>
-                  <a
-                    href="/blog/conservation"
+                <li>                  <Link
+                    to="/blog/conservation"
                     className="text-primary hover:underline flex items-center gap-2"
                   >
                     <svg
@@ -445,7 +442,7 @@ export default function PaperGuide() {
                       <path d="M16 21h-4" />
                     </svg>
                     Paper Conservation Tips
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
