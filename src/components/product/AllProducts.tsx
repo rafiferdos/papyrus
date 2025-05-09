@@ -1,22 +1,22 @@
-import { useState, useEffect } from 'react'
-import { Input } from '../ui/input'
-import { Search, X, SlidersHorizontal, ShoppingBag, ChevronDown, ChevronUp } from 'lucide-react'
+import { ScrollReveal } from '@/components/ScrollReveal'
 import { allProductCategories } from '@/constants/global'
-import { TextShimmer } from '../ui/text-shimmer'
+import { useGetAllProductDataQuery } from '@/redux/Features/products/productApi'
+import { TQueryParam } from '@/types/global'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ChevronDown, Search, ShoppingBag, SlidersHorizontal, X } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import ProductCard from '../ProductCard/ProductCard'
+import { Badge } from '../ui/badge'
+import { Button } from '../ui/button'
+import { Input } from '../ui/input'
 import {
   Select,
+  SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  SelectContent,
 } from '../ui/select'
-import { Button } from '../ui/button'
-import { useGetAllProductDataQuery } from '@/redux/Features/products/productApi'
-import { TQueryParam } from '@/types/global'
-import ProductCard from '../ProductCard/ProductCard'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Badge } from '../ui/badge'
-import { ScrollReveal } from '@/components/ScrollReveal'
+import { TextShimmer } from '../ui/text-shimmer'
 
 export type TProduct = {
   _id: string
@@ -192,149 +192,527 @@ const AllProducts: React.FC = () => {
           </div>
         </div>
         
-        {/* Search and filter bar */}
-        <div className="flex flex-col gap-4 md:flex-row">
-          <div className="relative flex-grow">
-            <Search className="absolute w-5 h-5 text-gray-500 transform -translate-y-1/2 left-3 top-1/2" />
-            <Input
-              placeholder="Search products..."
-              className="pl-10"
-              onChange={handleChangeFilter}
-              name="searchTerm"
-            />
+{/* Advanced Search & Filter Experience */}
+<div className="mb-8">
+  {/* Search input with animated background */}
+  <motion.div 
+    className="relative flex flex-col gap-4 md:flex-row items-center mb-6"
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5 }}
+  >
+    <div className="relative flex-grow group">
+      {/* Animated search background */}
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-r from-violet-500/5 via-primary/10 to-violet-500/5 rounded-xl -z-10"
+        animate={{ 
+          backgroundPosition: ['0% 0%', '100% 100%'],
+          opacity: [0.5, 0.8, 0.5]
+        }}
+        transition={{ 
+          duration: 8, 
+          repeat: Infinity,
+          repeatType: "mirror"
+        }}
+      />
+
+      <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors duration-200">
+        <motion.div
+          animate={{
+            rotate: [0, 10, -10, 0],
+            scale: [1, 1.1, 1]
+          }}
+          transition={{
+            duration: 0.3,
+            repeat: 2,
+            repeatDelay: 2,
+            repeatType: "mirror"
+          }}
+        >
+          <Search className="w-5 h-5" />
+        </motion.div>
+      </div>
+
+      <Input
+        placeholder="Search for pens, notebooks, journals..."
+        className="pl-10 py-6 border-2 border-primary/20 hover:border-primary/40 focus-visible:ring-2 focus-visible:ring-primary/30 transition-all duration-200 text-base"
+        onChange={handleChangeFilter}
+        name="searchTerm"
+      />
+
+      {/* Dynamic search suggestions - appears on focus */}
+      <motion.div 
+        className="absolute top-full mt-1 left-0 right-0 bg-card shadow-lg rounded-xl border border-border overflow-hidden z-20 hidden group-focus-within:block"
+        initial={{ opacity: 0, y: -5 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2 }}
+      >
+        <div className="p-1 space-y-1">
+          <div className="text-xs text-muted-foreground px-3 py-1">Popular searches</div>
+          {['Fountain Pens', 'Leather Journal', 'Wax Seals', 'Calligraphy Set'].map(suggestion => (
+            <button 
+              key={suggestion} 
+              className="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-primary/5 rounded-md"
+              onClick={() => {
+                const searchInput = document.querySelector("input[name='searchTerm']") as HTMLInputElement;
+                if (searchInput) {
+                  searchInput.value = suggestion;
+                  searchInput.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+              }}
+            >
+              <span className="text-primary/70">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </span>
+              {suggestion}
+            </button>
+          ))}
+        </div>
+      </motion.div>
+    </div>
+          
+    {/* Enhanced filter toggle button with animation */}
+    <motion.button 
+      onClick={() => setShowFilters(!showFilters)}
+      className={`px-5 py-[10px] rounded-xl flex items-center gap-2 transform transition-all duration-300 relative overflow-hidden ${showFilters 
+        ? "bg-primary text-primary-foreground font-medium" 
+        : "bg-card border-2 border-primary/20 hover:border-primary/40"}`}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+    >
+      {/* Background animation when active */}
+      {showFilters && (
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-r from-violet-600 to-primary -z-10"
+          animate={{ 
+            backgroundPosition: ['0% 0%', '100% 100%'],
+          }}
+          transition={{ 
+            duration: 3, 
+            repeat: Infinity,
+            repeatType: "mirror"
+          }}
+        />
+      )}
+
+      {/* Icon animation */}
+      <motion.div
+        animate={showFilters ? { rotate: [0, 90, 180] } : { rotate: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <SlidersHorizontal size={18} />
+      </motion.div>
+      
+      <span className="font-medium">{showFilters ? "Hide Filters" : "Show Filters"}</span>
+      
+      <motion.div
+        animate={showFilters 
+          ? { rotate: 180, translateY: 0 } 
+          : { rotate: 0, translateY: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <ChevronDown size={18} />
+      </motion.div>
+    </motion.button>
+  </motion.div>
+  
+  {/* Enhanced filter panel */}
+  <AnimatePresence>
+    {showFilters && (
+      <motion.div
+        initial={{ opacity: 0, height: 0 }}
+        animate={{ opacity: 1, height: 'auto' }}
+        exit={{ opacity: 0, height: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        className="overflow-hidden"
+      >
+        <motion.div 
+          className="relative rounded-2xl p-6 bg-white dark:bg-gray-800 shadow-xl border border-primary/20 overflow-hidden"
+          initial={{ y: -20 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+        >
+          {/* Decorative background elements */}
+          <div className="absolute inset-0 -z-10 opacity-5">
+            <svg width="100%" height="100%" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                  <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" strokeWidth="0.5"/>
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#grid)" />
+            </svg>
+          </div>
+
+          <motion.div 
+            className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-br from-primary/10 to-violet-500/10 rounded-full blur-3xl -z-10 opacity-50"
+            animate={{
+              scale: [1, 1.2, 1],
+              x: [0, 30, 0],
+              y: [0, -30, 0],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              repeatType: "reverse"
+            }}
+          />
+
+          {/* Header */}
+          <div className="mb-6 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <SlidersHorizontal size={16} className="text-primary" />
+              </div>
+              <h3 className="text-lg font-semibold">Refine Your Selection</h3>
+            </div>
+            <Button 
+              onClick={clearFilters}
+              variant="ghost" 
+              size="sm"
+              className="text-muted-foreground hover:text-destructive flex items-center gap-1 transition-colors cursor-pointer"
+            >
+              <X size={14} />
+              <span>Reset</span>
+            </Button>
           </div>
           
-          <Button 
-            onClick={() => setShowFilters(!showFilters)}
-            variant="outline" 
-            className="flex items-center gap-2"
-          >
-            <SlidersHorizontal size={16} />
-            <span>Filters</span>
-            {showFilters ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-          </Button>
-        </div>
-        
-        {/* Filters panel */}
-        <AnimatePresence>
-          {showFilters && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden"
+          {/* Filter sections with animations */}
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Category filter with rich interface */}
+            <motion.div 
+              className="space-y-2"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
             >
-              <div className="p-4 space-y-4 rounded-lg border bg-card">
-                <h3 className="font-semibold">Filter Products</h3>
-                
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Category</label>
-                    <Select
-                      onValueChange={(value) => {
-                        setParams((prevParams) => {
-                          const updatedParams = prevParams ? [...prevParams] : []
-                          const filterParams = updatedParams.filter(
-                            (param) => param.name !== 'category'
-                          )
-                          filterParams.push({ name: 'category', value })
-                          return filterParams
-                        })
-                      }}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select Category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {allProductCategories?.map((category) => (
-                          <SelectItem key={category} value={category}>
-                            {category}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Availability</label>
-                    <Select
-                      onValueChange={(value) => {
-                        setParams((prevParams) => {
-                          const updatedParams = prevParams ? [...prevParams] : []
-                          const filterParams = updatedParams.filter(
-                            (param) => param.name !== 'inStock'
-                          )
-                          filterParams.push({ name: 'inStock', value })
-                          return filterParams
-                        })
-                      }}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select Availability" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="true">In Stock</SelectItem>
-                        <SelectItem value="false">Out of Stock</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Price Range</label>
-                    <div className="flex gap-2">
-                      <Input
-                        type="number"
-                        className="max-w-sm"
-                        name="minPrice"
-                        placeholder="Min"
-                        onChange={handleChangeFilter}
-                      />
-                      <Input
-                        type="number"
-                        className="max-w-sm"
-                        name="maxPrice"
-                        placeholder="Max"
-                        onChange={handleChangeFilter}
-                      />
+              <label className="flex items-center gap-2 text-base font-medium">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                  <path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/>
+                </svg>
+                Category
+              </label>
+              <Select
+                onValueChange={(value) => {
+                  setParams((prevParams) => {
+                    const updatedParams = prevParams ? [...prevParams] : []
+                    const filterParams = updatedParams.filter(
+                      (param) => param.name !== 'category'
+                    )
+                    filterParams.push({ name: 'category', value })
+                    return filterParams
+                  })
+                }}
+              >
+                <SelectTrigger className="w-full border-2 border-primary/20 hover:border-primary/40 transition-colors">
+                  <SelectValue placeholder="All Categories" />
+                </SelectTrigger>
+                <SelectContent className="max-h-[300px]">
+                  {allProductCategories?.map((category) => (
+                    <SelectItem key={category} value={category} className="py-2 flex items-center gap-2">
+                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10">
+                        {category === 'Journals' && '📓'}
+                        {category === 'Pens' && '🖋️'}
+                        {category === 'Art Supplies' && '🎨'}
+                        {category === 'Stationery' && '📝'}
+                        {category === 'Books' && '📚'}
+                        {category === 'Desk Accessories' && '🗂️'}
+                        {category === 'Planners' && '📅'}
+                        {category === 'Educational' && '📚'}
+                        {!['Journals', 'Pens', 'Art Supplies', 'Stationery', 'Books', 'Desk Accessories', 'Planners', 'Educational'].includes(category) && '📦'}
+                      </span>
+                      {category}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </motion.div>
+            
+            {/* Availability filter with subtle animation */}
+            <motion.div 
+              className="space-y-2"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.3 }}
+            >
+              <label className="flex items-center gap-2 text-base font-medium">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                  <path d="m5 11 4-7"/>
+                  <path d="m19 11-4-7"/>
+                  <path d="M2 11h20"/>
+                  <path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8c.9 0 1.8-.7 2-1.6l1.7-7.4"/>
+                  <path d="m9 11 1 9"/>
+                  <path d="m3.5 11 1.3-5.7A2 2 0 0 1 6.7 3.4H12"/>
+                  <path d="m15 11-1 9"/>
+                  <path d="M20.5 11V4"/>
+                </svg>
+                Availability
+              </label>
+              <Select
+                onValueChange={(value) => {
+                  setParams((prevParams) => {
+                    const updatedParams = prevParams ? [...prevParams] : []
+                    const filterParams = updatedParams.filter(
+                      (param) => param.name !== 'inStock'
+                    )
+                    filterParams.push({ name: 'inStock', value })
+                    return filterParams
+                  })
+                }}
+              >
+                <SelectTrigger className="w-full border-2 border-primary/20 hover:border-primary/40 transition-colors">
+                  <SelectValue placeholder="Any Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="true" className="py-2">
+                    <div className="flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
+                      <span>In Stock</span>
                     </div>
-                  </div>
-                  
-                  <div className="flex items-end">
-                    <Button 
-                      onClick={clearFilters}
-                      variant="destructive" 
-                      className="w-full flex items-center justify-center gap-2"
+                  </SelectItem>
+                  <SelectItem value="false" className="py-2">
+                    <div className="flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-amber-500"></span>
+                      <span>Out of Stock</span>
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </motion.div>
+            
+            {/* Price range with dual slider and visual indicators */}
+            <motion.div 
+              className="space-y-2 col-span-1 sm:col-span-2"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.4 }}
+            >
+              <label className="flex items-center gap-2 text-base font-medium">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                  <path d="M2 17a4 4 0 0 0 4 4h12a4 4 0 0 0 4-4v-4a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4Z"/>
+                  <circle cx="8" cy="17" r="2"/>
+                  <path d="M10 17h4"/>
+                  <circle cx="16" cy="17" r="2"/>
+                  <path d="M2 9V7a4 4 0 0 1 4-4h12a4 4 0 0 1 4 4v2"/>
+                </svg>
+                Price Range
+              </label>
+              
+              <div className="flex gap-4 items-center">
+                <div className="relative min-w-[90px]">
+                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
+                    $
+                  </span>
+                  <Input
+                    type="number"
+                    name="minPrice"
+                    placeholder="Min"
+                    onChange={handleChangeFilter}
+                    className="pl-8 border-2 border-primary/20 hover:border-primary/40 transition-colors"
+                  />
+                </div>
+                
+                <div className="h-1 w-6 bg-primary/20 rounded-full"></div>
+                
+                <div className="relative min-w-[90px]">
+                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
+                    $
+                  </span>
+                  <Input
+                    type="number"
+                    name="maxPrice"
+                    placeholder="Max"
+                    onChange={handleChangeFilter}
+                    className="pl-8 border-2 border-primary/20 hover:border-primary/40 transition-colors"
+                  />
+                </div>
+                
+                {/* Price range quick selectors */}
+                <div className="hidden md:flex gap-2 ml-4">
+                  {[
+                    { label: "Under $10", min: "0", max: "10" },
+                    { label: "$10-$50", min: "10", max: "50" },
+                    { label: "Over $50", min: "50", max: "1000" }
+                  ].map(range => (
+                    <Button
+                      key={range.label}
+                      variant="outline" 
+                      size="sm" 
+                      className="text-xs border-primary/20 hover:bg-primary/5"
+                      onClick={() => {
+                        const minInput = document.querySelector("input[name='minPrice']") as HTMLInputElement;
+                        const maxInput = document.querySelector("input[name='maxPrice']") as HTMLInputElement;
+                        
+                        if (minInput && maxInput) {
+                          minInput.value = range.min;
+                          maxInput.value = range.max;
+                          // Trigger change events
+                          minInput.dispatchEvent(new Event('change', { bubbles: true }));
+                          maxInput.dispatchEvent(new Event('change', { bubbles: true }));
+                        }
+                      }}
                     >
-                      <X size={16} />
-                      Clear All Filters
+                      {range.label}
                     </Button>
-                  </div>
+                  ))}
                 </div>
               </div>
             </motion.div>
-          )}
-        </AnimatePresence>
-        
-        {/* Active filters */}
-        {activeFilters.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {activeFilters.map((filter) => (
-              <Badge 
-                key={filter} 
-                variant="outline"
-                className="px-3 py-1 bg-primary/10 hover:bg-primary/20"
-              >
-                {filter}
-                <button 
-                  onClick={() => removeFilter(filter)}
-                  className="ml-2 inline-flex h-4 w-4 items-center justify-center rounded-full text-xs"
-                >
-                  <X size={12} />
-                </button>
-              </Badge>
-            ))}
           </div>
+
+          {/* Additional filter options with accordion */}
+          <motion.div
+            className="mt-6 border-t pt-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.5 }}
+          >
+            <details className="group">
+              <summary className="flex items-center justify-between cursor-pointer">
+                <div className="flex items-center gap-2">
+                  <span className="text-base font-medium">Additional Filters</span>
+                  <Badge className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20">New</Badge>
+                </div>
+                <div className="rotate-0 group-open:rotate-180 transition-transform">
+                  <ChevronDown size={16} />
+                </div>
+              </summary>
+              <div className="pt-4 grid gap-4 grid-cols-1 md:grid-cols-3">
+                {/* Additional filter options could go here: brand, color, etc. */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Material</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {["Leather", "Paper", "Metal", "Wood"].map(material => (
+                      <Button 
+                        key={material}
+                        variant="outline" 
+                        size="sm" 
+                        className="justify-start border-primary/20 hover:bg-primary/5 hover:border-primary/30"
+                      >
+                        <input type="checkbox" className="mr-2 h-4 w-4 rounded border-primary text-primary focus:ring-primary" />
+                        {material}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Brand</label>
+                  <Select>
+                    <SelectTrigger className="border-2 border-primary/20 hover:border-primary/40 transition-colors">
+                      <SelectValue placeholder="All Brands" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {["Premium", "Standard", "Economy", "Designer"].map(brand => (
+                        <SelectItem key={brand} value={brand}>{brand}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Sort By</label>
+                  <Select
+                    value={sortOrder}
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    onValueChange={(value) => setSortOrder(value as any)}
+                  >
+                    <SelectTrigger className="border-2 border-primary/20 hover:border-primary/40 transition-colors">
+                      <SelectValue placeholder="Sort Products" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="featured">Featured</SelectItem>
+                      <SelectItem value="priceLow">Price: Low to High</SelectItem>
+                      <SelectItem value="priceHigh">Price: High to Low</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </details>
+          </motion.div>
+
+          {/* Apply filters button */}
+          <motion.div 
+            className="mt-6 flex justify-end"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.6 }}
+          >
+            <Button 
+              size="lg" 
+              className="bg-gradient-to-r from-primary to-violet-600 hover:from-primary/90 hover:to-violet-700 text-white"
+            >
+              <span className="mr-2">Filters Applied</span>
+              <motion.span 
+                animate={{ x: [0, 5, 0] }} 
+                transition={{ duration: 1, repeat: Infinity, repeatDelay: 1 }}
+              >
+                        {/* tick svg */}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+              </motion.span>
+            </Button>
+          </motion.div>
+        </motion.div>
+      </motion.div>
+    )}
+  </AnimatePresence>
+  
+  {/* Active filters badges */}
+  <AnimatePresence>
+    {activeFilters.length > 0 && (
+      <motion.div 
+        className="flex flex-wrap gap-2 mt-4"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        transition={{ duration: 0.3 }}
+      >
+        {activeFilters.map((filter) => (
+          <motion.div
+            key={filter}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            layout
+          >
+            <Badge 
+              variant="outline"
+              className="px-3 py-1.5 bg-primary/5 hover:bg-primary/10 border-primary/20 text-sm font-medium"
+            >
+              <span>{filter}</span>
+              <button 
+                onClick={() => removeFilter(filter)}
+                className="ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 hover:bg-primary/20 text-xs transition-colors"
+              >
+                <X size={12} />
+              </button>
+            </Badge>
+          </motion.div>
+        ))}
+        
+        {activeFilters.length > 1 && (
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2, delay: 0.1 }}
+            onClick={clearFilters}
+            className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1 transition-colors"
+          >
+            <span>Clear all</span>
+            <X size={12} />
+          </motion.button>
         )}
+      </motion.div>
+    )}
+  </AnimatePresence>
+</div>
 
         {/* Products display */}
         <div className="min-h-[400px]">
