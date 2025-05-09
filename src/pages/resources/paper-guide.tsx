@@ -350,9 +350,8 @@ export default function PaperGuide() {
             <div className="bg-muted p-6 rounded-lg border">
               <h3 className="text-xl font-bold mb-4">Related Resources</h3>
               <ul className="space-y-2">
-                <li>
-                  <a
-                    href="/resources/ink-guide"
+                <li>                  <Link
+                    to="/resources/ink-guide"
                     className="text-primary hover:underline flex items-center gap-2"
                   >
                     <svg
@@ -370,7 +369,7 @@ export default function PaperGuide() {
                       <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z" />
                     </svg>
                     Complete Guide to Inks
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <a
