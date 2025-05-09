@@ -1319,7 +1319,8 @@ const AllProducts: React.FC = () => {
 )}
 
 {/* Add this style to your CSS */}
-<style jsx global>{`
+<style dangerouslySetInnerHTML={{
+  __html: `
   @keyframes pulse {
     0%, 100% { opacity: 0.6; }
     50% { opacity: 1; }
@@ -1332,7 +1333,7 @@ const AllProducts: React.FC = () => {
       0 0 0 1px rgba(var(--primary-rgb), 0.1),
       inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
   }
-`}</style>
+`}} />
       </div>
     </div>
   )
