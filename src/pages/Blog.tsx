@@ -73,7 +73,7 @@ const featuredPosts = [
       avatar: "https://i.pravatar.cc/150?img=28",
     },
     coverImage:
-      "https://images.unsplash.com/photo-1626321156419-842ae63a6830?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=800",
+      "https://i0.wp.com/mindfulstoic.net/wp-content/uploads/2024/02/An-animation-of-a-woman-watering-a-garden-on-top-of-her-hear-to-represent-an-article-on-mindfulness.jpg?fit=1080%2C608&ssl=1",
     likes: 310,
     comments: 52,
     tags: ["Mindfulness", "Paper Crafting", "Wellness"],
@@ -145,7 +145,7 @@ const recentPosts = [
       avatar: "https://i.pravatar.cc/150?img=26",
     },
     coverImage:
-      "https://images.unsplash.com/photo-1584473457561-d9c67d71588b?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=800",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa3zVDVi8vJYw9--64RC2GQdY-WTBZWwzMQw&s",
     likes: 279,
     comments: 31,
     tags: ["Sustainability", "Eco-Friendly", "Stationery"],
@@ -161,8 +161,7 @@ const recentPosts = [
       name: "Robert Johnson",
       avatar: "https://i.pravatar.cc/150?img=11",
     },
-    coverImage:
-      "https://images.unsplash.com/photo-1620329298390-40d67dd2e322?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=800",
+    coverImage: "https://www.edx.org/_next/image?url=https%3A%2F%2Fprod-discovery.edx-cdn.org%2Fmedia%2Fprograms%2Fcard_images%2F5d09c09e-f70b-4100-b4dd-0a8e36fcc194-73483eb3b0c4.jpg&w=640&q=75",
     likes: 183,
     comments: 42,
     tags: ["Letters", "Handwriting", "Communication"],
@@ -196,7 +195,7 @@ export default function Blog() {
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <>
+    <div className="pt-20">
       <Helmet>
         <title>
           Blog - Papyrus | Insights on Writing, Stationery & Creativity
@@ -1027,6 +1026,6 @@ export default function Blog() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -167,7 +167,7 @@ export default function Contact() {
   };
 
   return (
-    <>
+    <div className="pt-20">
       <Helmet>
         <title>Contact Us - Papyrus | Reach Out to Our Team</title>
         <meta
@@ -842,6 +842,6 @@ export default function Contact() {
           </ScrollReveal>
         </div>
       </div>
-    </>
+    </div>
   );
 }
