@@ -218,11 +218,10 @@ export default function PaperGuide() {
                   At Papyrus, we prioritize eco-friendly options and clearly
                   label all sustainable products with our green leaf icon.
                 </p>
-                <div className="mt-4 flex justify-end">
-                  <Button variant="outline" size="sm" asChild>
-                    <a href="/products/eco-friendly">
+                <div className="mt-4 flex justify-end">                  <Button variant="outline" size="sm" asChild>
+                    <Link to="/products/eco-friendly">
                       Shop Eco-Friendly Options
-                    </a>
+                    </Link>
                   </Button>
                 </div>
               </div>
