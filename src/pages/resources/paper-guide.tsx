@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 
 export default function PaperGuide() {
   return (
-    <>
+    <div className="pt-20">
       <Helmet>
         <title>Guide to Paper Types - Papyrus</title>
         <meta
@@ -29,7 +29,7 @@ export default function PaperGuide() {
         <ResourceHeader
           title="Guide to Paper Types"
           subtitle="Understanding the right paper for your creative needs"
-          imageSrc="https://images.unsplash.com/photo-1455611602647-a29e1e78cbd8?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=2070"
+          imageSrc="https://www.thesprucecrafts.com/thmb/HL6KS9t0juXBWcs9k-7dU1rtB1A=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/summer-banner-58a61b973df78c345b66bd55.jpg"
           imageAlt="Various paper types and textures"
         />
 
@@ -460,6 +460,6 @@ export default function PaperGuide() {
           </div>
         </ScrollReveal>
       </div>
-    </>
+    </div>
   );
 }

@@ -21,7 +21,7 @@ import { Link } from "react-router-dom";
 
 export default function JournalIdeas() {
   return (
-    <>
+    <div className="pt-20">
       <Helmet>
         <title>Creative Journal Ideas - Papyrus</title>
         <meta
@@ -34,7 +34,7 @@ export default function JournalIdeas() {
         <ResourceHeader
           title="Creative Journal Ideas"
           subtitle="Inspiration to fill your pages with meaning and creativity"
-          imageSrc="https://images.unsplash.com/photo-1519682577862-22b62b24e493?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=2070"
+          imageSrc="https://worldofprintables.com/wp-content/uploads/2021/02/Bullet-Journal-Banner-and-Header-Ideas-1-650x650.jpg.webp"
           imageAlt="Open journal with writing accessories"
         />
 
@@ -1030,6 +1030,6 @@ export default function JournalIdeas() {
           </ScrollReveal>
         </div>
       </div>
-    </>
+    </div>
   );
 }

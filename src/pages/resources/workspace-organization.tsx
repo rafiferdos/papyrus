@@ -20,7 +20,7 @@ import { Link } from "react-router-dom";
 
 export default function WorkspaceOrganization() {
   return (
-    <>
+    <div className="pt-20">
       <Helmet>
         <title>Workspace Organization Tips - Papyrus</title>
         <meta
@@ -456,6 +456,6 @@ export default function WorkspaceOrganization() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

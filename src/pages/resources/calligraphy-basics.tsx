@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 
 export default function CalligraphyBasics() {
   return (
-    <>
+    <div className="pt-20">
       <Helmet>
         <title>Calligraphy for Beginners - Papyrus</title>
         <meta
@@ -29,7 +29,7 @@ export default function CalligraphyBasics() {
         <ResourceHeader
           title="Calligraphy for Beginners"
           subtitle="Start your journey into the beautiful art of hand lettering"
-          imageSrc="https://images.unsplash.com/photo-1576375659821-5476d5ccc8e6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+          imageSrc="https://as2.ftcdn.net/jpg/06/97/87/57/1000_F_697875764_1VuKfmVUMXix6BH874XSAB3HSIvFjjYz.jpg"
           imageAlt="Calligraphy pen and writing"
         />
 
@@ -1153,6 +1153,6 @@ export default function CalligraphyBasics() {
           </div>
         </ScrollReveal>
       </div>
-    </>
+    </div>
   );
 }
