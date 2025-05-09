@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Eye, Clock, Tag, ShoppingBag } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, Eye, Clock, Tag, ShoppingBag, X } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
+import { useDispatch } from "react-redux";
+import { ProductCategory } from "@/types/global";
+import { addToCart } from "@/redux/features/products/cart.api";
+import toast from "react-hot-toast";
 
 type Product = {
   _id: string;
@@ -15,6 +19,9 @@ type Product = {
   brand: string;
   createdAt: string;
   updatedAt: string;
+  description?: string;
+  inStock?: boolean;
+  category?: string;
 };
 
 type ProductCardProps = {
@@ -22,18 +29,68 @@ type ProductCardProps = {
 };
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { _id, name, price, image, quantity, brand, createdAt } = product;
-  const isInStock = quantity > 0;
+  const dispatch = useDispatch();
+  const { _id, name, price, image, quantity, brand, createdAt, description = "Premium quality product for your daily needs." } = product;
+  const isInStock = product.inStock ?? quantity > 0;
+  const category = product.category || "General";
   const discountPrice = +(product?.price * 2).toFixed(2);
   const discountPercentage = Math.round(((discountPrice - price) / discountPrice) * 100);
+  
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [showQuickView, setShowQuickView] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
 
   // Check if product is new (less than 7 days old)
   const now = new Date().getTime();
   const createdDiff = now - new Date(createdAt).getTime();
   const isNew = createdDiff < 7 * 24 * 60 * 60 * 1000;
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!isInStock) {
+      toast.error('Product is out of stock', {
+        icon: '😔',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
+      return;
+    }
+
+    setIsAddingToCart(true);
+
+    dispatch(
+      addToCart({
+        _id: _id,
+        name: name,
+        price: price,
+        quantity: 1,
+        brand: brand,
+        category: category as ProductCategory,
+        imageUrl: image,
+        inStock: isInStock,
+        description: description,
+      })
+    );
+
+    toast.success(`${name} added to cart!`, {
+      icon: '🛍️',
+      style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },
+    });
+
+    setTimeout(() => {
+      setIsAddingToCart(false);
+    }, 800);
+  };
 
   return (
     <motion.div
@@ -95,6 +152,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               <motion.button
                 onClick={(e) => {
                   e.preventDefault();
+                  e.stopPropagation();
                   setShowQuickView(true);
                 }}
                 className="px-3 py-1.5 bg-white/90 text-gray-900 dark:bg-gray-800/90 dark:text-white rounded-full text-xs font-medium flex items-center gap-1.5 hover:bg-white dark:hover:bg-gray-800 transition-colors"
@@ -175,12 +233,22 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             >
               {name}
             </motion.h3>
+            
+            {/* Product Description */}
+            <motion.p
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.25 }}
+              className="text-sm text-gray-500 dark:text-gray-400 mb-3 line-clamp-2 min-h-[2.5rem]"
+            >
+              {description}
+            </motion.p>
 
             {/* Price */}
             <motion.div 
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.25 }}
+              transition={{ delay: 0.3 }}
               className="flex items-baseline gap-2 mt-auto"
             >
               <span className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
@@ -195,7 +263,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <motion.div
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3 }}
+              transition={{ delay: 0.35 }}
               className="mt-4"
             >
               <Button 
@@ -224,116 +292,153 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       </Link>
       
       {/* Quick View Modal */}
-      <AnimatePresence>
-        {showQuickView && (
+      {showQuickView && (
+        <div 
+          className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4"
+          onClick={(e) => {
+            e.preventDefault();
+            setShowQuickView(false);
+          }}
+        >
           <motion.div 
-            className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setShowQuickView(false)}
+            className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden max-w-md w-full shadow-2xl"
+            onClick={e => e.stopPropagation()}
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
           >
-            <motion.div 
-              className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden max-w-md w-full shadow-2xl"
-              onClick={e => e.stopPropagation()}
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            >
-              <div className="relative">
-                <img 
-                  src={image} 
-                  alt={name}
-                  className="w-full aspect-video object-cover"
-                />
-                <button 
-                  onClick={() => setShowQuickView(false)}
-                  className="absolute top-3 right-3 bg-black/50 hover:bg-black/70 text-white rounded-full p-1.5 transition-colors"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
-                  </svg>
-                </button>
-                
-                {isNew && (
-                  <div className="absolute bottom-3 left-3">
-                    <Badge className="bg-gradient-to-r from-violet-500 to-purple-600 border-none text-white px-3 py-1 flex items-center gap-1 shadow-md">
-                      <Clock size={12} className="animate-pulse" />
-                      <span>New Arrival</span>
-                    </Badge>
-                  </div>
-                )}
+            <div className="relative">
+              <img 
+                src={image} 
+                alt={name}
+                className="w-full aspect-video object-cover"
+              />
+              <button 
+                onClick={(e) => {
+                  e.preventDefault(); 
+                  e.stopPropagation();
+                  setShowQuickView(false);
+                }}
+                className="absolute top-3 right-3 bg-black/50 hover:bg-black/70 text-white rounded-full p-1.5 transition-colors"
+              >
+                <X size={16} />
+              </button>
+              
+              {isNew && (
+                <div className="absolute bottom-3 left-3">
+                  <Badge className="bg-gradient-to-r from-violet-500 to-purple-600 border-none text-white px-3 py-1 flex items-center gap-1 shadow-md">
+                    <Clock size={12} className="animate-pulse" />
+                    <span>New Arrival</span>
+                  </Badge>
+                </div>
+              )}
 
-                {!isInStock && (
-                  <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/40 flex items-center justify-center">
-                    <Badge className="bg-red-500 text-white border-none px-4 py-2 text-sm">
-                      Out of Stock
-                    </Badge>
-                  </div>
+              {!isInStock && (
+                <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/40 flex items-center justify-center">
+                  <Badge className="bg-red-500 text-white border-none px-4 py-2 text-sm">
+                    Out of Stock
+                  </Badge>
+                </div>
+              )}
+            </div>
+            
+            <div className="p-6">
+              <div className="flex items-center gap-2 mb-2">
+                <Badge className="bg-primary/10 text-primary border-none">
+                  {brand}
+                </Badge>
+                
+                {discountPercentage >= 40 && (
+                  <Badge className="bg-rose-500 text-white border-none flex items-center gap-1">
+                    <Tag size={12} />
+                    <span>{discountPercentage}% OFF</span>
+                  </Badge>
                 )}
               </div>
               
-              <div className="p-6">
-                <div className="flex items-center gap-2 mb-2">
-                  <Badge className="bg-primary/10 text-primary border-none">
-                    {brand}
-                  </Badge>
-                  
-                  {discountPercentage >= 40 && (
-                    <Badge className="bg-rose-500 text-white border-none flex items-center gap-1">
-                      <Tag size={12} />
-                      <span>{discountPercentage}% OFF</span>
-                    </Badge>
-                  )}
-                </div>
-                
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
-                  {name}
-                </h3>
-                
-                <div className="flex items-baseline gap-3 mb-4">
-                  <span className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
-                    ${price.toFixed(2)}
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                {name}
+              </h3>
+              
+              {/* Product Description - Added */}
+              <p className="text-gray-600 dark:text-gray-300 mb-4">
+                {description}
+              </p>
+              
+              <div className="flex items-baseline gap-3 mb-4">
+                <span className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
+                  ${price.toFixed(2)}
+                </span>
+                <span className="text-base line-through text-gray-400">
+                  ${discountPrice}
+                </span>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
+                <div className="flex flex-col bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">
+                  <span className="text-gray-500 dark:text-gray-400 text-xs mb-1">Status</span>
+                  <span className={cn(
+                    "font-medium",
+                    isInStock ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"
+                  )}>
+                    {isInStock ? "In Stock" : "Out of Stock"}
                   </span>
-                  <span className="text-base line-through text-gray-400">
-                    ${discountPrice}
-                  </span>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
-                  <div className="flex flex-col bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">
-                    <span className="text-gray-500 dark:text-gray-400 text-xs mb-1">Status</span>
-                    <span className={cn(
-                      "font-medium",
-                      isInStock ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"
-                    )}>
-                      {isInStock ? "In Stock" : "Out of Stock"}
-                    </span>
-                  </div>
-                  
-                  <div className="flex flex-col bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">
-                    <span className="text-gray-500 dark:text-gray-400 text-xs mb-1">Quantity</span>
-                    <span className="font-medium">{quantity} units</span>
-                  </div>
+                <div className="flex flex-col bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">
+                  <span className="text-gray-500 dark:text-gray-400 text-xs mb-1">Category</span>
+                  <span className="font-medium">{category}</span>
                 </div>
-                
+              </div>
+              
+              <div className="flex gap-3">
                 <Button 
-                  className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white py-2.5"
+                  className="flex-1 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white py-2.5"
                   asChild
                   disabled={!isInStock}
                 >
-                  <Link to={`/products/${_id}`}>
-                    <ShoppingBag className="w-4 h-4 mr-2" />
-                    {isInStock ? "View Details" : "Out of Stock"}
+                  <Link 
+                    to={`/products/${_id}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <span>View Details</span>
                     <ArrowRight size={16} className="ml-2" />
                   </Link>
                 </Button>
+                
+                {/* Add to Cart button */}
+                <Button 
+                  className={cn(
+                    "flex-1 py-2.5 font-medium transition-colors flex items-center justify-center gap-2",
+                    isInStock
+                      ? "bg-emerald-600 hover:bg-emerald-700 text-white"
+                      : "bg-gray-200 text-gray-500 cursor-not-allowed"
+                  )}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleAddToCart(e);
+                  }}
+                  disabled={!isInStock || isAddingToCart}
+                >
+                  {isAddingToCart ? (
+                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                    </svg>
+                  ) : (
+                    <>
+                      <ShoppingBag size={16} />
+                      <span>{isInStock ? "Add to Cart" : "Out of Stock"}</span>
+                    </>
+                  )}
+                </Button>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
-        )}
-      </AnimatePresence>
+        </div>
+      )}
     </motion.div>
   );
 };
